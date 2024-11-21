@@ -1,10 +1,14 @@
 import React from 'react'
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 import Provider from '../utils/providers/SessionProvider';
 import { AlertProvider } from '../utils/providers/AlertProvider';
 
+const lato = Lato({
+  weight: ["100", "300","400", "700", "700"],       // Puedes elegir "100", "300", "400", "700", "900" o un arreglo de estos valores
+  subsets: ["latin"]
+});
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,12 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-          <Provider>
-            <AlertProvider>
-              {children}
-            </AlertProvider>
-          </Provider>
+      <body
+        className={lato.className}
+      >
+        {children}
       </body>
     </html>
   );

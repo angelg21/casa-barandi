@@ -18,8 +18,8 @@
     "next-auth": "^4.24.10",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
-    "yup": "^1.4.0"
-    "@tailwindcss/forms": "^0.5.9",
+    "yup": "^1.4.0",
+    "@tailwindcss/forms": "^0.5.9"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.7",

@@ -44,7 +44,7 @@ const RoleModal: React.FC<RoleModalProps> = ({ user, onClose, onSave }) => {
                 <div className='flex flex-row justify-between mb-9'>
                     <h2 className="text-xl font-medium self-center text-d-gray">Gestionar Roles</h2>
                     <svg onClick={onClose} className='self-center cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 13L13 1M1 1L13 13" stroke="#9CA3AF" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1 13L13 1M1 1L13 13" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
                 <div className="flex items-center mb-9">
@@ -83,7 +83,7 @@ const RoleModal: React.FC<RoleModalProps> = ({ user, onClose, onSave }) => {
                     <RoleCard
                         icon={
                             <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 3H3C1.89543 3 1 3.89543 1 5V16C1 17.1046 1.89543 18 3 18H14C15.1046 18 16 17.1046 16 16V11M14.5858 1.58579C15.3668 0.804738 16.6332 0.804738 17.4142 1.58579C18.1953 2.36683 18.1953 3.63316 17.4142 4.41421L8.82842 13H6L6 10.1716L14.5858 1.58579Z" stroke="#DAA520" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M8 3H3C1.89543 3 1 3.89543 1 5V16C1 17.1046 1.89543 18 3 18H14C15.1046 18 16 17.1046 16 16V11M14.5858 1.58579C15.3668 0.804738 16.6332 0.804738 17.4142 1.58579C18.1953 2.36683 18.1953 3.63316 17.4142 4.41421L8.82842 13H6L6 10.1716L14.5858 1.58579Z" stroke="#DAA520" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         }
                         role="Revisor"
@@ -95,7 +95,7 @@ const RoleModal: React.FC<RoleModalProps> = ({ user, onClose, onSave }) => {
                     <RoleCard
                         icon={
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11.5 4.83333C12.4205 4.83333 13.1667 5.57953 13.1667 6.5M16.5 6.5C16.5 9.26142 14.2614 11.5 11.5 11.5C10.9949 11.5 10.5072 11.4251 10.0476 11.2858L8.16667 13.1667H6.5V14.8333H4.83333V16.5H2.33333C1.8731 16.5 1.5 16.1269 1.5 15.6667V13.5118C1.5 13.2908 1.5878 13.0789 1.74408 12.9226L6.71423 7.95244C6.57491 7.49279 6.5 7.00514 6.5 6.5C6.5 3.73858 8.73858 1.5 11.5 1.5C14.2614 1.5 16.5 3.73858 16.5 6.5Z" stroke="#F97316" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M11.5 4.83333C12.4205 4.83333 13.1667 5.57953 13.1667 6.5M16.5 6.5C16.5 9.26142 14.2614 11.5 11.5 11.5C10.9949 11.5 10.5072 11.4251 10.0476 11.2858L8.16667 13.1667H6.5V14.8333H4.83333V16.5H2.33333C1.8731 16.5 1.5 16.1269 1.5 15.6667V13.5118C1.5 13.2908 1.5878 13.0789 1.74408 12.9226L6.71423 7.95244C6.57491 7.49279 6.5 7.00514 6.5 6.5C6.5 3.73858 8.73858 1.5 11.5 1.5C14.2614 1.5 16.5 3.73858 16.5 6.5Z" stroke="#F97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         }
                         role="Administrador"

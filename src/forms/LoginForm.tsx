@@ -1,7 +1,7 @@
 "use client";
 import { FormTemplate } from '../forms/FormTemplate';
 import { signIn } from 'next-auth/react';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 // import { useSession } from "next-auth/react";
 import { FormValues } from './interfaces/FormTemplateProps';
@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
   // const userRoles = session?.user?.roles || [];
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = async (values: FormValues) => {
     setError(null);
@@ -22,11 +22,11 @@ const LoginForm: React.FC = () => {
         password: values.password,
         redirect: false
       });
-      console.log(res);
-
       if (res?.error) {
         setError(res.error);
-      }
+    } else {
+        router.replace('/dashboard/indicadores');
+    }
     });
   };
 

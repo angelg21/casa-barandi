@@ -26,7 +26,7 @@ const RegisterForm: React.FC = () => {
                 if (signInResponse?.error) {
                     setError(signInResponse.error);
                 } else {
-                    router.replace('/');
+                    router.replace('/dashboard/indicadores');
                 }
             } catch (error) {
                 if (error instanceof Error) {

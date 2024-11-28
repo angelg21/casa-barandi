@@ -32,12 +32,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ onClose, onDelete }) => {
                     <div className='flex flex-row items-center'>
                         <svg className='mr-2' width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect y="0.5" width="40" height="40" rx="20" fill="#FEE2E2" />
-                            <path d="M19.9995 17.5V19.5M19.9995 23.5H20.0095M13.0713 27.5H26.9277C28.4673 27.5 29.4296 25.8333 28.6598 24.5L21.7316 12.5C20.9618 11.1667 19.0373 11.1667 18.2675 12.5L11.3393 24.5C10.5695 25.8333 11.5317 27.5 13.0713 27.5Z" stroke="#DC2626" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M19.9995 17.5V19.5M19.9995 23.5H20.0095M13.0713 27.5H26.9277C28.4673 27.5 29.4296 25.8333 28.6598 24.5L21.7316 12.5C20.9618 11.1667 19.0373 11.1667 18.2675 12.5L11.3393 24.5C10.5695 25.8333 11.5317 27.5 13.0713 27.5Z" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <h2 className="text-xl font-semibold text-gray-800 ml-2">Eliminar Usuario</h2>
                     </div>
                     <svg onClick={onClose} className='cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 13L13 1M1 1L13 13" stroke="#9CA3AF" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1 13L13 1M1 1L13 13" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
                 <p className="text-gray-600 mb-4">

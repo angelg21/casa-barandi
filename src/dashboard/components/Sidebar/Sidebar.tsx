@@ -18,6 +18,8 @@ import {
 import { SidebarMenuItems } from '../SidebarMenuItems/SidebarMenuItems'
 import { useState } from 'react';
 import { redirect } from "next/navigation";
+import Image from 'next/image';
+import { signOut } from 'next-auth/react';
 
 interface Props {
     sendStatusSidebar: (status: boolean) => void;
@@ -108,7 +110,10 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                             </TransitionChild>
                             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-cb-green pb-4">
                                 <div className="flex-shrink-0 flex items-center">
-                                    <img
+                                    <Image
+                                        width={200}
+                                        height={200}
+                                        alt='Logo Extension Social UCAB'
                                         src="/casa-barandi-logo-blanco.svg"
                                         className="h-auto w-auto max-w-full max-h-[65px]"
                                     />
@@ -145,7 +150,10 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                         ))}
                                     </li>
                                     <ul className="mt-auto mb-3 px-5">
-                                        <button className="group flex gap-x-3 rounded-md text-md font-medium leading-6 text-indigo-200 hover:text-red-500">
+                                        <button 
+                                            className="group flex gap-x-3 rounded-md text-md font-medium leading-6 text-indigo-200 hover:text-red-500"
+                                            onClick={() => signOut()}
+                                        >
                                             <ArrowLeftStartOnRectangleIcon aria-hidden="true" className="h-6 w-6 shrink-0 hover:text-red-500" />
                                             Cerrar Sesión
                                         </button>
@@ -159,9 +167,12 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                 <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
                     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-cb-green py-3">
                         <div className="flex-shrink-0 flex items-center">
-                            <img
+                            <Image
                                 src="/casa-barandi-logo-blanco.svg"
                                 className="h-auto w-auto max-w-full max-h-[70px]"
+                                width={200}
+                                height={200}
+                                alt="Casa Barandí"
                             />
                         </div>
                         <nav className="flex flex-1 flex-col">
@@ -199,9 +210,12 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                     </ul>
                                 </ul>
                                 <ul className="mt-auto pl-[14px]">
-                                    <button className='group flex gap-x-3 rounded-md p-2 text-md font-medium leading-6 text-indigo-200 hover:text-red-500'>
+                                    <button 
+                                        className='group flex gap-x-3 rounded-md p-2 text-md font-medium leading-6 text-indigo-200 hover:text-red-500'
+                                        onClick={() => signOut()}
+                                    >
                                         <ArrowLeftStartOnRectangleIcon aria-hidden="true" className="h-6 w-6 shrink-0 hover:text-red-500" />
-                                        Cerrar Sesion
+                                        Cerrar Sesión
                                     </button>
                                 </ul>
                             </li>

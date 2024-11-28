@@ -1,7 +1,7 @@
 'use server'
 
 
-import { authOptions } from "@/utils/config/authOptions";
+import { authOptions } from "@/src/utils/config/auth.options";
 import { getServerSession } from "next-auth";
 
 export const getUsers = async (excludedUser: string | undefined) => {

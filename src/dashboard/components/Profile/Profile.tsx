@@ -6,6 +6,7 @@ import {
 } from '@headlessui/react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import Image from 'next/image';
 
 interface Props {
     sendStatusSidebar: (status: boolean) => void;
@@ -39,10 +40,12 @@ export const Profile = ({ sendStatusSidebar, userName, userImg }: Props) => {
                     <MenuButton className="flex lg:items-center">
                         <span className="sr-only">Open user menu</span>
                         {
-                            userImg ? (<img
+                            userImg ? (<Image
                                 alt=""
                                 src={userImg}
                                 className="h-9 w-9 rounded-full bg-gray-50"
+                                width={36}
+                                height={36}
                             />) : 
                             <span className="inline-block h-9 w-9 overflow-hidden rounded-full bg-gray-100">
                                 <svg fill="currentColor" viewBox="0 0 24 24" className="h-full w-full text-gray-300">

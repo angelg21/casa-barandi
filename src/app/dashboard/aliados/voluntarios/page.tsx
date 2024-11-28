@@ -1,3 +1,4 @@
+import { Details } from "@/src/aliados/voluntarios/components/Details/Details";
 import VoluntariosForm from "@/src/forms/components/aliados/VoluntariosForm/VoluntariosForm";
 
 
@@ -7,7 +8,8 @@ import VoluntariosForm from "@/src/forms/components/aliados/VoluntariosForm/Volu
 export default function Voluntarios() {
     return (
         <div className="mt-8">
-            <VoluntariosForm/>
+            <Details/>
+            {/* <VoluntariosForm/> */}
         </div>
     );
 }

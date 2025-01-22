@@ -4,43 +4,33 @@ import React, { useState } from 'react';
 import RoleCard from '../RoleCard/RoleCard';
 import { ButtonComponent } from '@/src/components/Button/Button';
 import { useAlert } from '../../contex/AlertContext';
+import PersonasForm from '@/src/forms/personas/PersonasForm/PersonasForm';
 
-export interface RoleModalProps {
-    user: {
-        name: string;
-        email: string;
-        image: string;
-        roles: string[];
-    };
+export interface ModalProps {
     onClose: () => void;
-    onSave: (roles: string[]) => Promise<boolean>;
+
 }
 
-const RoleModal: React.FC<RoleModalProps> = ({ user, onClose, onSave }) => {
-    const [isEditorEnabled, setIsEditorEnabled] = useState(user.roles.includes('editor'));
-    const [isReviewerEnabled, setIsReviewerEnabled] = useState(user.roles.includes('reviewer'));
-    const [isAdminEnabled, setIsAdminEnabled] = useState(user.roles.includes('admin'));
+const RoleModal: React.FC<ModalProps> = ({ onClose }) => {
+
 
     const { showAlert } = useAlert();
 
-    const handleSave = async () => {
-        const updatedRoles: string[] = [];
-        if (isEditorEnabled) updatedRoles.push('editor');
-        if (isReviewerEnabled) updatedRoles.push('reviewer');
-        if (isAdminEnabled) updatedRoles.push('admin');
+    // const handleSave = async () => {
 
-        const success = await onSave(updatedRoles);
-        if (success) {
-            showAlert("Roles guardados con éxito!!!", "success");
-        } else {
-            showAlert("Error al guardar roles", "error");
-        }
-        onClose();
-    };
+
+    //     const success = await onSave();
+    //     if (success) {
+    //         showAlert("Roles guardados con éxito!", "success");
+    //     } else {
+    //         showAlert("Error al guardar roles", "error");
+    //     }
+    //     onClose();
+    // };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 max-lg:px-6">
-            <div className="bg-white p-6 rounded-md max-w-lg w-full">
+            {/* <div className="bg-white p-6 rounded-md max-w-lg w-full">
                 <div className='flex flex-row justify-between mb-9'>
                     <h2 className="text-xl font-medium self-center text-d-gray">Gestionar Roles</h2>
                     <svg onClick={onClose} className='self-center cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,6 +117,21 @@ const RoleModal: React.FC<RoleModalProps> = ({ user, onClose, onSave }) => {
                         hoverColor="#0c2aa6"
                     />
                 </div>
+            </div> */}
+
+            <div className='fixed bg-white p-6 rounded-md w-[90vw] h-[90vh] overflow-y-auto'>
+
+                <div className='flex flex-row justify-between mb-9'>
+                    <h2 className="text-xl font-medium self-center text-d-gray">Agregar Persona</h2>
+                    <svg onClick={onClose} className='self-center cursor-pointer' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 13L13 1M1 1L13 13" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                </div>
+
+                <PersonasForm
+                    onClose={onClose}
+                />
+                
             </div>
         </div>
     );

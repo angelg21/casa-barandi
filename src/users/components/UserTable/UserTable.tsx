@@ -3,11 +3,19 @@
 import React, { useState } from 'react';
 
 
-import RoleModal from '../RoleModal/RoleModal';
+import RoleModal from '../NewUserModal/NewUserModal';
 import DeleteModal from '../DeleteModal/DeleteModal';
-import Image from 'next/image';
 import { changeUserRole } from '@/src/users/actions/change-user-role';
 import { deleteUser } from '../../actions/delete-user';
+import { PersonaFormValues } from '@/src/forms/personas/interfaces/PersonasForm';
+import { DocumentTextIcon, EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
+import {
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+} from '@headlessui/react'
 
 export interface User {
     id: string;
@@ -18,8 +26,21 @@ export interface User {
 };
 
 interface UserTableProps {
-    users: User[];
+    users: PersonaFormValues[];
 }
+
+interface WorkSheetAction {
+    id: string;
+    name: string;
+    Icon: React.ElementType;
+    role: string;
+}
+
+const workSheetsActions: WorkSheetAction[] = [
+    { id: '01', name: 'Visualizar', Icon: EyeIcon, role: 'reviewer' },
+    { id: '02', name: 'Editar', Icon: PencilSquareIcon, role: 'admin' },
+    { id: '03', name: 'Eliminar', Icon: TrashIcon, role: 'admin' },
+];
 
 export default function UserTable({ users }: UserTableProps) {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -89,7 +110,25 @@ export default function UserTable({ users }: UserTableProps) {
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        ROLES
+                                        DOCUMENTO
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
+                                    >
+                                        NACIMIENTO
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
+                                    >
+                                        DIRECCIÓN
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
+                                    >
+                                        TELÉFONOS
                                     </th>
                                     <th
                                         scope="col"
@@ -101,68 +140,53 @@ export default function UserTable({ users }: UserTableProps) {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {users.map((user) => (
-                                    <tr key={user.email}>
+                                    <tr key={user.fullName}>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
-                                                <div className="h-11 w-11 flex-shrink-0 bg-slate-500 rounded-full">
-                                                    {
-                                                        user.image !== '' ?
-                                                            (<Image alt="" src={user.image} className="h-11 w-11 rounded-full object-center object-contain" width={44} height={44} />)
-                                                            :
-                                                            (<span className="inline-block h-11 w-11 overflow-hidden rounded-full bg-gray-100">
-                                                                <svg fill="currentColor" viewBox="0 0 24 24" className="h-full w-full text-gray-300">
-                                                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                                </svg>
-                                                            </span>)
-                                                    }
-                                                </div>
-                                                <div className="ml-4">
-                                                    <div className="font-medium text-gray-900">{user.name}</div>
-                                                    <div className="mt-1 text-gray-500">{user.email}</div>
+                                                <div className="">
+                                                    <div className="font-medium text-gray-900">{user.fullName}</div>
+                                                    {/* <div className="mt-1 text-gray-500">{user.email}</div>
+                                                    <div className="mt-1 text-gray-500">{user.email}</div> */}
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <div className="flex space-x-2">
-                                                {user.roles.map((role, index) => {
-                                                    let roleClass = '';
-                                                    let roleText = '';
-                                                    switch (role) {
-                                                        case 'researcher':
-                                                            roleClass = 'bg-green-100 text-green-800';
-                                                            roleText = 'Investigador';
-                                                            break;
-                                                        case 'editor':
-                                                            roleClass = 'bg-blue-100 text-blue-800';
-                                                            roleText = 'Editor';
-                                                            break;
-                                                        case 'admin':
-                                                            roleClass = 'bg-orange-100 text-orange-800';
-                                                            roleText = 'Administrador';
-                                                            break;
-                                                        case 'reviewer':
-                                                            roleClass = 'bg-yellow-100 text-yellow-800';
-                                                            roleText = 'Revisor';
-                                                            break;
-                                                        default:
-                                                            roleClass = 'bg-gray-100 text-gray-800';
-                                                    }
-                                                    return (
-                                                        <span
-                                                            key={index}
-                                                            className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${roleClass}`}
-                                                        >
-                                                            {roleText}
-                                                        </span>
-                                                    );
-                                                })}
+                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
+                                            {user.documents.map((document) => (
+                                                <div key={document.documentNumber}>
+                                                    <div className="mt-1 text-gray-500">{document.documentType}</div>
+                                                    <div className="mt-1 text-gray-500">{document.documentNumber}</div>
+                                                </div>
+                                            ))}
+                                        </td>
+                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
+                                            <div className="flex items-center">
+                                                <div className="">
+                                                    <div className="font-medium text-gray-900">{user.dateOfBirth}</div>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                        <td className="py-5 pl-4 pr-3 text-sm min-w-40 max-w-44">
+                                            <div className="flex items-center">
+                                                <div className="">
+                                                    <div >
+                                                        <div className="font-semibold text-gray-900">Municipio:
+                                                            <span className="font-medium text-gray-900">  {user.location.municipaly}</span>
+                                                        </div>
+                                                        <div className="font-semibold text-gray-900">Parroquia:
+                                                            <span className="font-medium text-gray-900">  {user.location.parish}</span>
+                                                        </div>
+                                                        <div className="font-semibold text-gray-900">Dirección:
+                                                            <span className="font-medium text-gray-900">  {user.location.houseAddress}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {/* <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                             <div className="flex flex-row gap-6 lg:grid lg:grid-cols-2 lg:gap-4">
                                                 <button
                                                     className="xl:hidden text-cb-gray-letter hover:text-gray-500 flex items-center font-medium group transition-transform transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
-                                                    onClick={() => handleOpenRoleModal(user)}
+                                                //onClick={() => handleOpenRoleModal(user)}
                                                 >
                                                     <svg className='mr-4' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M8 3H3C1.89543 3 1 3.89543 1 5V16C1 17.1046 1.89543 18 3 18H14C15.1046 18 16 17.1046 16 16V11M14.5858 1.58579C15.3668 0.804738 16.6332 0.804738 17.4142 1.58579C18.1953 2.36683 18.1953 3.63316 17.4142 4.41421L8.82842 13H6L6 10.1716L14.5858 1.58579Z" stroke="#003366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-gray-500" />
@@ -170,16 +194,16 @@ export default function UserTable({ users }: UserTableProps) {
                                                 </button>
                                                 <button
                                                     className="hidden xl:flex text-cb-gray-letter hover:text-gray-500 items-center font-medium group transition-transform transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
-                                                    onClick={() => handleOpenRoleModal(user)}
+                                                //onClick={() => handleOpenRoleModal(user)}
                                                 >
                                                     <svg className='mr-4' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M8 3H3C1.89543 3 1 3.89543 1 5V16C1 17.1046 1.89543 18 3 18H14C15.1046 18 16 17.1046 16 16V11M14.5858 1.58579C15.3668 0.804738 16.6332 0.804738 17.4142 1.58579C18.1953 2.36683 18.1953 3.63316 17.4142 4.41421L8.82842 13H6L6 10.1716L14.5858 1.58579Z" stroke="#003366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-gray-500" />
                                                     </svg>
-                                                    Modificar Roles
+                                                    Información
                                                 </button>
                                                 <button
                                                     className="xl:hidden text-d-red hover:text-red-500 flex items-center font-medium group transition-transform transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
-                                                    onClick={() => handleOpenDeleteModal(user)}
+                                                //onClick={() => handleOpenDeleteModal(user)}
                                                 >
                                                     <svg className='mr-4' width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M16 5L15.1327 17.1425C15.0579 18.1891 14.187 19 13.1378 19H4.86224C3.81296 19 2.94208 18.1891 2.86732 17.1425L2 5M7 9V15M11 9V15M12 5V2C12 1.44772 11.5523 1 11 1H7C6.44772 1 6 1.44772 6 2V5M1 5H17" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-red-500" />
@@ -187,7 +211,7 @@ export default function UserTable({ users }: UserTableProps) {
                                                 </button>
                                                 <button
                                                     className="hidden xl:flex text-d-red hover:text-red-500 items-center font-medium group transition-transform transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed"
-                                                    onClick={() => handleOpenDeleteModal(user)}
+                                                //onClick={() => handleOpenDeleteModal(user)}
                                                 >
                                                     <svg className='mr-4' width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M16 5L15.1327 17.1425C15.0579 18.1891 14.187 19 13.1378 19H4.86224C3.81296 19 2.94208 18.1891 2.86732 17.1425L2 5M7 9V15M11 9V15M12 5V2C12 1.44772 11.5523 1 11 1H7C6.44772 1 6 1.44772 6 2V5M1 5H17" stroke="#DC2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-red-500" />
@@ -195,6 +219,37 @@ export default function UserTable({ users }: UserTableProps) {
                                                     Eliminar Usuario
                                                 </button>
                                             </div>
+                                        </td> */}
+                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
+                                            {user.phones.map((document) => (
+                                                <div key={document.phoneNumber}>
+                                                    <div className="mt-1 text-gray-500">{document.phoneNumber}</div>
+                                                </div>
+                                            ))}
+                                        </td>
+                                        <td className="pl-9 py-5">
+                                            <Menu as="div" className='relative'>
+                                                <MenuButton>
+                                                    <EllipsisHorizontalIcon className="w-7 h-7 text-d-gray-text" />
+                                                </MenuButton>
+                                                <MenuItems
+                                                    transition
+                                                    className="absolute right-0 z-10  w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-900/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                                >
+                                                    {workSheetsActions.map((item) => (
+                                                        <MenuItem key={item.name}>
+                                                            <div
+                                                                role="button"
+                                                                className="flex hover:bg-gray-200 space-x-3 px-3 py-1 text-sm leading-6"
+                                                                //onClick={() => handleClickActions(workSheetType, item.id, workSheetId, workSheetStatus)}
+                                                            >
+                                                                {item.Icon && <item.Icon className={`h-5 w-5 ${item.name === 'Eliminar' ? 'text-red-500' : 'text-d-gray-text'}`} />}
+                                                                <span className="text-gray-700 data-[focus]:bg-gray-50"> {item.name} </span>
+                                                            </div>
+                                                        </MenuItem>
+                                                    ))}
+                                                </MenuItems>
+                                            </Menu>
                                         </td>
                                     </tr>
                                 ))}
@@ -203,7 +258,7 @@ export default function UserTable({ users }: UserTableProps) {
                     </div>
                 </div>
             </div>
-            {isRoleModalOpen && selectedUser && (
+            {/* {isRoleModalOpen && selectedUser && (
                 <RoleModal
                     user={selectedUser}
                     onClose={handleCloseRoleModal}
@@ -216,7 +271,7 @@ export default function UserTable({ users }: UserTableProps) {
                     onClose={handleCloseDeleteModal}
                     onDelete={handleDeleteUser}
                 />
-            )}
+            )} */}
         </div>
     );
 }

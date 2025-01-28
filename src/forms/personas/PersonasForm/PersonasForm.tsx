@@ -12,14 +12,45 @@ import { PhonesInput } from "../../components/PhonesInput";
 import { ExpandableInput } from "../../components/ExpandableInput";
 import { HistoryIllnessInput } from "../../components/HistoryIllnessInput";
 import { ButtonComponent } from "@/src/components/Button";
+import { useEffect, useState } from "react";
+import { useParams, usePathname } from "next/navigation";
 
 interface ModalProps {
-    onClose: () => void;
+    onClose?: () => void;
 
 }
 
 export default function PersonasForm({ onClose }: ModalProps) {
 
+    const { id } = useParams();
+    const pathname = usePathname();
+    const [personaInitialValue, setPersonaInitialValue] = useState<PersonaFormValues>()
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Array de palabras para verificar
+    const wordsToCheck = ['editar', 'personas'];
+
+    // Verifica si el pathname termina con alguna de las palabras
+    const isEditPage = wordsToCheck.some((word) => pathname.endsWith(word));
+
+    console.log('Ruta completa', pathname)
+    useEffect(() => {
+        const fetchPersonaData = async () => {
+            setIsLoading(true);
+            try {
+                //const response = await getPersonaForm(id);
+                //const { _id, ...initialValues } = response?.responseData;
+                setPersonaInitialValue(initialValues);
+                console.log(initialValues)
+            } catch (error) {
+                console.error('Error fetching author data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPersonaData();
+    }, [id]);
 
     const initialValues = JSON.parse(JSON.stringify({
         fullName: '',
@@ -118,9 +149,24 @@ export default function PersonasForm({ onClose }: ModalProps) {
     //     );
     // };
 
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-d-fondo">
+                <div className="flex flex-col items-center space-y-2">
+                    {/* Spinner */}
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cb-green"></div>
+                    {/* Texto de carga */}
+                    <p className="text-lg font-semibold text-gray-700 tracking-wide">
+                        Cargando...
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <Formik<PersonaFormValues>
-            initialValues={initialValues}
+            initialValues={personaInitialValue || initialValues}
             validationSchema={validationSchema}
             onSubmit={(values) => console.log(values)}
         >
@@ -129,7 +175,7 @@ export default function PersonasForm({ onClose }: ModalProps) {
                     <Form>
                         {/* <SaveFormValues /> */}
                         <div className=''>
-                            <div className='flex flex-col mx-5 lg:mx-9 '>
+                            <div className='flex flex-col mx-5 lg:mx-9'>
                                 <div className="h-calc(100vh) overflow-y-auto space-y-10 mb-14 px-1">
                                     <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
                                         <InputWithLabel
@@ -257,26 +303,30 @@ export default function PersonasForm({ onClose }: ModalProps) {
                                         />
                                     </div>
                                     <div className="flex justify-end mt-64 gap-5">
-                                        <ButtonComponent
-                                            bgColor="bg-d-red"
-                                            text="Cancelar"
-                                            width="w-[100px]"
-                                            fontSize="text-sm"
-                                            type='button'
-                                            isDisabled={false}
-                                            onClick={onClose}
-                                            hoverColor="#a51c30"
-                                        />
-                                        <ButtonComponent
-                                            bgColor="bg-cb-green"
-                                            text="Guardar"
-                                            width="w-[100px]"
-                                            fontSize="text-sm"
-                                            type='button'
-                                            isDisabled={false}
-                                            //onClick={handleSave}
-                                            hoverColor="#33B7B0"
-                                        />
+                                        {!id &&
+                                            <ButtonComponent
+                                                bgColor="bg-d-red"
+                                                text="Cancelar"
+                                                width="w-[100px]"
+                                                fontSize="text-sm"
+                                                type='button'
+                                                isDisabled={false}
+                                                onClick={onClose}
+                                                hoverColor="#a51c30"
+                                            />
+                                        }
+                                        {isEditPage &&
+                                            <ButtonComponent
+                                                bgColor="bg-cb-green"
+                                                text="Guardar"
+                                                width="w-[100px]"
+                                                fontSize="text-sm"
+                                                type='button'
+                                                isDisabled={false}
+                                                //onClick={handleSave}
+                                                hoverColor="#33B7B0"
+                                            />
+                                        }
                                     </div>
                                     {/* <div >
                                         <FormDebug />

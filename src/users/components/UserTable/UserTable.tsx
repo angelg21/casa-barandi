@@ -1,10 +1,7 @@
 "use client"
 // UserTable.tsx
 import React, { useState } from 'react';
-
-
-import RoleModal from '../NewUserModal/NewUserModal';
-import DeleteModal from '../DeleteModal/DeleteModal';
+import { useRouter } from 'next/navigation';
 import { changeUserRole } from '@/src/users/actions/change-user-role';
 import { deleteUser } from '../../actions/delete-user';
 import { PersonaFormValues } from '@/src/forms/personas/interfaces/PersonasForm';
@@ -46,6 +43,7 @@ export default function UserTable({ users }: UserTableProps) {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const router = useRouter();
 
     const handleOpenRoleModal = (user: User) => {
         setSelectedUser(user);
@@ -92,6 +90,18 @@ export default function UserTable({ users }: UserTableProps) {
         }
         return false;
     };
+
+    const handleClickActions = (action: string, user: PersonaFormValues) => {
+
+        switch (action){
+            case '01':
+                router.push(`/dashboard/personas/${user.id}/detalles`)
+            break;
+            case '02':
+                router.push(`/dashboard/personas/${user.id}/editar`)
+            break;
+        }
+    }
     return (
         <div className="">
             <div className="mt-8 ">
@@ -241,7 +251,7 @@ export default function UserTable({ users }: UserTableProps) {
                                                             <div
                                                                 role="button"
                                                                 className="flex hover:bg-gray-200 space-x-3 px-3 py-1 text-sm leading-6"
-                                                                //onClick={() => handleClickActions(workSheetType, item.id, workSheetId, workSheetStatus)}
+                                                                onClick={() => handleClickActions(item.id, user)}
                                                             >
                                                                 {item.Icon && <item.Icon className={`h-5 w-5 ${item.name === 'Eliminar' ? 'text-red-500' : 'text-d-gray-text'}`} />}
                                                                 <span className="text-gray-700 data-[focus]:bg-gray-50"> {item.name} </span>

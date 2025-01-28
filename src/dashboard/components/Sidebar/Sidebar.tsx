@@ -136,8 +136,8 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                 <nav className="flex flex-1 flex-col">
                                     <ul className="space-y-4 list-none">
                                         {menuItems.map((item, index) => (
-                                            <>
-                                                <ul key={index} className="list-none">
+                                            <div key={index}>
+                                                <ul className="list-none">
                                                     <div
                                                         onClick={() => {
                                                             if (item.subItems.length === 0) {
@@ -171,7 +171,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                                 {(index === 0 || index === 1 || index === 3 || index === 6) && (
                                                     <hr className="my-4 bg-gray-600" />
                                                 )}
-                                            </>
+                                            </div>
                                         ))}
                                     </ul>
 

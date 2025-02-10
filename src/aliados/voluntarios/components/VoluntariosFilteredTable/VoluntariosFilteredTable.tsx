@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import VoluntariosTable from "../VoluntariosTable/VoluntariosTable";
-import SearchBar from "@/src/users/components/SearchBar/SearchBar";
+import SearchBar from "@/src/components/SearchBar/SearchBar";
 
 
 interface Voluntario {

@@ -65,7 +65,7 @@ export const PhonesInput = ({ globalStyle }: PublicationInputProps) => {
         if (phones.length > 0 && (!values.phones)) {
             setFieldValue("phones", phones);
         }
-    }, [phones]);
+    }, [phones, setFieldValue]);
 
     return (
         <div className={`${globalStyle}`}>
@@ -77,27 +77,27 @@ export const PhonesInput = ({ globalStyle }: PublicationInputProps) => {
 
                     <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 mb-6">
                         <input
-                            id="documentNumber"
+                            id="documentType"
                             type="text"
-                            value={phoneNumber}
+                            value={phoneType}
                             className={`text-input w-full max-w-36  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
                                 ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
                             placeholder="Tipo"
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-
-                        <input
-                            key="documentType"
-                            type="text"
-                            value={phoneType}
-                            className={`text-input w-full  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
-                        ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
-                            placeholder="Número"
                             onChange={(e) => setPhoneType(e.target.value)}
                         />
 
+                        <input
+                            key="documentNumber"
+                            type="text"
+                            value={phoneNumber}
+                            className={`text-input w-full  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
+                        ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
+                            placeholder="Número"
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+
                         <div className="flex ">
-                            <button onClick={handleAddPhone}>
+                            <button type="button" onClick={handleAddPhone}>
                                 <span className="text-sm font-medium rounded-full text-white px-3 py-2 bg-cb-green">Agregar</span>
                             </button>
                         </div>

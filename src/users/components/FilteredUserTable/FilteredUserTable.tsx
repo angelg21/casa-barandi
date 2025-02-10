@@ -1,16 +1,14 @@
 'use client';
 
 import { useContext, useEffect, useState } from "react";
-import SearchBar from "../SearchBar/SearchBar";
+import SearchBar from "../../../components/SearchBar/SearchBar";
 import CheckFilter from "../CheckFilter/CheckFilter";
 import UserTable from "../UserTable/UserTable";
-import Pagination from "../Pagination/Pagination";
+import Pagination from "../../../components/Pagination/Pagination";
 import { ButtonWithIconLeft } from "@/src/components/ButtonWithIconLeft/ButtonWithIconLeft";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { PersonasContext } from "@/src/forms/personas/context/PersonasContext";
 import RoleModal from "../NewUserModal/NewUserModal";
-
-
 
 export const FilteredUserTable: React.FC = () => {
     const personas = useContext(PersonasContext);

@@ -1,17 +1,24 @@
+import { getPerson } from "@/src/personas/actions/get-person-by-id";
+import { redirect } from "next/navigation";
+import { PersonViewComponent } from "@/src/personas/components/PersonView/PersonView";
 
-import { AlertProvider } from "@/src/users/contex/AlertContext";
+export default async function PersonViewPage({
+    params,
+  }: {
+    // 👇 Declaramos que `params` es una Promise
+    params: Promise<{ id: string }>;
+  }) {
+    const { id } = await params;
 
+  const response = await getPerson(id);
 
+  if (!response.ok) {
+    redirect("/dashboard/personas");
+  }
 
-
-export default function Detalles() {
-
-    
-    return (
-        <AlertProvider> {/* Envolver todo en AlertProvider */}
-            <div className="px-6 py-6 sm:px-14 sm:py-10 xl:px-16">
-                <h2 className="text-cb-gray-letter font-bold text-5xl mb-7">holaa VISUALIZAR Personas</h2>
-            </div>
-        </AlertProvider>
-    );
+  return (
+    <main>
+      <PersonViewComponent data={response.data} />
+    </main>
+  );
 }

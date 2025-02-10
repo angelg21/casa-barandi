@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import RoleCard from '../RoleCard/RoleCard';
 import { ButtonComponent } from '@/src/components/Button/Button';
 import { useAlert } from '../../contex/AlertContext';
-import PersonasForm from '@/src/forms/personas/PersonasForm/PersonasForm';
+import PersonasForm from '@/src/personas/components/PersonasForm/PersonasForm';
 
 export interface ModalProps {
     onClose: () => void;
@@ -131,7 +131,7 @@ const RoleModal: React.FC<ModalProps> = ({ onClose }) => {
                 <PersonasForm
                     onClose={onClose}
                 />
-                
+
             </div>
         </div>
     );

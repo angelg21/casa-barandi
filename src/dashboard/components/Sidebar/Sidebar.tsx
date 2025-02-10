@@ -19,7 +19,7 @@ import {
     BuildingLibraryIcon
 } from '@heroicons/react/24/outline'
 import { SidebarMenuItems } from '../SidebarMenuItems/SidebarMenuItems'
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { redirect } from "next/navigation";
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
@@ -78,7 +78,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             ]
         },
         {
-            path: '/dashboard/usuarios',
+            path: '/dashboard/programas',
             title: 'Programas',
             icon: <BriefcaseIcon />,
             subItems: []
@@ -134,54 +134,58 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                     />
                                 </div>
                                 <nav className="flex flex-1 flex-col">
+                                    {/* Único <ul> principal para los items */}
                                     <ul className="space-y-4 list-none">
                                         {menuItems.map((item, index) => (
-                                            <>
-                                                <ul key={index} className="list-none">
-                                                    <div
-                                                        onClick={() => {
-                                                            if (item.subItems.length === 0) {
-                                                                // Redirige directamente si no hay subitems
-                                                                sendStatusSidebar(false);
-                                                                redirect(item.path);
-                                                            } else {
-                                                                // Despliega los subitems
-                                                                toggleItem(item.path);
-                                                            }
-                                                        }}
+                                        <React.Fragment key={item.path || `item-${index}`}>
+                                            {/* Cada item es un <li> */}
+                                            <li className="list-none">
+                                            <div
+                                                onClick={() => {
+                                                if (item.subItems.length === 0) {
+                                                    sendStatusSidebar(false);
+                                                    redirect(item.path);
+                                                } else {
+                                                    toggleItem(item.path);
+                                                }
+                                                }}
+                                            >
+                                                {/* SidebarMenuItems ya NO devuelve <li> */}
+                                                <SidebarMenuItems {...item} />
+                                            </div>
+
+                                            {/* Subitems anidados en otro <ul> */}
+                                            {openItem === item.path && item.subItems.length > 0 && (
+                                                <ul className="pl-14 list-none">
+                                                {item.subItems.map((subItem) => (
+                                                    <li
+                                                    key={subItem.path}
+                                                    onClick={() => sendStatusSidebar(false)}
+                                                    className="mt-1 text-gray-300 hover:text-white list-none"
                                                     >
-                                                        <SidebarMenuItems {...item} />
-                                                    </div>
-                                                    {/* Renderiza los subitems solo si existen */}
-                                                    {openItem === item.path && item.subItems.length > 0 && (
-                                                        <ul className="pl-14 list-none">
-                                                            {item.subItems.map((subItem) => (
-                                                                <li
-                                                                    onClick={() => sendStatusSidebar(false)}
-                                                                    key={subItem.path}
-                                                                    className="mt-1 text-gray-300 hover:text-white list-none"
-                                                                >
-                                                                    <a href={subItem.path}>{subItem.title}</a>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    )}
+                                                    <a href={subItem.path}>{subItem.title}</a>
+                                                    </li>
+                                                ))}
                                                 </ul>
-                                                {/* Añade un separador después de ciertos elementos */}
-                                                {(index === 0 || index === 1 || index === 3 || index === 6) && (
-                                                    <hr className="my-4 bg-gray-600" />
-                                                )}
-                                            </>
+                                            )}
+                                            </li>
+
+                                            {/* Separador condicional */}
+                                            {(index === 0 || index === 1 || index === 3 || index === 6) && (
+                                            <hr className="my-4 bg-gray-600" />
+                                            )}
+                                        </React.Fragment>
                                         ))}
                                     </ul>
 
+                                    {/* Botón de cierre de sesión */}
                                     <ul className="mt-auto mb-3 px-5">
                                         <button
-                                            className="group flex gap-x-3 rounded-md text-md font-medium leading-6 text-indigo-200 hover:text-red-500"
-                                            onClick={() => signOut()}
+                                        className="group flex gap-x-3 rounded-md text-md font-medium leading-6 text-indigo-200 hover:text-red-500"
+                                        onClick={() => signOut()}
                                         >
-                                            <ArrowLeftStartOnRectangleIcon aria-hidden="true" className="h-6 w-6 shrink-0 hover:text-red-500" />
-                                            Cerrar Sesión
+                                        <ArrowLeftStartOnRectangleIcon aria-hidden="true" className="h-6 w-6 shrink-0 hover:text-red-500" />  
+                                        Cerrar Sesión
                                         </button>
                                     </ul>
                                 </nav>
@@ -202,48 +206,45 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                             />
                         </div>
                         <nav className="flex flex-1 flex-col">
-                            <li role="list" className="space-y-4 list-none">
+                            <ul role="list" className="space-y-4 list-none">
                                 {menuItems.map((item, index) => (
-                                    <>
-                                        <li key={item.path} className="list-none">
-                                            <div
-                                                onClick={() => {
-                                                    if (item.subItems.length === 0) {
-                                                        // Redirige a la ruta si no hay subitems
-                                                        redirect(item.path);
-                                                    } else {
-                                                        // Despliega los subitems
-                                                        toggleItem(item.path);
-                                                    }
-                                                }}
-                                            >
-                                                <SidebarMenuItems
-                                                    onClick={() => sendStatusSidebar(false)}
-                                                    {...item}
-                                                />
-                                            </div>
-                                            {/* Renderiza los subitems solo si existen */}
-                                            {openItem === item.path && item.subItems.length > 0 && (
-                                                <ul className="pl-14 list-none">
-                                                    {item.subItems.map((subItem) => (
-                                                        <li
-                                                            key={subItem.path}
-                                                            onClick={() => sendStatusSidebar(false)}
-                                                            className="mt-1 text-gray-300 hover:text-white list-none"
-                                                        >
-                                                            <a href={subItem.path}>{subItem.title}</a>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                            {/* Añade un separador después de ciertos elementos */}
-                                            {(index === 0 || index === 1 || index === 3 || index === 6) && (
-                                                <hr className="my-6 mx-3 bg-gray-500" />
-                                            )}
+                                <li key={item.path} className="list-none">
+                                    <div
+                                    onClick={() => {
+                                        if (item.subItems.length === 0) {
+                                        redirect(item.path);
+                                        } else {
+                                        toggleItem(item.path);
+                                        }
+                                    }}
+                                    >
+                                    <SidebarMenuItems
+                                        onClick={() => sendStatusSidebar(false)}
+                                        {...item}
+                                    />
+                                    </div>
+
+                                    {openItem === item.path && item.subItems.length > 0 && (
+                                    <ul className="pl-14 list-none">
+                                        {item.subItems.map((subItem) => (
+                                        <li
+                                            key={subItem.path}
+                                            onClick={() => sendStatusSidebar(false)}
+                                            className="mt-1 text-gray-300 hover:text-white list-none"
+                                        >
+                                            <a href={subItem.path}>{subItem.title}</a>
                                         </li>
-                                    </>
+                                        ))}
+                                    </ul>
+                                    )}
+
+                                    {/* Añade un separador después de ciertos elementos */}
+                                    {(index === 0 || index === 1 || index === 3 || index === 6) && (
+                                    <hr className="my-6 mx-3 bg-gray-500" />
+                                    )}
+                                </li>
                                 ))}
-                            </li>
+                            </ul>
                         </nav>
                     </div>
                 </div>

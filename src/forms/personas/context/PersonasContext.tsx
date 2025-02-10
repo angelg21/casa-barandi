@@ -1,17 +1,16 @@
 'use client'
-
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode, useEffect } from 'react';
 import { PersonaFormValues } from '../interfaces/PersonasForm';
+import { getAllPersons } from '../../../personas/actions/get-persons';
 
 interface PersonaProviderProps {
     children: ReactNode;
 }
 
-
 // Definimos el contexto
 export const PersonasContext = createContext<PersonaFormValues[]>([]);
 
-const data : PersonaFormValues[] = [
+const data: PersonaFormValues[] = [
     {
         fullName: 'Juan Pérez',
         gender: 'Masculino',
@@ -33,7 +32,7 @@ const data : PersonaFormValues[] = [
         location: {
             houseAddress: 'Calle Ficticia 123',
             parish: 'Parroquia Central',
-            municipaly: 'Municipio A',
+            municipality: 'Municipio A',
         },
         historyIllness: [
             {
@@ -63,7 +62,7 @@ const data : PersonaFormValues[] = [
         location: {
             houseAddress: 'Avenida Siempre Viva 456',
             parish: 'Parroquia Sur',
-            municipaly: 'Municipio B',
+            municipality: 'Municipio B',
         },
         historyIllness: [],
         descriptionAllergies: 'Polen',
@@ -87,7 +86,7 @@ const data : PersonaFormValues[] = [
         location: {
             houseAddress: 'Calle Ejemplo 789',
             parish: 'Parroquia Norte',
-            municipaly: 'Municipio C',
+            municipality: 'Municipio C',
         },
         historyIllness: [
             {
@@ -101,17 +100,16 @@ const data : PersonaFormValues[] = [
 ];
 
 export const PersonasProvider: React.FC<PersonaProviderProps> = ({ children }) => {
-    const [personas] = useState(data);
+    const [personas, setPersonas] = useState(data);
 
-    // useEffect(() => {
-    //     const fetchPersonas = async () => {
-    //         const response = await fetch('/api/personas');
-    //         const data = await response.json();
-    //         setPersonas(data);
-    //     };
+    useEffect(() => {
+        const fetchPersonas = async () => {
+            const response = await getAllPersons()
+            setPersonas(response.data);
+        };
 
-    //     fetchPersonas();
-    // }, []);
+        fetchPersonas();
+    }, []);
 
     return (
         <PersonasContext.Provider value={personas}>

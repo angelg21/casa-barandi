@@ -2,7 +2,6 @@
 // UserTable.tsx
 import React, { useState } from 'react';
 
-
 import RoleModal from '../NewUserModal/NewUserModal';
 import DeleteModal from '../DeleteModal/DeleteModal';
 import { changeUserRole } from '@/src/users/actions/change-user-role';
@@ -170,7 +169,7 @@ export default function UserTable({ users }: UserTableProps) {
                                                 <div className="">
                                                     <div >
                                                         <div className="font-semibold text-gray-900">Municipio:
-                                                            <span className="font-medium text-gray-900">  {user.location.municipaly}</span>
+                                                            <span className="font-medium text-gray-900">  {user.location.municipality}</span>
                                                         </div>
                                                         <div className="font-semibold text-gray-900">Parroquia:
                                                             <span className="font-medium text-gray-900">  {user.location.parish}</span>
@@ -221,9 +220,10 @@ export default function UserTable({ users }: UserTableProps) {
                                             </div>
                                         </td> */}
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                            {user.phones.map((document) => (
-                                                <div key={document.phoneNumber}>
-                                                    <div className="mt-1 text-gray-500">{document.phoneNumber}</div>
+                                            {user.phones.map((p) => (
+                                                <div key={p.phoneNumber}>
+                                                    <div className="mt-1 text-gray-500">{p.phoneType}</div>
+                                                    <div className="mt-1 text-gray-500">{p.phoneNumber}</div>
                                                 </div>
                                             ))}
                                         </td>
@@ -241,7 +241,7 @@ export default function UserTable({ users }: UserTableProps) {
                                                             <div
                                                                 role="button"
                                                                 className="flex hover:bg-gray-200 space-x-3 px-3 py-1 text-sm leading-6"
-                                                                //onClick={() => handleClickActions(workSheetType, item.id, workSheetId, workSheetStatus)}
+                                                            //onClick={() => handleClickActions(workSheetType, item.id, workSheetId, workSheetStatus)}
                                                             >
                                                                 {item.Icon && <item.Icon className={`h-5 w-5 ${item.name === 'Eliminar' ? 'text-red-500' : 'text-d-gray-text'}`} />}
                                                                 <span className="text-gray-700 data-[focus]:bg-gray-50"> {item.name} </span>

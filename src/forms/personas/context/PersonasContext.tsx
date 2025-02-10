@@ -44,6 +44,7 @@ const data: PersonaFormValues[] = [
         descriptionAllergies: 'Ninguna',
     },
     {
+        id: '123hhj2h3j1',
         fullName: 'Ana Gómez',
         gender: 'Femenino',
         dateOfBirth: '1985-08-25',
@@ -68,6 +69,7 @@ const data: PersonaFormValues[] = [
         descriptionAllergies: 'Polen',
     },
     {
+        id: '098dhd847f',
         fullName: 'Carlos Martínez',
         gender: 'Masculino',
         dateOfBirth: '2000-03-10',

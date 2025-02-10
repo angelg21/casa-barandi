@@ -5,6 +5,7 @@ export interface PersonasValues {
 }
 
 export interface PersonaFormValues {
+    id?: string;
     fullName: string;
     gender: string;
     dateOfBirth: string;

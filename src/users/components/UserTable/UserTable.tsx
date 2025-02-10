@@ -45,6 +45,7 @@ export default function UserTable({ users }: UserTableProps) {
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const router = useRouter();
 
     const handleOpenRoleModal = (user: User) => {
         setSelectedUser(user);
@@ -91,6 +92,18 @@ export default function UserTable({ users }: UserTableProps) {
         }
         return false;
     };
+
+    const handleClickActions = (action: string, user: PersonaFormValues) => {
+
+        switch (action){
+            case '01':
+                router.push(`/dashboard/personas/${user.id}/detalles`)
+            break;
+            case '02':
+                router.push(`/dashboard/personas/${user.id}/editar`)
+            break;
+        }
+    }
     return (
         <div className="">
             <div className="mt-8 ">

@@ -134,7 +134,7 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
 
     return (
         <Formik<PersonaFormValues>
-            initialValues={initialValues}
+            initialValues={personaInitialValue || initialValues}
             validationSchema={validationSchema}
             // onSubmit={(values) => console.log(values)}
             onSubmit={handleSubmit}
@@ -144,7 +144,7 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
                     <Form>
                         {/* <SaveFormValues /> */}
                         <div className=''>
-                            <div className='flex flex-col mx-5 lg:mx-9 '>
+                            <div className='flex flex-col mx-5 lg:mx-9'>
                                 <div className="h-calc(100vh) overflow-y-auto space-y-10 mb-14 px-1">
                                     <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
                                         <InputWithLabel

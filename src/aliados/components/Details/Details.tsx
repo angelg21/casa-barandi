@@ -1,11 +1,11 @@
 "use client"
 
 import { ButtonWithIconLeft } from "@/src/components/ButtonWithIconLeft/ButtonWithIconLeft"
-import { AlertProvider } from "@/src/users/contex/AlertContext"
 import { useRouter } from "next/navigation";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { AliadosFilteredSheets } from "../AliadosFilteredSheets/AliadosFilteredSheets";
 import { AliadoSheetValues } from "../../interfaces/AliadosSheet";
+import { AlertProvider } from "@/src/utils/providers/AlertProvider";
 
 const aliadosData: AliadoSheetValues[] = [
     {

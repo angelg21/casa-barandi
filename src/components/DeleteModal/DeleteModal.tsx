@@ -1,5 +1,5 @@
+import { useAlert } from '@/src/utils/providers/AlertProvider';
 import React from 'react';
-import { useAlert } from '@/src/users/contex/AlertContext';
 
 
 interface DeleteModalProps {

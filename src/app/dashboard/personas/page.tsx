@@ -1,7 +1,7 @@
 import { PersonasProvider } from "@/src/forms/personas/context/PersonasContext";
 import { getAllPersons } from "@/src/personas/actions/get-persons";
 import FilteredPersonsTable from "@/src/personas/components/FilteredPersonTable/FilteredPersonTable";
-import { AlertProvider } from "@/src/users/contex/AlertContext";
+import { AlertProvider } from "@/src/utils/providers/AlertProvider";
 
 export default async function Personas() {
 

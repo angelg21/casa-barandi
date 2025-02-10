@@ -134,7 +134,7 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
 
     return (
         <Formik<PersonaFormValues>
-            initialValues={personaInitialValue || initialValues}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             // onSubmit={(values) => console.log(values)}
             onSubmit={handleSubmit}

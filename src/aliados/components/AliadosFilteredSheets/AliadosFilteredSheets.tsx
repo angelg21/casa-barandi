@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { AliadoSheetValues } from '../../interfaces/AliadosSheet';
-import SearchBar from '@/src/users/components/SearchBar/SearchBar';
 import { AliadosSheet } from '../AliadosSheet/AliadosSheet';
+import SearchBar from '@/src/components/SearchBar/SearchBar';
 
 interface AliadosFilteredSheetsProps {
     aliados: AliadoSheetValues[];

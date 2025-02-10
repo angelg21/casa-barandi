@@ -13,14 +13,14 @@ interface SelectDateProps {
 }
 
 const monthNames = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
 ];
 
-export const SelectDate = ({name, title, globalStyle }: SelectDateProps) => {
-    
-    
-        // Obtener el contexto de Formik
+export const SelectDate = ({ name, title, globalStyle }: SelectDateProps) => {
+
+
+    // Obtener el contexto de Formik
     const { values, setFieldValue } = useFormikContext<PersonaFormValues>();
     const dateString = values[name as keyof PersonaFormValues];
 
@@ -32,7 +32,7 @@ export const SelectDate = ({name, title, globalStyle }: SelectDateProps) => {
 
     const days = [null, ...Array.from({ length: 31 }, (_, i) => 31 - i)]; // Days 1 al 31
     const months = [null, ...Array.from({ length: 12 }, (_, i) => 12 - i)]; // Mnths del 1 al 31
-    
+
     // Expresión regular para detectar el formato "Día de Mes de Año"
     const fullDateRegex = /(\d{1,2}) de (\w+) de (\d{4})/;
     // Expresión regular para detectar el formato "Mes de Año"
@@ -42,7 +42,7 @@ export const SelectDate = ({name, title, globalStyle }: SelectDateProps) => {
 
     // Lógica para formatear la fecha
     function formatDate(selectedDay: number | null, selectedMonth: number | null, selectedYear: number | null) {
-        
+
         // Si se selecciona el día, el mes y el año
         if (selectedDay !== null && selectedMonth !== null && selectedYear !== null) {
             return `${selectedDay} de ${monthNames[selectedMonth - 1]} de ${selectedYear}`;
@@ -60,55 +60,55 @@ export const SelectDate = ({name, title, globalStyle }: SelectDateProps) => {
             return '';
         }
     }
-    
+
 
     const formattedDate = formatDate(selectedDay, selectedMonth, selectedYear);
 
 
-        useEffect(() => {
-            if(formattedDate && name)
-            setFieldValue(name , formattedDate);
-        }, [formattedDate, setFieldValue, name]);
-    
-    
-        const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value;
-            // Verifica si el valor es un número positivo y no mayor que el año actual
-            const yearValue = Number(value);
-            if (!isNaN(yearValue) && yearValue > 0 && yearValue <= currentYear) {
-                if (setSelectedYear) {
-                    setSelectedYear(yearValue);
-                }
-            } else {
-                if (setSelectedYear) {
-                    setSelectedYear(null); // Resetea el año si el valor no es válido
-                }
-            }
-        };
+    useEffect(() => {
+        if (formattedDate && name)
+            setFieldValue(name, formattedDate);
+    }, [formattedDate, setFieldValue, name]);
 
-        useEffect(() => {
-            if (name && typeof dateString === 'string') {
-                if (fullDateRegex.test(dateString)) {
-                    const match = dateString.match(fullDateRegex);
-                    if (match) {
-                        setSelectedDay(parseInt(match[1], 10))
-                        setSelectedMonth(monthNames.indexOf(match[2]) + 1) // Obtener el índice del mes
-                        setSelectedYear(parseInt(match[3], 10))
-                    }
-                } else if (monthYearRegex.test(dateString)) {
-                    const match = dateString.match(monthYearRegex);
-                    if (match) {
-                        setSelectedMonth(monthNames.indexOf(match[1]) + 1); // Obtener el índice del mes
-                        setSelectedYear(parseInt(match[2], 10));
-                    }
-                } else if (yearRegex.test(dateString)) {
-                    const match = dateString.match(yearRegex);
-                    if (match) {
-                        setSelectedYear(parseInt(match[1], 10));
-                    }
+
+    const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        // Verifica si el valor es un número positivo y no mayor que el año actual
+        const yearValue = Number(value);
+        if (!isNaN(yearValue) && yearValue > 0 && yearValue <= currentYear) {
+            if (setSelectedYear) {
+                setSelectedYear(yearValue);
+            }
+        } else {
+            if (setSelectedYear) {
+                setSelectedYear(null); // Resetea el año si el valor no es válido
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (name && typeof dateString === 'string') {
+            if (fullDateRegex.test(dateString)) {
+                const match = dateString.match(fullDateRegex);
+                if (match) {
+                    setSelectedDay(parseInt(match[1], 10))
+                    setSelectedMonth(monthNames.indexOf(match[2]) + 1) // Obtener el índice del mes
+                    setSelectedYear(parseInt(match[3], 10))
+                }
+            } else if (monthYearRegex.test(dateString)) {
+                const match = dateString.match(monthYearRegex);
+                if (match) {
+                    setSelectedMonth(monthNames.indexOf(match[1]) + 1); // Obtener el índice del mes
+                    setSelectedYear(parseInt(match[2], 10));
+                }
+            } else if (yearRegex.test(dateString)) {
+                const match = dateString.match(yearRegex);
+                if (match) {
+                    setSelectedYear(parseInt(match[1], 10));
                 }
             }
-        }, []);
+        }
+    }, []);
 
 
     return (
@@ -199,7 +199,7 @@ export const SelectDate = ({name, title, globalStyle }: SelectDateProps) => {
                         className="relative w-full h-[36px] cursor-default rounded-tr-md rounded-br-md bg-white text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-cb-green sm:text-sm sm:leading-6"
                     />
                 </div>
-                
+
             </div>
         </div>
     );

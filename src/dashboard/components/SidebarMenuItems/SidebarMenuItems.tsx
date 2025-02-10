@@ -31,23 +31,21 @@ export const SidebarMenuItems = ({ path, icon: Icon, title, onClick, subItems }:
         h-6 w-6 shrink-0
     `;
     return (
-        <li>
-            <div
-                className='relative'
+        <div
+            className='relative'
+        >
+            <button
+                onClick={onClick}
+                className={classNames(
+                    isActive
+                        ? 'bg-cb-green text-cb-white before:content-[""] before:absolute before:-left-1 before:top-0 before:bottom-0 before:w-[10px] before:rounded-full before:bg-cb-white'
+                        : 'text-gray-200 hover:text-white md:hover:before:content-[""] md:hover:before:absolute md:hover:before:-left-1 md:hover:before:top-0 md:hover:before:bottom-0 md:hover:before:w-[10px] md:hover:before:rounded-full md:hover:before:bg-cb-white',
+                    'group flex gap-x-3 rounded-md p-2 text-lg font-medium leading-6  pl-5 transition-colors duration-300 ease-in-out',
+                )}
             >
-                <button
-                    onClick={onClick}
-                    className={classNames(
-                        isActive
-                            ? 'bg-cb-green text-cb-white before:content-[""] before:absolute before:-left-1 before:top-0 before:bottom-0 before:w-[10px] before:rounded-full before:bg-cb-white'
-                            : 'text-gray-200 hover:text-white md:hover:before:content-[""] md:hover:before:absolute md:hover:before:-left-1 md:hover:before:top-0 md:hover:before:bottom-0 md:hover:before:w-[10px] md:hover:before:rounded-full md:hover:before:bg-cb-white',
-                        'group flex gap-x-3 rounded-md p-2 text-lg font-medium leading-6  pl-5 transition-colors duration-300 ease-in-out',
-                    )}
-                >
-                    {React.cloneElement(Icon, { className: `${iconClasses}` })}
-                    {title}
-                </button>
-            </div>
-        </li>
+                {React.cloneElement(Icon, { className: `${iconClasses}` })}
+                {title}
+            </button>
+        </div>
     )
 }

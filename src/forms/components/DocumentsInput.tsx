@@ -65,7 +65,7 @@ export const DocumentsInput = ({ globalStyle }: PublicationInputProps) => {
         if (documents.length > 0 && (!values.documents)) {
             setFieldValue("documents", documents);
         }
-    }, [documents]);
+    }, [documents, setFieldValue, values.documents]);
 
     return (
         <div className={`${globalStyle}`}>
@@ -77,27 +77,27 @@ export const DocumentsInput = ({ globalStyle }: PublicationInputProps) => {
 
                     <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 mb-6">
                         <input
-                            id="documentNumber"
+                            id="documentType"
                             type="text"
-                            value={documentNumber}
+                            value={documentType}
                             className={`text-input w-full max-w-36  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
                                 ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
                             placeholder="Tipo"
-                            onChange={(e) => setDocumentNumber(e.target.value)}
-                        />
-
-                        <input
-                            key="documentType"
-                            type="text"
-                            value={documentType}
-                            className={`text-input w-full  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
-                        ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
-                            placeholder="Número"
                             onChange={(e) => setDocumenType(e.target.value)}
                         />
 
+                        <input
+                            key="documentNumber"
+                            type="text"
+                            value={documentNumber}
+                            className={`text-input w-full  rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
+                        ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
+                            placeholder="Número"
+                            onChange={(e) => setDocumentNumber(e.target.value)}
+                        />
+
                         <div className="flex ">
-                            <button onClick={handleAddDocument}>
+                            <button type="button" onClick={handleAddDocument}>
                                 <span className="text-sm font-medium rounded-full text-white px-3 py-2 bg-cb-green">Agregar</span>
                             </button>
                         </div>

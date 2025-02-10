@@ -1,10 +1,4 @@
-
-
-export interface PersonasValues {
-    personas: PersonaFormValues[];
-}
-
-export interface PersonaFormValues {
+export interface Persona {
     id?: string;
     fullName: string;
     gender: string;

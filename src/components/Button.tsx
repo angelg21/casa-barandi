@@ -23,7 +23,8 @@ export const ButtonComponent: React.FC<ButtonProps> = ({
       type={type}
       disabled={isDisabled}
       className={`rounded-md ${bgColor} ${width} ${fontSize} px-3.5 py-2.5 font-normal text-white shadow-sm hover:bg-[${hoverColor}] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition-transform transform active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed`}
-      onClick={onClick ? onClick : () => {}}   
+      onClick={onClick && type !== "submit"  ? onClick : () => {}}
+ 
     >
       {text}
     </button>

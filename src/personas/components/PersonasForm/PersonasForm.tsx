@@ -1,135 +1,150 @@
 'use client'
-
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import * as Yup from 'yup';
-import { InputWithLabel } from "../../components/InputWithLabel";
-import { PersonaFormValues } from "../interfaces/PersonasForm";
-import { CheckTypeGender } from "../../components/CheckTypeGender";
-import { SelectDate } from "../../components/SelectDate";
-import { DocumentsInput } from "../../components/DocumentsInput";
-import { EmailAddressesInput } from "../../components/EmailAddressesInput";
-import { PhonesInput } from "../../components/PhonesInput";
-import { ExpandableInput } from "../../components/ExpandableInput";
-import { HistoryIllnessInput } from "../../components/HistoryIllnessInput";
+import { InputWithLabel } from "../../../forms/components/InputWithLabel";
+import { PersonaFormValues } from "../../../forms/personas/interfaces/PersonasForm";
+import { CheckTypeGender } from "../../../forms/components/CheckTypeGender";
+import { SelectDate } from "../../../forms/components/SelectDate";
+import { DocumentsInput } from "../../../forms/components/DocumentsInput";
+import { EmailAddressesInput } from "../../../forms/components/EmailAddressesInput";
+import { PhonesInput } from "../../../forms/components/PhonesInput";
+import { ExpandableInput } from "../../../forms/components/ExpandableInput";
+import { HistoryIllnessInput } from "../../../forms/components/HistoryIllnessInput";
 import { ButtonComponent } from "@/src/components/Button";
+import { createPerson } from "../../actions/create-person";
+import { Persona } from "../../interfaces/Persona";
+import { updatePerson } from "../../actions/update-person";
 
 interface ModalProps {
     onClose: () => void;
-
+    editValues?: Persona;
 }
 
-export default function PersonasForm({ onClose }: ModalProps) {
+export default function PersonasForm({ onClose, editValues }: ModalProps) {
 
-
-    const initialValues = JSON.parse(JSON.stringify({
-        fullName: '',
-        gender: '',
-        dateOfBirth: '',
-        bloodType: '',
-        educationLevel: '',
-        community: '',
-        documents: [],
-        electronicAddresses: [],
-        phones: [],
-        location: { houseAddress: '', parish: '', municipaly: '' },
-        historyIllness: [],
-        descriptionAllergies: ''
-    }));
+    const initialValues = editValues ? JSON.parse(JSON.stringify({...editValues})) :  
+        JSON.parse(JSON.stringify({
+            fullName: '',
+            gender: '',
+            dateOfBirth: '',
+            bloodType: '',
+            educationLevel: '',
+            community: '',
+            documents: [],
+            electronicAddresses: [],
+            phones: [],
+            location: {
+                houseAddress: '', parish: '',
+                municipality: ''
+            },
+            historyIllness: [],
+            descriptionAllergies: ''
+        }));
 
     const validationSchema = Yup.object({
         fullName: Yup.string()
             .max(100, 'El nombre no puede superar los 100 caracteres')
             .required('El nombre es obligatorio'),
 
-        age: Yup.number()
-            .min(18, 'Debe tener al menos 18 años')
-            .max(120, 'La edad no puede ser mayor a 120 años')
-            .nullable()
-            .required('La edad es obligatoria'),
+        // age: Yup.number()
+        //     .min(18, 'Debe tener al menos 18 años')
+        //     .max(120, 'La edad no puede ser mayor a 120 años')
+        //     .nullable()
+        //     .required('La edad es obligatoria'),
 
-        gender: Yup.string()
-            .oneOf(['male', 'female', 'other'], 'Género inválido')
-            .nullable()
-            .required('El género es obligatorio'),
+        // gender: Yup.string()
+        //     .oneOf(['male', 'female', 'other'], 'Género inválido')
+        //     .nullable()
+        //     .required('El género es obligatorio'),
 
-        email: Yup.string()
-            .email('Debe ser un correo electrónico válido')
-            .required('El correo electrónico es obligatorio'),
+        // email: Yup.string()
+        //     .email('Debe ser un correo electrónico válido')
+        //     .required('El correo electrónico es obligatorio'),
 
-        phoneNumber: Yup.string()
-            .max(15, 'El número de teléfono no puede superar los 15 caracteres')
-            .required('El número de teléfono es obligatorio'),
+        // phoneNumber: Yup.string()
+        //     .max(15, 'El número de teléfono no puede superar los 15 caracteres')
+        //     .required('El número de teléfono es obligatorio'),
 
-        address: Yup.string()
-            .max(100, 'La dirección no puede superar los 100 caracteres')
-            .nullable(),
+        // address: Yup.string()
+        //     .max(100, 'La dirección no puede superar los 100 caracteres')
+        //     .nullable(),
 
-        experience: Yup.string()
-            .max(300, 'La experiencia no puede superar los 300 caracteres')
-            .nullable(),
+        // experience: Yup.string()
+        //     .max(300, 'La experiencia no puede superar los 300 caracteres')
+        //     .nullable(),
 
-        skills: Yup.array()
-            .of(Yup.string().max(50, 'Cada habilidad no puede superar los 50 caracteres'))
-            .nullable(),
+        // skills: Yup.array()
+        //     .of(Yup.string().max(50, 'Cada habilidad no puede superar los 50 caracteres'))
+        //     .nullable(),
 
-        areasOfInterest: Yup.array()
-            .of(Yup.string().max(50, 'Cada área de interés no puede superar los 50 caracteres'))
-            .required('Debe seleccionar al menos un área de interés'),
+        // areasOfInterest: Yup.array()
+        //     .of(Yup.string().max(50, 'Cada área de interés no puede superar los 50 caracteres'))
+        //     .required('Debe seleccionar al menos un área de interés'),
 
-        availability: Yup.object({
-            days: Yup.array()
-                .of(Yup.string().oneOf(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], 'Día inválido'))
-                .min(1, 'Debe seleccionar al menos un día de disponibilidad')
-                .required('La disponibilidad de días es obligatoria'),
-            hours: Yup.string()
-                .oneOf(['Morning', 'Afternoon', 'Full Day'], 'Horario inválido')
-                .required('El horario es obligatorio'),
-        }).required(),
+        // availability: Yup.object({
+        //     days: Yup.array()
+        //         .of(Yup.string().oneOf(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], 'Día inválido'))
+        //         .min(1, 'Debe seleccionar al menos un día de disponibilidad')
+        //         .required('La disponibilidad de días es obligatoria'),
+        //     hours: Yup.string()
+        //         .oneOf(['Morning', 'Afternoon', 'Full Day'], 'Horario inválido')
+        //         .required('El horario es obligatorio'),
+        // }).required(),
 
-        emergencyContact: Yup.object({
-            name: Yup.string()
-                .max(100, 'El nombre no puede superar los 100 caracteres')
-                .required('El nombre de contacto de emergencia es obligatorio'),
-            phoneNumber: Yup.string()
-                .max(15, 'El número de teléfono no puede superar los 15 caracteres')
-                .required('El número de teléfono de contacto de emergencia es obligatorio'),
-            relationship: Yup.string()
-                .max(50, 'La relación no puede superar los 50 caracteres')
-                .nullable()
-                .required('La relación es obligatoria'),
-        }).required(),
+        // emergencyContact: Yup.object({
+        //     name: Yup.string()
+        //         .max(100, 'El nombre no puede superar los 100 caracteres')
+        //         .required('El nombre de contacto de emergencia es obligatorio'),
+        //     phoneNumber: Yup.string()
+        //         .max(15, 'El número de teléfono no puede superar los 15 caracteres')
+        //         .required('El número de teléfono de contacto de emergencia es obligatorio'),
+        //     relationship: Yup.string()
+        //         .max(50, 'La relación no puede superar los 50 caracteres')
+        //         .nullable()
+        //         .required('La relación es obligatoria'),
+        // }).required(),
 
-        additionalComments: Yup.string()
-            .max(500, 'Los comentarios adicionales no pueden superar los 500 caracteres')
-            .nullable(),
+        // additionalComments: Yup.string()
+        //     .max(500, 'Los comentarios adicionales no pueden superar los 500 caracteres')
+        //     .nullable(),
 
-        acceptsTerms: Yup.boolean()
-            .oneOf([true], 'Debe aceptar los términos y condiciones')
-            .required('Debe aceptar los términos y condiciones'),
+        // acceptsTerms: Yup.boolean()
+        //     .oneOf([true], 'Debe aceptar los términos y condiciones')
+        //     .required('Debe aceptar los términos y condiciones'),
     });
 
+    const handleSubmit = async (values: Persona) => {
+        const response = editValues ? await updatePerson(values) : await createPerson(values);
+        console.log(response)
+        if (response.ok) {
+            onClose();
+        }
+        console.log("Entro")
+    }
 
-    // const FormDebug = () => {
-    //     const { values } = useFormikContext();
-    //     return (
-    //         <pre className="mt-4 bg-gray-100 p-2">
-    //             {JSON.stringify(values, null, 2)}
-    //         </pre>
-    //     );
-    // };
+
+    const FormDebug = () => {
+        const { values } = useFormikContext();
+        return (
+            <pre className="mt-4 bg-gray-100 p-2">
+                {JSON.stringify(values, null, 2)}
+            </pre>
+        );
+    };
 
     return (
         <Formik<PersonaFormValues>
-            initialValues={initialValues}
+            initialValues={personaInitialValue || initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => console.log(values)}
+            // onSubmit={(values) => console.log(values)}
+            onSubmit={handleSubmit}
         >
             {() => {
                 return (
                     <Form>
                         {/* <SaveFormValues /> */}
                         <div className=''>
-                            <div className='flex flex-col mx-5 lg:mx-9 '>
+                            <div className='flex flex-col mx-5 lg:mx-9'>
                                 <div className="h-calc(100vh) overflow-y-auto space-y-10 mb-14 px-1">
                                     <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
                                         <InputWithLabel
@@ -203,8 +218,8 @@ export default function PersonasForm({ onClose }: ModalProps) {
                                         />
                                         <div className="col-span-1 space-y-8">
                                             <InputWithLabel
-                                                id="municipaly"
-                                                name={"location.municipaly"}
+                                                id="municipality"
+                                                name={"location.municipality"}
                                                 type={"text"}
                                                 label={"Municipio"}
                                                 labelTextStyle={"text-gray-900 text-sm"}
@@ -272,15 +287,15 @@ export default function PersonasForm({ onClose }: ModalProps) {
                                             text="Guardar"
                                             width="w-[100px]"
                                             fontSize="text-sm"
-                                            type='button'
+                                            type='submit'
                                             isDisabled={false}
                                             //onClick={handleSave}
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    {/* <div >
+                                    <div >
                                         <FormDebug />
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>

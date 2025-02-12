@@ -196,7 +196,7 @@ export const SelectDate = ({ name, title, globalStyle }: SelectDateProps) => {
                         value={selectedYear || ''} // Asegúrate de manejar el valor del año
                         onChange={handleYearChange}
                         placeholder="Año"
-                        className="relative w-full h-[36px] cursor-default rounded-tr-md rounded-br-md bg-white text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-cb-green sm:text-sm sm:leading-6"
+                        className="relative w-full h-[36px] border-0 ring-1 cursor-default rounded-tr-md rounded-br-md bg-white text-left text-gray-900 shadow-sm  ring-gray-300 hover:ring-gray-400 focus:ring-2 focus:ring-cb-green sm:text-sm sm:leading-6"
                     />
                 </div>
 

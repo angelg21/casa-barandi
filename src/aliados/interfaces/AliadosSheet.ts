@@ -1,17 +1,15 @@
 
 
-export interface AliadoSheetValues {
-    name: string;
-    companyName: string;
-    rif: string;
+export interface AliadoValues {
+    id?: string;
+    companyName?: string;
+    companyId: string;
     incorporationDate: string;
     terminationDate: string;
-    members: AliadoMemberFormValues[];
+    type: string;
 }
 
-export interface AliadoMemberFormValues {
-    id?: string;
-    fullName: string;
-    ci: string;
-    role: string;
+export interface Company {
+    id: string;
+    name: string;
 }

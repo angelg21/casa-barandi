@@ -1,16 +1,17 @@
 
 import React, { useEffect, useState } from 'react'
-import { AliadoSheetValues } from '../../interfaces/AliadosSheet';
-import { AliadosSheet } from '../AliadosSheet/AliadosSheet';
+import { AliadoValues } from '../../interfaces/AliadosSheet';
+import { AliadosTable } from '../AliadosTable/AliadosTable';
 import SearchBar from '@/src/components/SearchBar/SearchBar';
+import Pagination from '@/src/components/Pagination/Pagination';
 
-interface AliadosFilteredSheetsProps {
-    aliados: AliadoSheetValues[];
+interface AliadosViewProps {
+    aliados: AliadoValues[];
 }
 
-export const AliadosFilteredSheets = ({ aliados }: AliadosFilteredSheetsProps) => {
+export const AliadosView = ({ aliados }: AliadosViewProps) => {
 
-    const [filteredAliados, setFilteredAliados] = useState<AliadoSheetValues[]>(aliados);
+    const [filteredAliados, setFilteredAliados] = useState<AliadoValues[]>(aliados);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5); // Número de elementos por página
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -23,8 +24,7 @@ export const AliadosFilteredSheets = ({ aliados }: AliadosFilteredSheetsProps) =
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
             filtered = filtered.filter((aliado) =>
-                aliado.companyName.toLowerCase().includes(lowercasedTerm) ||
-                aliado.name.toLowerCase().includes(lowercasedTerm)
+                aliado.companyName!.toLowerCase().includes(lowercasedTerm) 
             );
         }
 
@@ -47,12 +47,12 @@ export const AliadosFilteredSheets = ({ aliados }: AliadosFilteredSheetsProps) =
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between min-[1200px]:grid min-[1200px]:grid-cols-2 min-[1200px]:gap-4">
                 <SearchBar onSearchChange={setSearchTerm} />
             </div>
-            <AliadosSheet aliados={currentAliados}/>
-            {/* <Pagination
+            <AliadosTable aliados={currentAliados}/>
+            <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(filteredVoluntarios.length / itemsPerPage)}
+                totalPages={Math.ceil(filteredAliados.length / itemsPerPage)}
                 onPageChange={handlePageChange}
-            /> */}
+            />
         </div>
     )
 }

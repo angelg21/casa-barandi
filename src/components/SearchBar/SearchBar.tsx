@@ -26,7 +26,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar', onSearchC
                     name="search"
                     type="text"
                     placeholder={placeholder}
-                    className="w-full block rounded-md text-sm border-0 py-1.5 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-[#6B7280] placeholder:font-normal focus:ring-2 focus:ring-inset focus:ring-cb-gray-letter lg:text-base lg:leading-6"
+                    className="w-full block rounded-md text-sm border-0 py-1.5 pl-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-[#6B7280] placeholder:font-normal focus:ring-2 focus:ring-inset focus:ring-cb-green lg:text-base lg:leading-6"
                     value={searchTerm}
                     onChange={handleInputChange}
                 />

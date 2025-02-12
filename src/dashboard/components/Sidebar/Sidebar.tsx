@@ -56,10 +56,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             path: '/dashboard/aliados',
             title: 'Aliados',
             icon: <UserGroupIcon />,
-            subItems: [
-                { title: 'Instituciones', path: '/dashboard/aliados/instituciones' },
-                { title: 'Voluntarios', path: '/dashboard/aliados/voluntarios' }
-            ]
+            subItems: []
         },
         {
             path: '/dashboard/usuarios',

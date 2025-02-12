@@ -1,41 +1,31 @@
-"use client"
-import React, { useState } from 'react';
-import DeleteModal from '../../../components/DeleteModal/DeleteModal';
-import { Persona } from '../../interfaces/Persona';
-import { deletePerson } from '../../actions/delete-person';
-import { useRouter } from 'next/navigation';
-import {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-} from '@headlessui/react';
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import { TableAction } from '@/src/components/interfaces/TableActions';
-import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
-import PersonModal from '../PersonModal/PersonModal';
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { AliadoValues } from "../../interfaces/AliadosSheet";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { TableAction } from "@/src/components/interfaces/TableActions";
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { useState } from "react";
+import { AliadosModalForm } from "../AliadosModalForm/AliadosModalForm";
+import DeleteModal from "@/src/components/DeleteModal/DeleteModal";
 
-interface PersonTableProps {
-    persons: Persona[];
+interface AliadoTableValuesProps {
+    aliados: AliadoValues[];
 }
 
 const Actions: TableAction[] = [
-    { id: '01', name: 'Visualizar', Icon: EyeIcon },
+    //{ id: '01', name: 'Visualizar', Icon: EyeIcon },
     { id: '02', name: 'Editar', Icon: PencilSquareIcon },
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
 
-export default function PersonTable({ persons }: PersonTableProps) {
-    const [openDeleteModal, setOpenDeleteModal] = useState(false);
-    const [idToDelete, setIdToDelete] = useState<string | undefined>("")
-    const [openEditModal, setOpenEditModal] = useState(false);
-    const [editModalData, setEditModalData] = useState<Persona | undefined>(undefined);
-    const router = useRouter();
+export const AliadosTable = ({ aliados }: AliadoTableValuesProps) => {
 
-    const handleClickActions = (action: string, person: Persona) => {
-        if (action === '01')
-            router.push(`/dashboard/personas/${person.id}/detalles`);
-        else if (action === '02') {
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editModalData, setEditModalData] = useState<AliadoValues | undefined>(undefined);
+    const [idToDelete, setIdToDelete] = useState<string | undefined>("")
+
+    const handleClickActions = (action: string, person: AliadoValues) => {
+        if (action === '02') {
             setOpenEditModal(true);
             setEditModalData(person)
         } else if (action === "03") {
@@ -45,20 +35,21 @@ export default function PersonTable({ persons }: PersonTableProps) {
     };
 
     const handleDeleteUser = async () => {
-        try {
-            const response = await deletePerson(idToDelete);;
-
-            if (response.ok) {
-                return true;
-            } else {
-                console.error(response.message);
-                return false;
-            }
-        } catch (error) {
-            console.error('Error al eliminar el usuario: ', error);
-            return false;
-        }
-    };
+        console.log(idToDelete)
+            // try {
+            //     const response = await deletePerson(idToDelete);;
+    
+            //     if (response.ok) {
+            //         return true;
+            //     } else {
+            //         console.error(response.message);
+            //         return false;
+            //     }
+            // } catch (error) {
+            //     console.error('Error al eliminar el usuario: ', error);
+            //     return false;
+            // }
+        };
 
     return (
         <div className="">
@@ -72,31 +63,25 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        USUARIO
+                                        ALIADO
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        DOCUMENTO
+                                        TIPO
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        NACIMIENTO
+                                        FECHA DE INCORPORACIÓN
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        DIRECCIÓN
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
-                                    >
-                                        TELÉFONOS
+                                        FECHA DE DESVINCULACIÓN
                                     </th>
                                     <th
                                         scope="col"
@@ -107,54 +92,35 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {persons.map((person) => (
-                                    <tr key={person.fullName}>
+                                {aliados.map((aliado, index) => (
+                                    <tr key={index}>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{person.fullName}</div>
+                                                    <div className="font-medium text-gray-900">{aliado.companyName}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                            {person.documents.map((document) => (
-                                                <div key={document.documentNumber}>
-                                                    <div className="mt-1 text-gray-500">{document.documentType}</div>
-                                                    <div className="mt-1 text-gray-500">{document.documentNumber}</div>
-                                                </div>
-                                            ))}
-                                        </td>
-                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{person.dateOfBirth}</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="py-5 pl-4 pr-3 text-sm min-w-40 max-w-44">
-                                            <div className="flex items-center">
-                                                <div className="">
-                                                    <div >
-                                                        <div className="font-semibold text-gray-900">Municipio:
-                                                            <span className="font-medium text-gray-900">  {person.location.municipality}</span>
-                                                        </div>
-                                                        <div className="font-semibold text-gray-900">Parroquia:
-                                                            <span className="font-medium text-gray-900">  {person.location.parish}</span>
-                                                        </div>
-                                                        <div className="font-semibold text-gray-900">Dirección:
-                                                            <span className="font-medium text-gray-900">  {person.location.houseAddress}</span>
-                                                        </div>
-                                                    </div>
+                                                    <div className="font-medium text-gray-900">{aliado.type}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                            {person.phones.map((p) => (
-                                                <div key={p.phoneNumber}>
-                                                    <div className="mt-1 text-gray-500">{p.phoneType}</div>
-                                                    <div className="mt-1 text-gray-500">{p.phoneNumber}</div>
+                                            <div className="flex items-center">
+                                                <div className="">
+                                                    <div className="font-medium text-gray-900">{aliado.incorporationDate}</div>
                                                 </div>
-                                            ))}
+                                            </div>
+                                        </td>
+                                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
+                                            <div className="flex items-center">
+                                                <div className="">
+                                                    <div className="font-medium text-gray-900">{aliado.terminationDate}</div>
+                                                </div>
+                                            </div>
                                         </td>
                                         <td className="pl-9 py-5">
                                             <Menu as="div" className='relative'>
@@ -170,7 +136,7 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                                             <div
                                                                 role="button"
                                                                 className="flex hover:bg-gray-200 space-x-3 px-3 py-1 text-sm leading-6"
-                                                                onClick={() => handleClickActions(item.id, person)}
+                                                                onClick={() => handleClickActions(item.id, aliado)}
                                                             >
                                                                 {item.Icon && <item.Icon className={`h-5 w-5 ${item.name === 'Eliminar' ? 'text-red-500' : 'text-d-gray-text'}`} />}
                                                                 <span className="text-gray-700 data-[focus]:bg-gray-50"> {item.name} </span>
@@ -188,7 +154,7 @@ export default function PersonTable({ persons }: PersonTableProps) {
                 </div>
             </div>
             {openEditModal && (
-                <PersonModal onClose={() => setOpenEditModal(false)} editData={editModalData} />
+                <AliadosModalForm onClose={() => setOpenEditModal(false)} editValues={editModalData} />
             )}
             {openDeleteModal && (
                 <DeleteModal
@@ -198,5 +164,5 @@ export default function PersonTable({ persons }: PersonTableProps) {
                 />
             )}
         </div>
-    );
+    )
 }

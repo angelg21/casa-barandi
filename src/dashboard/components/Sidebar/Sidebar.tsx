@@ -102,6 +102,12 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             title: 'Personas',
             icon: <UserIcon />,
             subItems: []
+        },
+        {
+            path: '/dashboard/organizaciones',
+            title: 'Organizaciones',
+            icon: <UserIcon />,
+            subItems: []
         }
     ];
 

@@ -33,7 +33,7 @@ const SelectCompanyInput: React.FC<CompanySelectProps> = ({ title, companies }) 
             company.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredCompanies(filtered);
-    }, [searchTerm, companies]); // El efecto se ejecuta cuando searchTerm o companies cambian
+    }, [searchTerm, companies, ]); // El efecto se ejecuta cuando searchTerm o companies cambian
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -47,17 +47,18 @@ const SelectCompanyInput: React.FC<CompanySelectProps> = ({ title, companies }) 
                         ref={inputRef}
                         type="text"
                         className="w-full border-none hover:ring-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-gray-400 bg-white py-1.5 pl-3 pr-8 text-gray-900 placeholder:text-gray-500 focus:ring-1 sm:text-sm sm:leading-6 rounded-tl-md rounded-bl-md" // Estilos para el input
-                        placeholder={selectedCompany ? selectedCompany.name : 'Seleccionar organización...'}
+                        placeholder={ values.companyName != '' ? values.companyName : 'Seleccionar organización...'}
                         value={searchTerm}
                         onChange={handleInputChange}
                     />
                     <Listbox
                         value={selectedCompany}
                         onChange={(value: Company | null) => {
+                            setSearchTerm(''); // Limpia el término de búsqueda al seleccionar una opción
                             setSelectedCompany(value);
                             setFieldValue('companyId', value ? value.id : '');
+                            setFieldValue('companyName', value ? value.name : '');
                             handleChange('companyId');
-                            setSearchTerm(''); // Limpia el término de búsqueda al seleccionar una opción
                             if (inputRef.current) {
                                 inputRef.current.blur(); // Quita el foco del input
                             }

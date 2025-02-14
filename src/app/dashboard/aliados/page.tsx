@@ -7,7 +7,7 @@ export default async function Aliados() {
 
     return (
         <div className="mt-8">
-            <Details/>
+            <Details aliados={data}/>
         </div>
     );
 }

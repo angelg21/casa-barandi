@@ -1,12 +1,9 @@
 'use client'
 
 import { useFormikContext } from "formik";
-// import { GroupingFormValues } from "../interfaces/GroupingForm";
 import { useEffect, useState } from "react";
 import { PersonaFormValues } from "../personas/interfaces/PersonasForm";
 import { PhonesTable } from "./PhonesTable";
-// import { ExpandableInputWork } from "../../WorksFormComponents/EpandableInputWork/ExpandableInputWork";
-// import { GroupingPublicationTable } from "./GroupingPublicationTable";
 
 
 interface PublicationInputProps {

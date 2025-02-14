@@ -4,9 +4,6 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headless
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { AliadoValues, Company } from "../../interfaces/AliadosSheet";
 
-
-
-
 interface CompanySelectProps {
     title: string;
     companies: Company[];
@@ -22,10 +19,10 @@ const SelectCompanyInput: React.FC<CompanySelectProps> = ({ title, companies }) 
     // Ref para el input dentro del botón
 
     useEffect(() => {
-        if (values.companyName != '') {
+        if (values.razon_social != '') {
             const company: Company = {
-                id: values.companyId,
-                name: values.companyName || '',
+                id: values.companyId!,
+                name: values.razon_social || '',
             };
             setSelectedCompany(company);
         }
@@ -47,7 +44,7 @@ const SelectCompanyInput: React.FC<CompanySelectProps> = ({ title, companies }) 
                         ref={inputRef}
                         type="text"
                         className="w-full border-none hover:ring-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-gray-400 bg-white py-1.5 pl-3 pr-8 text-gray-900 placeholder:text-gray-500 focus:ring-1 sm:text-sm sm:leading-6 rounded-tl-md rounded-bl-md" // Estilos para el input
-                        placeholder={ values.companyName != '' ? values.companyName : 'Seleccionar organización...'}
+                        placeholder={ values.razon_social != '' ? values.razon_social : 'Seleccionar organización...'}
                         value={searchTerm}
                         onChange={handleInputChange}
                     />
@@ -57,7 +54,7 @@ const SelectCompanyInput: React.FC<CompanySelectProps> = ({ title, companies }) 
                             setSearchTerm(''); // Limpia el término de búsqueda al seleccionar una opción
                             setSelectedCompany(value);
                             setFieldValue('companyId', value ? value.id : '');
-                            setFieldValue('companyName', value ? value.name : '');
+                            setFieldValue('razon_social', value ? value.name : '');
                             handleChange('companyId');
                             if (inputRef.current) {
                                 inputRef.current.blur(); // Quita el foco del input

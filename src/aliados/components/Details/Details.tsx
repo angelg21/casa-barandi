@@ -17,11 +17,11 @@ export const Details: React.FC<DetailsProps> = ({ aliados = [] }) => {
     const [isAliadoModalOpen, setIsAliadoModalOpen] = useState(false);
     //const router = useRouter();
 
-    const handleOpenPersonModal = () => {
+    const handleOpenAllieModal = () => {
         setIsAliadoModalOpen(true);
     };
 
-    const handleClosePersonModal = () => {
+    const handleCloseAllieModal = () => {
         setIsAliadoModalOpen(false);
     };
 
@@ -33,7 +33,7 @@ export const Details: React.FC<DetailsProps> = ({ aliados = [] }) => {
                         <h2 className="text-cb-gray-letter font-bold text-5xl mb-7">Aliados</h2>
                         <div
                             className='w-full flex justify-end items-end'
-                            onClick={() => handleOpenPersonModal()}
+                            onClick={() => handleOpenAllieModal()}
                         >
                             <ButtonWithIconLeft
                                 title="Agregar Aliado"
@@ -51,7 +51,7 @@ export const Details: React.FC<DetailsProps> = ({ aliados = [] }) => {
                 </div>
                 {isAliadoModalOpen && (
                     <AliadosModalForm
-                        onClose={handleClosePersonModal}
+                        onClose={handleCloseAllieModal}
                     //onSave={handleSaveRoles}
                     />
                 )}

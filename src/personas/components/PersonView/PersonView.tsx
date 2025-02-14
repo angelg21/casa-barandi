@@ -99,17 +99,7 @@ export const PersonViewComponent: React.FC<PersonViewComponentProps> = ({
                       {/* Tipo de Documento */}
                       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Tipo de Documento
-                        </dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {doc.documentType}
-                        </dd>
-                      </div>
-    
-                      {/* Número de Documento */}
-                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Número de Documento
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {doc.documentNumber}
@@ -143,17 +133,7 @@ export const PersonViewComponent: React.FC<PersonViewComponentProps> = ({
                       {/* Tipo de Dirección */}
                       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Tipo de Dirección
-                        </dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {ea.addressType}
-                        </dd>
-                      </div>
-    
-                      {/* Dirección */}
-                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Dirección
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {ea.address}
@@ -187,17 +167,7 @@ export const PersonViewComponent: React.FC<PersonViewComponentProps> = ({
                       {/* Tipo de Teléfono */}
                       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Tipo de Teléfono
-                        </dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {phone.phoneType}
-                        </dd>
-                      </div>
-    
-                      {/* Número de Teléfono */}
-                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-900">
-                          Número de Teléfono
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {phone.phoneNumber}

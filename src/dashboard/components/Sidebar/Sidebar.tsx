@@ -59,7 +59,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
-            path: '/dashboard/usuarios',
+            path: '/dashboard/colaboradores',
             title: 'Colaboradores',
             icon: <UsersIcon />,
             subItems: []

@@ -9,7 +9,6 @@ export default function Aliados() {
     return (
         <div className="mt-8">
             <Details/>
-            {/* <VoluntariosForm/> */}
         </div>
     );
 }

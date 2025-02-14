@@ -6,13 +6,17 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useState } from "react";
 import { AliadosModalForm } from "../AliadosModalForm/AliadosModalForm";
 import DeleteModal from "@/src/components/DeleteModal/DeleteModal";
+import { deleteAllie } from "../../actions/delete-allie";
+import { EyeIcon } from "@heroicons/react/20/solid";
+import { useRouter } from 'next/navigation';
+
 
 interface AliadoTableValuesProps {
     aliados: AliadoValues[];
 }
 
 const Actions: TableAction[] = [
-    //{ id: '01', name: 'Visualizar', Icon: EyeIcon },
+    { id: '01', name: 'Visualizar', Icon: EyeIcon },
     { id: '02', name: 'Editar', Icon: PencilSquareIcon },
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
@@ -22,34 +26,37 @@ export const AliadosTable = ({ aliados }: AliadoTableValuesProps) => {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [editModalData, setEditModalData] = useState<AliadoValues | undefined>(undefined);
-    const [idToDelete, setIdToDelete] = useState<string | undefined>("")
+    const [idToDelete, setIdToDelete] = useState<string | undefined>("");
+    const router = useRouter();
 
-    const handleClickActions = (action: string, person: AliadoValues) => {
-        if (action === '02') {
+    const handleClickActions = (action: string, org: AliadoValues) => {
+        if (action === '01')
+            router.push(`/dashboard/organizaciones/${org.id}/detalles`);
+        else if (action === '02') {
             setOpenEditModal(true);
-            setEditModalData(person)
+            setEditModalData(org)
         } else if (action === "03") {
-            setIdToDelete(person.id)
+            setIdToDelete(org.id)
             setOpenDeleteModal(true);
         }
     };
 
     const handleDeleteUser = async () => {
         console.log(idToDelete)
-            // try {
-            //     const response = await deletePerson(idToDelete);;
-    
-            //     if (response.ok) {
-            //         return true;
-            //     } else {
-            //         console.error(response.message);
-            //         return false;
-            //     }
-            // } catch (error) {
-            //     console.error('Error al eliminar el usuario: ', error);
-            //     return false;
-            // }
-        };
+        try {
+            const response = await deleteAllie(idToDelete);;
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.error(response.message);
+                return false;
+            }
+        } catch (error) {
+            console.error('Error al eliminar el usuario: ', error);
+            return false;
+        }
+    };
 
     return (
         <div className="">
@@ -97,7 +104,7 @@ export const AliadosTable = ({ aliados }: AliadoTableValuesProps) => {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{aliado.companyName}</div>
+                                                    <div className="font-medium text-gray-900">{aliado.razon_social}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -158,7 +165,7 @@ export const AliadosTable = ({ aliados }: AliadoTableValuesProps) => {
             )}
             {openDeleteModal && (
                 <DeleteModal
-                    term={"Persona"}
+                    term={"Aliado"}
                     onClose={() => setOpenDeleteModal(false)}
                     onDelete={handleDeleteUser}
                 />

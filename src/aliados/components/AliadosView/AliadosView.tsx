@@ -24,7 +24,7 @@ export const AliadosView = ({ aliados }: AliadosViewProps) => {
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
             filtered = filtered.filter((aliado) =>
-                aliado.companyName!.toLowerCase().includes(lowercasedTerm) 
+                aliado.razon_social!.toLowerCase().includes(lowercasedTerm) 
             );
         }
 

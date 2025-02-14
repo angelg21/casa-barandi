@@ -2,11 +2,20 @@
 
 export interface AliadoValues {
     id?: string;
-    companyName?: string;
-    companyId: string;
+    companyId?: string;
     incorporationDate: string;
     terminationDate: string;
     type: string;
+    rif?: string;
+    razon_social?: string;
+    phones?: {
+        phoneType: string;
+        phoneNumber: string;
+    }[];
+    electronicAddresses?: {
+        addressType: string;
+        address: string;
+    }[];
 }
 
 export interface Company {

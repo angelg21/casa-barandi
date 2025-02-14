@@ -12,7 +12,7 @@ import {
 } from '@headlessui/react';
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { TableAction } from '@/src/components/interfaces/TableActions';
-import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import PersonModal from '../PersonModal/PersonModal';
 
 interface PersonTableProps {

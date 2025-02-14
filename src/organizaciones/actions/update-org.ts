@@ -7,7 +7,7 @@ export const updateOrg = async (payload: Organizacion) => {
 
     try {
         const response = await fetch(process.env.API_URL + `/organizaciones/${id}`, {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -7,7 +7,7 @@ export const updatePerson = async (payload: Persona) => {
 
     try {
         const response = await fetch(process.env.API_URL + `/persons/${id}`, {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },

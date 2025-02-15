@@ -1,42 +1,43 @@
 'use client'
 
 import SearchBar from "@/src/components/SearchBar/SearchBar"
-import { ColaboradorValues } from "../../interfaces/ColaboradoresSheet";
+
 import { useEffect, useState } from "react";
 import Pagination from "@/src/components/Pagination/Pagination";
-import { ColaboradoresTable } from "../ColaboradoresTable/ColaboradoresTable";
+import { BeneficiarioValues } from "../../interfaces/BeneficiariosSheet";
+import { BeneficiariosTable } from "../BeneficiariosTable/BeneficiariosTable";
 
-interface ColaboradoresViewProps {
-    colaboradores: ColaboradorValues[];
+interface BeneficiariosViewProps {
+    beneficiarios: BeneficiarioValues[];
 }
 
-export const ColaboradoresView = ({ colaboradores }: ColaboradoresViewProps) => {
+export const BeneficiariosView = ({ beneficiarios }: BeneficiariosViewProps) => {
 
-    const [filteredColaboradores, setFilteredColaboradores] = useState<ColaboradorValues[]>(colaboradores);
+    const [filteredBeneficarios, setFilteredBeneficiarios] = useState<BeneficiarioValues[]>(beneficiarios);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5); // Número de elementos por página
     const [searchTerm, setSearchTerm] = useState<string>('');
 
 
     useEffect(() => {
-        let filtered = colaboradores;
+        let filtered = beneficiarios;
 
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
-            filtered = filtered.filter((colaborador) =>
-                colaborador.personName.toLowerCase().includes(lowercasedTerm) ||
-                colaborador.personCi.toLowerCase().includes(lowercasedTerm)
+            filtered = filtered.filter((beneficiario) =>
+                beneficiario.personName.toLowerCase().includes(lowercasedTerm) ||
+                beneficiario.personCi.toLowerCase().includes(lowercasedTerm)
             );
         }
 
-        setFilteredColaboradores(filtered);
+        setFilteredBeneficiarios(filtered);
         setCurrentPage(1); // Resetear la página cuando se aplica un filtro o búsqueda
-    }, [searchTerm, colaboradores]);
+    }, [searchTerm, beneficiarios]);
 
     // Calcular los usuarios de la página actual
-    const indexOfLastColaborador = currentPage * itemsPerPage;
-    const indexOfFirstColaborador = indexOfLastColaborador - itemsPerPage;
-    const currentColaboradores = filteredColaboradores.slice(indexOfFirstColaborador, indexOfLastColaborador);
+    const indexOfLastBeneficiario = currentPage * itemsPerPage;
+    const indexOfFirstBeneficiario = indexOfLastBeneficiario - itemsPerPage;
+    const currentBeneficiarios = filteredBeneficarios.slice(indexOfFirstBeneficiario, indexOfLastBeneficiario);
 
     // Cambiar la página
     const handlePageChange = (page: number) => {
@@ -49,12 +50,15 @@ export const ColaboradoresView = ({ colaboradores }: ColaboradoresViewProps) => 
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between min-[1200px]:grid min-[1200px]:grid-cols-2 min-[1200px]:gap-4">
                 <SearchBar onSearchChange={setSearchTerm} />
             </div>
-            <ColaboradoresTable colaboradores={currentColaboradores} />
+            <BeneficiariosTable beneficiarios={currentBeneficiarios} />
             <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(filteredColaboradores.length / itemsPerPage)}
+                totalPages={Math.ceil(filteredBeneficarios.length / itemsPerPage)}
                 onPageChange={handlePageChange}
             />
         </div>
     )
 }
+
+
+

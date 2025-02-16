@@ -1,7 +1,8 @@
 'use client'
 import { ButtonComponent } from "@/src/components/Button";
 import { AliadoValues } from "../../interfaces/AliadosSheet";
-import { Form, Formik, useFormikContext } from "formik";
+import { Form, Formik } from "formik";
+// import { useFormikContext } from "formik";
 import { InputWithLabel } from "@/src/forms/components/InputWithLabel";
 import { SelectDate } from "@/src/forms/components/SelectDate";
 import SelectCompanyInput from "../SelectCompanyInput/SelectCompanyInput";
@@ -59,14 +60,14 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
         //setShowRejectButton(e.target.checked); // Muestra o esconde el botón de rechazar
     };
 
-    const FormDebug = () => {
-        const { values } = useFormikContext();
-        return (
-            <pre className="mt-4 bg-gray-100 p-2">
-                {JSON.stringify(values, null, 2)}
-            </pre>
-        );
-    };
+    // const FormDebug = () => {
+    //     const { values } = useFormikContext();
+    //     return (
+    //         <pre className="mt-4 bg-gray-100 p-2">
+    //             {JSON.stringify(values, null, 2)}
+    //         </pre>
+    //     );
+    // };
 
 
     return (
@@ -197,9 +198,9 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    <div >
+                                    {/* <div >
                                         <FormDebug />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

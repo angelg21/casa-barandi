@@ -1,5 +1,5 @@
 'use client'
-import { Form, Formik, useFormikContext } from "formik";
+import { Form, Formik } from "formik";
 import * as Yup from 'yup';
 import { InputWithLabel } from "../../../forms/components/InputWithLabel";
 import { PersonaFormValues } from "../../../forms/personas/interfaces/PersonasForm";
@@ -123,14 +123,14 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
     }
 
 
-    const FormDebug = () => {
-        const { values } = useFormikContext();
-        return (
-            <pre className="mt-4 bg-gray-100 p-2">
-                {JSON.stringify(values, null, 2)}
-            </pre>
-        );
-    };
+    // const FormDebug = () => {
+    //     const { values } = useFormikContext();
+    //     return (
+    //         <pre className="mt-4 bg-gray-100 p-2">
+    //             {JSON.stringify(values, null, 2)}
+    //         </pre>
+    //     );
+    // };
 
     return (
         <Formik<PersonaFormValues>
@@ -293,9 +293,9 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    <div >
+                                    {/* <div >
                                         <FormDebug />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

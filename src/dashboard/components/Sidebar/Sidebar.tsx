@@ -47,10 +47,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             path: '/dashboard/beneficiarios',
             title: 'Beneficiarios',
             icon: <UserPlusIcon />,
-            subItems: [
-                { title: 'Instituciones', path: '/dashboard/beneficiarios/instituciones' },
-                { title: 'Grupo familiar', path: '/dashboard/beneficiarios/grupo-familiar' }
-            ]
+            subItems: []
         },
         {
             path: '/dashboard/aliados',
@@ -59,7 +56,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
-            path: '/dashboard/usuarios',
+            path: '/dashboard/colaboradores',
             title: 'Colaboradores',
             icon: <UsersIcon />,
             subItems: []

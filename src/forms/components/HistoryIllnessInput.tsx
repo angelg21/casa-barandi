@@ -129,7 +129,7 @@ export const HistoryIllnessInput = ({ globalStyle }: InputProps) => {
                         <div className="flex w-full flex-col space-y-8">
 
                             <SelectDateWithProps
-                                title="Fecha de publicación"
+                                title="Fecha de primer diagnostico"
                                 globalStyle="col-span-1"
                                 setState={setDateIllness}
                                 state={dateIllness}
@@ -147,7 +147,7 @@ export const HistoryIllnessInput = ({ globalStyle }: InputProps) => {
                                 value={severity}
                                 className={`text-input w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset 
                                 ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
-                                placeholder="Tipo"
+                                placeholder="Severidad"
                                 onChange={(e) => setSeverity(e.target.value)}
                             />
                         </div>

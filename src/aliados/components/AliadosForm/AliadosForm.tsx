@@ -101,7 +101,7 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
                                             labelTextStyle={"text-gray-900 text-sm"}
                                             inputWidth={"w-full "}
                                             focusBorderColor={"focus:ring-[#08A49C]"}
-                                            globalStyle={`col-span-1 ${showCompanyForm ? 'md:col-span-2' : 'md:col-span-1'}`} // Correcto
+                                            globalStyle={`col-span-1 md:col-span-1`} // Correcto
                                         />
                                         <SelectDate
                                             name={"incorporationDate"}

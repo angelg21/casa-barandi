@@ -12,17 +12,27 @@ import { ExpandableInput } from "../../../forms/components/ExpandableInput";
 import { HistoryIllnessInput } from "../../../forms/components/HistoryIllnessInput";
 import { ButtonComponent } from "@/src/components/Button";
 import { createPerson } from "../../actions/create-person";
-import { Persona } from "../../interfaces/Persona";
+import { Person, Persona } from "../../interfaces/Persona";
 import { updatePerson } from "../../actions/update-person";
+import { useState } from "react";
+import { SelectPersonInput } from "@/src/colaboradores/components/SelectPersonInput/SelectPersonInput";
+import { Company } from "@/src/aliados/interfaces/AliadosSheet";
+import SelectCompanyInput from "@/src/aliados/components/SelectCompanyInput/SelectCompanyInput";
+
 
 interface ModalProps {
     onClose: () => void;
     editValues?: Persona;
+    personas: Person[];
+    companies: Company[];
 }
 
-export default function PersonasForm({ onClose, editValues }: ModalProps) {
+export default function PersonasForm({ onClose, editValues, personas, companies }: ModalProps) {
 
-    const initialValues = editValues ? JSON.parse(JSON.stringify({...editValues})) :  
+    const [showRepresentativeForm, setShowRepresentativeForm] = useState(false);
+    const [showOrganizationForm, setShowOrganizationForm] = useState(false);
+
+    const initialValues = editValues ? JSON.parse(JSON.stringify({ ...editValues })) :
         JSON.parse(JSON.stringify({
             fullName: '',
             gender: '',
@@ -122,6 +132,13 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
         console.log("Entro")
     }
 
+    const handleRejectTogglePerson = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setShowRepresentativeForm(e.target.checked); // Muestra o esconde el campo de observación
+    };
+
+    const handleRejectToggleOrganization = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setShowOrganizationForm(e.target.checked); // Muestra o esconde el campo de observación
+    };
 
     // const FormDebug = () => {
     //     const { values } = useFormikContext();
@@ -271,6 +288,88 @@ export default function PersonasForm({ onClose, editValues }: ModalProps) {
                                             globalStyle={"col-span-1"}
                                         />
                                     </div>
+                                    <div className="col-span-1  md:col-span-4">
+                                        <div className='mt-2'>
+                                            <label className='flex items-center cursor-pointer'>
+                                                <input
+                                                    type="checkbox"
+                                                    name="observationCheckbox"
+                                                    className='h-5 w-5 text-cb-green border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cb-green focus:ring-offset-1 transition duration-150 ease-in-out hover:ring-cb-green hover:ring-2 hover:ring-offset-2 mr-3'
+                                                    checked={showRepresentativeForm}
+                                                    onChange={handleRejectTogglePerson}
+                                                />
+                                                <span className='text-base font-medium text-gray-800 select-none transition duration-150 ease-in-out hover:text-d-blue'>
+                                                    ¿ La persona tiene un representante ?
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    {
+                                        showRepresentativeForm &&
+                                        <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
+                                            <div className=" col-span-1">
+
+                                                <SelectPersonInput
+                                                    title="Seleccionar Persona"
+                                                    people={personas}
+                                                />
+                                            </div>
+                                            <InputWithLabel
+                                                id="parentesco"
+                                                name={"parentesco"}
+                                                type={"text"}
+                                                label={"Parentesco"}
+                                                labelTextStyle={"text-gray-900 text-sm"}
+                                                inputWidth={"w-full "}
+                                                focusBorderColor={"focus:ring-[#08A49C]"}
+                                                globalStyle={"col-span-2 md:col-span-2 "}
+                                            />
+
+                                        </div>
+                                    }
+
+                                    <div className="col-span-1  md:col-span-4">
+                                        <div className='mt-2'>
+                                            <label className='flex items-center cursor-pointer'>
+                                                <input
+                                                    type="checkbox"
+                                                    name="observationCheckbox"
+                                                    className='h-5 w-5 text-cb-green border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-cb-green focus:ring-offset-1 transition duration-150 ease-in-out hover:ring-cb-green hover:ring-2 hover:ring-offset-2 mr-3'
+                                                    checked={showOrganizationForm}
+                                                    onChange={handleRejectToggleOrganization}
+                                                />
+                                                <span className='text-base font-medium text-gray-800 select-none transition duration-150 ease-in-out hover:text-d-blue'>
+                                                    ¿ La persona pertenece a una organización ?
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    {
+                                        showOrganizationForm &&
+                                        <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
+                                            <div className=" col-span-1">
+
+                                                <SelectCompanyInput
+                                                    title="Seleccionar Organización"
+                                                    companies={companies}
+                                                />
+                                            </div>
+                                            <InputWithLabel
+                                                id="rol"
+                                                name={"rol"}
+                                                type={"text"}
+                                                label={"Rol"}
+                                                labelTextStyle={"text-gray-900 text-sm"}
+                                                inputWidth={"w-full "}
+                                                focusBorderColor={"focus:ring-[#08A49C]"}
+                                                globalStyle={"col-span-2 md:col-span-2 "}
+                                            />
+
+                                        </div>
+                                    }
                                     <div className="flex justify-end mt-64 gap-5">
                                         <ButtonComponent
                                             bgColor="bg-d-red"

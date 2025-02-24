@@ -25,8 +25,7 @@ export const BeneficiariosView = ({ beneficiarios }: BeneficiariosViewProps) => 
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
             filtered = filtered.filter((beneficiario) =>
-                beneficiario.personName.toLowerCase().includes(lowercasedTerm) ||
-                beneficiario.personCi.toLowerCase().includes(lowercasedTerm)
+                beneficiario.fullName!.toLowerCase().includes(lowercasedTerm)
             );
         }
 

@@ -10,8 +10,6 @@ export interface ModalProps {
 
 }
 
-
-
 export const BeneficiariosModalForm = ({ onClose, editValues }: ModalProps) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 max-lg:px-6">

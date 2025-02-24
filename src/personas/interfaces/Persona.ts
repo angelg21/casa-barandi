@@ -30,3 +30,10 @@ export interface Persona {
     }[];
     descriptionAllergies: string; 
 }
+
+
+
+export interface Person {
+    ci: string;
+    name: string;
+}

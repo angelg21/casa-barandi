@@ -44,15 +44,15 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
-            path: '/dashboard/beneficiarios',
-            title: 'Beneficiarios',
-            icon: <UserPlusIcon />,
+            path: '/dashboard/personas',
+            title: 'Personas',
+            icon: <UserIcon />,
             subItems: []
         },
         {
-            path: '/dashboard/aliados',
-            title: 'Aliados',
-            icon: <UserGroupIcon />,
+            path: '/dashboard/beneficiarios',
+            title: 'Beneficiarios',
+            icon: <UserPlusIcon />,
             subItems: []
         },
         {
@@ -62,50 +62,50 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
-            path: '',
-            title: 'Servicios',
-            icon: <MegaphoneIcon />,
-            subItems: [
-                { title: 'Jornadas de salud', path: '/dashboard/jornadas/salud' },
-                { title: 'Clínicas jurídicas', path: '/dashboard/jornadas/clinicas-juridicas' },
-                { title: 'Viabilidad de proyectos', path: '/dashboard/jornadas/proyectos' }
-            ]
-        },
-        {
-            path: '/dashboard/programas',
-            title: 'Programas',
-            icon: <BriefcaseIcon />,
-            subItems: []
-        },
-        {
-            path: '/dashboard/prestamo-espacios',
-            title: 'Prestamos de espacios',
-            icon: <BuildingLibraryIcon />,
-            subItems: []
-        },
-        {
-            path: '/dashboard/bolsa-ayuda',
-            title: 'Bolsa de ayuda',
-            icon: <ShoppingBagIcon />,
-            subItems: [
-                { title: 'Solicitudes', path: '/dashboard/bolsa-ayuda/solicitudes' },
-                { title: 'Ofertas', path: '/dashboard/bolsa-ayuda/ofertas' },
-                { title: 'Recepción ', path: '/dashboard/bolsa-ayuda/recepcion' },
-                { title: 'Entrega', path: '/dashboard/bolsa-ayuda/entrega' }
-            ]
-        },
-        {
-            path: '/dashboard/personas',
-            title: 'Personas',
-            icon: <UserIcon />,
-            subItems: []
-        },
-        {
             path: '/dashboard/organizaciones',
             title: 'Organizaciones',
             icon: <UserIcon />,
             subItems: []
-        }
+        },
+        {
+            path: '/dashboard/aliados',
+            title: 'Aliados',
+            icon: <UserGroupIcon />,
+            subItems: []
+        },
+        // {
+        //     path: '',
+        //     title: 'Servicios',
+        //     icon: <MegaphoneIcon />,
+        //     subItems: [
+        //         { title: 'Jornadas de salud', path: '/dashboard/jornadas/salud' },
+        //         { title: 'Clínicas jurídicas', path: '/dashboard/jornadas/clinicas-juridicas' },
+        //         { title: 'Viabilidad de proyectos', path: '/dashboard/jornadas/proyectos' }
+        //     ]
+        // },
+        // {
+        //     path: '/dashboard/programas',
+        //     title: 'Programas',
+        //     icon: <BriefcaseIcon />,
+        //     subItems: []
+        // },
+        // {
+        //     path: '/dashboard/prestamo-espacios',
+        //     title: 'Prestamos de espacios',
+        //     icon: <BuildingLibraryIcon />,
+        //     subItems: []
+        // },
+        // {
+        //     path: '/dashboard/bolsa-ayuda',
+        //     title: 'Bolsa de ayuda',
+        //     icon: <ShoppingBagIcon />,
+        //     subItems: [
+        //         { title: 'Solicitudes', path: '/dashboard/bolsa-ayuda/solicitudes' },
+        //         { title: 'Ofertas', path: '/dashboard/bolsa-ayuda/ofertas' },
+        //         { title: 'Recepción ', path: '/dashboard/bolsa-ayuda/recepcion' },
+        //         { title: 'Entrega', path: '/dashboard/bolsa-ayuda/entrega' }
+        //     ]
+        // },
     ];
 
     return (
@@ -239,7 +239,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                     )}
 
                                     {/* Añade un separador después de ciertos elementos */}
-                                    {(index === 0 || index === 1 || index === 3 || index === 6) && (
+                                    {(index === 0 || index === 3) && (
                                     <hr className="my-6 mx-3 bg-gray-500" />
                                     )}
                                 </li>

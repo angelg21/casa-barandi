@@ -62,7 +62,7 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
             let cid = 'No tiene Identificación'
             if (documents !== undefined && documents.length > 0) {
                 documents.map((d) => {
-                    if (d.documentType.includes("dula")) cid = `V-${d.documentNumber}`
+                    if (d.documentType.includes("dula")) cid = `${d.documentNumber}`
                 })
             }
             return cid
@@ -148,7 +148,7 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{beneficiario.terminationDate}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.terminationDate ? beneficiario.terminationDate : "Activo hasta la fecha"}</div>
                                                 </div>
                                             </div>
                                         </td>

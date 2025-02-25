@@ -125,7 +125,7 @@ export const AliadosTable = ({ aliados }: AliadoTableValuesProps) => {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{aliado.terminationDate}</div>
+                                                    <div className="font-medium text-gray-900">{aliado.terminationDate ? aliado.terminationDate : 'Activo hasta la fecha'}</div>
                                                 </div>
                                             </div>
                                         </td>

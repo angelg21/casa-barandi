@@ -4,7 +4,8 @@ import { useFormikContext } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { ColaboradorValues, Person } from "../../interfaces/ColaboradoresSheet";
+import { Person } from "../../interfaces/ColaboradoresSheet";
+import { BeneficiarioValues } from "@/src/beneficiarios/interfaces/BeneficiariosSheet";
 
 interface PersonSelectProps {
     title: string;
@@ -14,7 +15,7 @@ interface PersonSelectProps {
 
 export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
 
-    const { values, setFieldValue, handleChange } = useFormikContext<ColaboradorValues>();
+    const { values, setFieldValue, handleChange } = useFormikContext<BeneficiarioValues>();
     const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
     const [filteredPeople, setFilteredPeople] = useState<Person[]>(people);
     const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
@@ -22,10 +23,10 @@ export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
     // Ref para el input dentro del botón
 
     useEffect(() => {
-        if (values.personName != '') {
+        if (values.fullName != '') {
             const person: Person = {
-                ci: values.personCi,
-                name: values.personName || '',
+                id: values.id!,
+                name: values.fullName || '',
             };
             setSelectedPerson(person);
         }
@@ -48,7 +49,7 @@ export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
                         ref={inputRef}
                         type="text"
                         className="w-full border-none hover:ring-gray-400 ring-1 ring-inset ring-gray-300 focus:ring-gray-400 bg-white py-1.5 pl-3 pr-8 text-gray-900 placeholder:text-gray-500 focus:ring-1 sm:text-sm sm:leading-6 rounded-tl-md rounded-bl-md" // Estilos para el input
-                        placeholder={values.personName != '' ? values.personName : 'Seleccionar persona...'}
+                        placeholder={values.fullName != '' ? values.fullName : 'Seleccionar persona...'}
                         value={searchTerm}
                         onChange={handleInputChange}
                     />
@@ -57,9 +58,9 @@ export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
                         onChange={(value: Person | null) => {
                             setSearchTerm(''); // Limpia el término de búsqueda al seleccionar una opción
                             setSelectedPerson(value);
-                            setFieldValue('personCi', value ? value.ci : '');
-                            setFieldValue('personName', value ? value.name : '');
-                            handleChange('personCi');
+                            setFieldValue('personId', value ? value.id : '');
+                            setFieldValue('fullName', value ? value.name : '');
+                            handleChange('personId');
                             if (inputRef.current) {
                                 inputRef.current.blur(); // Quita el foco del input
                             }
@@ -73,7 +74,7 @@ export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
                         <ListboxOptions className="py-1 text-base font-medium text-gray-900 absolute z-10 w-full rounded-md bg-white shadow-lg overflow-y-auto max-h-60 mt-10">
                             {filteredPeople.map((person) => (
                                 <ListboxOption
-                                    key={person.ci}
+                                    key={person.id}
                                     value={person}
                                     className={({ active }) =>
                                         `relative cursor-default select-none py-2 pr-4 ${active ? 'bg-cb-green text-white' : 'text-gray-900'

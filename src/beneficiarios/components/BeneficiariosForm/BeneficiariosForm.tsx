@@ -5,7 +5,7 @@ import { Form, Formik, useFormikContext } from 'formik';
 import { InputWithLabel } from '@/src/forms/components/InputWithLabel';
 import { SelectDate } from '@/src/forms/components/SelectDate';
 import { ButtonComponent } from '@/src/components/Button';
-import { BeneficiarioValues, Person } from '../../interfaces/BeneficiariosSheet';
+import { BeneficiarioValues} from '../../interfaces/BeneficiariosSheet';
 import { SelectPersonInput } from '@/src/colaboradores/components/SelectPersonInput/SelectPersonInput';
 import { ExpandableInput } from '@/src/forms/components/ExpandableInput';
 import { HistoryIllnessInput } from '@/src/forms/components/HistoryIllnessInput';
@@ -13,51 +13,9 @@ import { EmailAddressesInput } from '@/src/forms/components/EmailAddressesInput'
 import { PhonesInput } from '@/src/forms/components/PhonesInput';
 import { DocumentsInput } from '@/src/forms/components/DocumentsInput';
 import { CheckTypeGender } from '@/src/forms/components/CheckTypeGender';
-
-const personas: Person[] = [
-    {
-        ci: "V-12345678",
-        name: "Juan Pérez"
-    },
-    {
-        ci: "V-87654321",
-        name: "María Rodríguez"
-    },
-    {
-        ci: "V-56789012",
-        name: "Carlos López"
-    },
-    {
-        ci: "V-24681357",
-        name: "Ana García"
-    },
-    {
-        ci: "V-13579246",
-        name: "Luis Martínez"
-    },
-    {
-        ci: "V-98765432",
-        name: "Sofía Ramírez"
-    },
-    {
-        ci: "V-76543210",
-        name: "Pedro Sánchez"
-    },
-    {
-        ci: "V-43210987",
-        name: "Laura Díaz"
-    },
-    {
-        ci: "V-86420975",
-        name: "Miguel Vargas"
-    },
-    {
-        ci: "V-28574196",
-        name: "Isabella Torres"
-    },
-    // Puedes agregar más objetos Person aquí
-];
-
+import { usePersons } from '../../context/PersonContext';
+import { updateBeneficiario } from '../../actions/update-beneficiarios';
+import { createBeneficiario } from '../../actions/create-beneficiario';
 
 interface BeneficiariosFormProps {
     onClose: () => void;
@@ -66,6 +24,7 @@ interface BeneficiariosFormProps {
 
 export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProps) => {
 
+    const persons = usePersons();
     const [showPersonForm, setShowPersonForm] = useState(false);
 
     const initialValues = editValues ? JSON.parse(JSON.stringify({ ...editValues })) :
@@ -73,8 +32,22 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
             incorporationDate: '',
             terminationDate: '',
             type: '',
-            personCi: '',
-            personName: '',
+            personId: '',
+            fullName: '',
+            gender: '',
+            dateOfBirth: '',
+            bloodType: '',
+            educationLevel: '',
+            community: '',
+            documents: [],
+            electronicAddresses: [],
+            phones: [],
+            location: {
+                houseAddress: '', parish: '',
+                municipality: ''
+            },
+            historyIllness: [],
+            descriptionAllergies: ''
         }));
 
     const handleRejectToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +56,29 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
     };
 
     const handleSubmit = async (values: BeneficiarioValues) => {
-        // const response = editValues ? await updatePerson(values) : await createPerson(values);
-        // console.log(response)
-        // if (response.ok) {
-        //     onClose();
-        // }
+        if (!showPersonForm) {
+            delete values.bloodType;
+            delete values.community;
+            delete values.dateOfBirth;
+            delete values.descriptionAllergies;
+            delete values.documents;
+            delete values.phones;
+            delete values.electronicAddresses;
+            delete values.dateOfBirth;
+            delete values.gender;
+            delete values.historyIllness;
+            delete values.educationLevel;
+            delete values.location;
+        }
+        else {
+            delete values.id;
+        }
+
+        const response = editValues ? await updateBeneficiario(values) : await createBeneficiario(values);
+        console.log(response)
+        if (response.ok) {
+            onClose();
+        }
         console.log("Entro")
     }
 
@@ -120,7 +111,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
                                             !showPersonForm &&
                                             <SelectPersonInput
                                                 title="Seleccionar Persona"
-                                                people={personas}
+                                                people={persons}
                                             />
                                         }
                                         <InputWithLabel
@@ -314,7 +305,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
                                         />
                                         <ButtonComponent
                                             bgColor="bg-cb-green"
-                                            text="Agregar"
+                                            text={ editValues ? "Editar":"Agregar"}
                                             width="w-[100px]"
                                             fontSize="text-sm"
                                             type='submit'

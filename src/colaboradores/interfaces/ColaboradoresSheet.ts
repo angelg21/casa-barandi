@@ -10,6 +10,6 @@ export interface ColaboradorValues {
 }
 
 export interface Person {
-    ci: string;
+    id: string;
     name: string;
 }

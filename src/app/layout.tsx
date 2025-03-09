@@ -6,6 +6,8 @@ import Provider from '../utils/providers/SessionProvider';
 import { AlertProvider } from '../utils/providers/AlertProvider';
 import { getAllOrgsNames } from '../organizaciones/actions/get-orgs-list';
 import { OrgProvider } from '../organizaciones/context/OrgContext';
+import { PersonProvider } from '../beneficiarios/context/PersonContext';
+import { getAllPersonsNames } from '../beneficiarios/actions/get-beneficiarios-list';
 
 const lato = Lato({
   weight: ["100", "300","400", "700", "700"],       // Puedes elegir "100", "300", "400", "700", "900" o un arreglo de estos valores
@@ -23,17 +25,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { data: orgsList = [] } = await getAllOrgsNames();
+  const { data: personList = [] } = await getAllPersonsNames();
   return (
     <html lang="en">
       <body
         className={lato.className}
       >
         <Provider>
-          <OrgProvider initialData={orgsList}>
-            <AlertProvider>
-              {children}
-            </AlertProvider>
-          </OrgProvider>
+          <PersonProvider initialData={personList}>
+            <OrgProvider initialData={orgsList}>
+              <AlertProvider>
+                {children}
+              </AlertProvider>
+            </OrgProvider>
+          </PersonProvider>
           </Provider>
       </body>
     </html>

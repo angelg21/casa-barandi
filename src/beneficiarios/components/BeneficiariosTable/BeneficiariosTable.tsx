@@ -6,14 +6,16 @@ import { useState } from "react";
 import DeleteModal from "@/src/components/DeleteModal/DeleteModal";
 import { BeneficiarioValues } from "../../interfaces/BeneficiariosSheet";
 import { BeneficiariosModalForm } from "../BeneficiariosModalForm/BeneficiariosModalForm";
-
+import { deleteBeneficiario } from "../../actions/delete-beneficiario";
+import { EyeIcon } from "@heroicons/react/20/solid";
+import { useRouter } from 'next/navigation';
 
 interface BeneficiariosViewProps {
     beneficiarios: BeneficiarioValues[];
 }
 
 const Actions: TableAction[] = [
-    //{ id: '01', name: 'Visualizar', Icon: EyeIcon },
+    { id: '01', name: 'Visualizar', Icon: EyeIcon },
     { id: '02', name: 'Editar', Icon: PencilSquareIcon },
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
@@ -24,33 +26,47 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
         const [openEditModal, setOpenEditModal] = useState(false);
         const [editModalData, setEditModalData] = useState<BeneficiarioValues | undefined>(undefined);
         const [idToDelete, setIdToDelete] = useState<string | undefined>("")
-    
+        const router = useRouter();
+
         const handleClickActions = (action: string, person: BeneficiarioValues) => {
-            if (action === '02') {
+            console.log(person)
+            if (action === '01')
+                router.push(`/dashboard/personas/${person.personId}/detalles`);
+            else if (action === '02') {
                 setOpenEditModal(true);
                 setEditModalData(person)
             } else if (action === "03") {
-                setIdToDelete(person.id)
+                setIdToDelete(person.personId)
                 setOpenDeleteModal(true);
             }
         };
     
         const handleDeleteUser = async () => {
-            console.log(idToDelete)
-                // try {
-                //     const response = await deletePerson(idToDelete);;
-        
-                //     if (response.ok) {
-                //         return true;
-                //     } else {
-                //         console.error(response.message);
-                //         return false;
-                //     }
-                // } catch (error) {
-                //     console.error('Error al eliminar el usuario: ', error);
-                //     return false;
-                // }
-            };
+            console.log("ID to delete: ", idToDelete)
+            try {
+                const response = await deleteBeneficiario(idToDelete);;
+    
+                if (response.ok) {
+                    return true;
+                } else {
+                    console.error(response.message);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error al eliminar el beneficiario: ', error);
+                return false;
+            }
+        }; 
+
+        const getCid = (documents: { documentType: string; documentNumber: string; }[] | undefined) => {
+            let cid = 'No tiene Identificación'
+            if (documents !== undefined && documents.length > 0) {
+                documents.map((d) => {
+                    if (d.documentType.includes("dula")) cid = `${d.documentNumber}`
+                })
+            }
+            return cid
+        }
 
     return (
         <div className="">
@@ -104,14 +120,14 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{beneficiario.personName}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.fullName}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{beneficiario.personCi}</div>
+                                                    <div className="font-medium text-gray-900">{getCid(beneficiario.documents)}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -132,7 +148,7 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{beneficiario.terminationDate}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.terminationDate ? beneficiario.terminationDate : "Activo hasta la fecha"}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -172,7 +188,7 @@ export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
             )}
             {openDeleteModal && (
                 <DeleteModal
-                    term={"Persona"}
+                    term={"Beneficiario"}
                     onClose={() => setOpenDeleteModal(false)}
                     onDelete={handleDeleteUser}
                 />

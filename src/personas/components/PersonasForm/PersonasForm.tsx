@@ -12,12 +12,13 @@ import { ExpandableInput } from "../../../forms/components/ExpandableInput";
 import { HistoryIllnessInput } from "../../../forms/components/HistoryIllnessInput";
 import { ButtonComponent } from "@/src/components/Button";
 import { createPerson } from "../../actions/create-person";
-import { Person, Persona } from "../../interfaces/Persona";
+import { Persona } from "../../interfaces/Persona";
 import { updatePerson } from "../../actions/update-person";
 import { useState } from "react";
 import { SelectPersonInput } from "@/src/colaboradores/components/SelectPersonInput/SelectPersonInput";
 import { Company } from "@/src/aliados/interfaces/AliadosSheet";
 import SelectCompanyInput from "@/src/aliados/components/SelectCompanyInput/SelectCompanyInput";
+import { Person } from "@/src/beneficiarios/interfaces/BeneficiariosSheet";
 
 
 interface ModalProps {

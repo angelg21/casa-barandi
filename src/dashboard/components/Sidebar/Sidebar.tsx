@@ -12,6 +12,7 @@ import {
     ArrowLeftStartOnRectangleIcon,
     PresentationChartBarIcon,
     ShoppingBagIcon,
+    BuildingOfficeIcon,
     UserPlusIcon,
     UsersIcon,
     MegaphoneIcon,
@@ -44,9 +45,21 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
+            path: '/dashboard/programas',
+            title: 'Programas',
+            icon: <BriefcaseIcon />,
+            subItems: []
+        },
+        {
             path: '/dashboard/personas',
             title: 'Personas',
             icon: <UserIcon />,
+            subItems: []
+        },
+        {
+            path: '/dashboard/organizaciones',
+            title: 'Organizaciones',
+            icon: <BuildingOfficeIcon />,
             subItems: []
         },
         {
@@ -59,12 +72,6 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             path: '/dashboard/colaboradores',
             title: 'Colaboradores',
             icon: <UsersIcon />,
-            subItems: []
-        },
-        {
-            path: '/dashboard/organizaciones',
-            title: 'Organizaciones',
-            icon: <UserIcon />,
             subItems: []
         },
         {
@@ -82,12 +89,6 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
         //         { title: 'Clínicas jurídicas', path: '/dashboard/jornadas/clinicas-juridicas' },
         //         { title: 'Viabilidad de proyectos', path: '/dashboard/jornadas/proyectos' }
         //     ]
-        // },
-        // {
-        //     path: '/dashboard/programas',
-        //     title: 'Programas',
-        //     icon: <BriefcaseIcon />,
-        //     subItems: []
         // },
         // {
         //     path: '/dashboard/prestamo-espacios',
@@ -157,9 +158,9 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                             {/* Subitems anidados en otro <ul> */}
                                             {openItem === item.path && item.subItems.length > 0 && (
                                                 <ul className="pl-14 list-none">
-                                                {item.subItems.map((subItem) => (
+                                                {item.subItems.map((subItem, index) => (
                                                     <li
-                                                    key={subItem.path}
+                                                    key={index}
                                                     onClick={() => sendStatusSidebar(false)}
                                                     className="mt-1 text-gray-300 hover:text-white list-none"
                                                     >
@@ -239,7 +240,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                     )}
 
                                     {/* Añade un separador después de ciertos elementos */}
-                                    {(index === 0 || index === 3) && (
+                                    {(index === 0 || index === 1 || index === 3) && (
                                     <hr className="my-6 mx-3 bg-gray-500" />
                                     )}
                                 </li>

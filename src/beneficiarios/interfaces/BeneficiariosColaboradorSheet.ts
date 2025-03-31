@@ -1,5 +1,5 @@
 
-export interface BeneficiarioValues {
+export interface BeneficiarioColaboradorValues {
     id?: string;
     personId?: string;
     type: string;
@@ -33,7 +33,7 @@ export interface BeneficiarioValues {
         dateIllness: string;
         severity: string;
     }[];
-    descriptionAllergies?: string; 
+    descriptionAllergies?: string;
 }
 
 export interface Person {

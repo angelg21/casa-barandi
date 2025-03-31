@@ -4,16 +4,16 @@ import SearchBar from "@/src/components/SearchBar/SearchBar"
 
 import { useEffect, useState } from "react";
 import Pagination from "@/src/components/Pagination/Pagination";
-import { BeneficiarioValues } from "../../interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues } from "../../interfaces/BeneficiariosColaboradorSheet";
 import { BeneficiariosTable } from "../BeneficiariosTable/BeneficiariosTable";
 
 interface BeneficiariosViewProps {
-    beneficiarios: BeneficiarioValues[];
+    beneficiarios: BeneficiarioColaboradorValues[];
 }
 
 export const BeneficiariosView = ({ beneficiarios }: BeneficiariosViewProps) => {
 
-    const [filteredBeneficarios, setFilteredBeneficiarios] = useState<BeneficiarioValues[]>(beneficiarios);
+    const [filteredBeneficarios, setFilteredBeneficiarios] = useState<BeneficiarioColaboradorValues[]>(beneficiarios);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5); // Número de elementos por página
     const [searchTerm, setSearchTerm] = useState<string>('');

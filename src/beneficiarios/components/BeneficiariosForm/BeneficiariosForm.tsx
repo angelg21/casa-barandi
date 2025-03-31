@@ -5,7 +5,7 @@ import { Form, Formik, useFormikContext } from 'formik';
 import { InputWithLabel } from '@/src/forms/components/InputWithLabel';
 import { SelectDate } from '@/src/forms/components/SelectDate';
 import { ButtonComponent } from '@/src/components/Button';
-import { BeneficiarioValues} from '../../interfaces/BeneficiariosSheet';
+import { BeneficiarioColaboradorValues } from '../../interfaces/BeneficiariosColaboradorSheet';
 import { SelectPersonInput } from '@/src/colaboradores/components/SelectPersonInput/SelectPersonInput';
 import { ExpandableInput } from '@/src/forms/components/ExpandableInput';
 import { HistoryIllnessInput } from '@/src/forms/components/HistoryIllnessInput';
@@ -19,7 +19,7 @@ import { createBeneficiario } from '../../actions/create-beneficiario';
 
 interface BeneficiariosFormProps {
     onClose: () => void;
-    editValues?: BeneficiarioValues;
+    editValues?: BeneficiarioColaboradorValues;
 }
 
 export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProps) => {
@@ -55,7 +55,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
         //setShowRejectButton(e.target.checked); // Muestra o esconde el botón de rechazar
     };
 
-    const handleSubmit = async (values: BeneficiarioValues) => {
+    const handleSubmit = async (values: BeneficiarioColaboradorValues) => {
         if (!showPersonForm) {
             delete values.bloodType;
             delete values.community;
@@ -92,7 +92,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
     };
 
     return (
-        <Formik<BeneficiarioValues>
+        <Formik<BeneficiarioColaboradorValues>
             initialValues={initialValues}
             //validationSchema={validationSchema}
             // onSubmit={(values) => console.log(values)}
@@ -112,6 +112,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
                                             <SelectPersonInput
                                                 title="Seleccionar Persona"
                                                 people={persons}
+                                                form='Beneficiario'
                                             />
                                         }
                                         <InputWithLabel
@@ -305,7 +306,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
                                         />
                                         <ButtonComponent
                                             bgColor="bg-cb-green"
-                                            text={ editValues ? "Editar":"Agregar"}
+                                            text={editValues ? "Editar" : "Agregar"}
                                             width="w-[100px]"
                                             fontSize="text-sm"
                                             type='submit'

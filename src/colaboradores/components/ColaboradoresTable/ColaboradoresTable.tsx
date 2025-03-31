@@ -4,53 +4,69 @@ import { TableAction } from "@/src/components/interfaces/TableActions";
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useState } from "react";
 import DeleteModal from "@/src/components/DeleteModal/DeleteModal";
-import { ColaboradorValues } from "../../interfaces/ColaboradoresSheet";
+import { EyeIcon } from "@heroicons/react/20/solid";
+import { useRouter } from 'next/navigation';
+import { BeneficiarioColaboradorValues } from "@/src/beneficiarios/interfaces/BeneficiariosColaboradorSheet";
+import { deleteColaborador } from "../../actions/delete-colaborador";
 import { ColaboradoresModalForm } from "../ColaboradoresModalForm/ColaboradoresModalForm";
 
-
 interface ColaboradoresViewProps {
-    colaboradores: ColaboradorValues[];
+    colaboradores: BeneficiarioColaboradorValues[];
 }
 
 const Actions: TableAction[] = [
-    //{ id: '01', name: 'Visualizar', Icon: EyeIcon },
+    { id: '01', name: 'Visualizar', Icon: EyeIcon },
     { id: '02', name: 'Editar', Icon: PencilSquareIcon },
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
 
-export const ColaboradoresTable = ({colaboradores}: ColaboradoresViewProps) => {
+export const ColaboradoresTable = ({ colaboradores }: ColaboradoresViewProps) => {
 
-        const [openDeleteModal, setOpenDeleteModal] = useState(false);
-        const [openEditModal, setOpenEditModal] = useState(false);
-        const [editModalData, setEditModalData] = useState<ColaboradorValues | undefined>(undefined);
-        const [idToDelete, setIdToDelete] = useState<string | undefined>("")
-    
-        const handleClickActions = (action: string, person: ColaboradorValues) => {
-            if (action === '02') {
-                setOpenEditModal(true);
-                setEditModalData(person)
-            } else if (action === "03") {
-                setIdToDelete(person.id)
-                setOpenDeleteModal(true);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editModalData, setEditModalData] = useState<BeneficiarioColaboradorValues | undefined>(undefined);
+    const [idToDelete, setIdToDelete] = useState<string | undefined>("")
+    const router = useRouter();
+
+    const handleClickActions = (action: string, person: BeneficiarioColaboradorValues) => {
+        console.log(person)
+        if (action === '01')
+            router.push(`/dashboard/personas/${person.personId}/detalles`);
+        else if (action === '02') {
+            setOpenEditModal(true);
+            setEditModalData(person)
+        } else if (action === "03") {
+            setIdToDelete(person.personId)
+            setOpenDeleteModal(true);
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        console.log("ID to delete: ", idToDelete)
+        try {
+            const response = await deleteColaborador(idToDelete);;
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.error(response.message);
+                return false;
             }
-        };
-    
-        const handleDeleteUser = async () => {
-            console.log(idToDelete)
-                // try {
-                //     const response = await deletePerson(idToDelete);;
-        
-                //     if (response.ok) {
-                //         return true;
-                //     } else {
-                //         console.error(response.message);
-                //         return false;
-                //     }
-                // } catch (error) {
-                //     console.error('Error al eliminar el usuario: ', error);
-                //     return false;
-                // }
-            };
+        } catch (error) {
+            console.error('Error al eliminar el colaborador: ', error);
+            return false;
+        }
+    };
+
+    const getCid = (documents: { documentType: string; documentNumber: string; }[] | undefined) => {
+        let cid = 'No tiene Identificación'
+        if (documents !== undefined && documents.length > 0) {
+            documents.map((d) => {
+                if (d.documentType.includes("dula")) cid = `${d.documentNumber}`
+            })
+        }
+        return cid
+    }
 
     return (
         <div className="">
@@ -64,7 +80,7 @@ export const ColaboradoresTable = ({colaboradores}: ColaboradoresViewProps) => {
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        COLABORADOR
+                                        BENEFICIARIO
                                     </th>
                                     <th
                                         scope="col"
@@ -99,40 +115,40 @@ export const ColaboradoresTable = ({colaboradores}: ColaboradoresViewProps) => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                                {colaboradores.map((colaborador, index) => (
+                                {colaboradores.map((beneficiario, index) => (
                                     <tr key={index}>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{colaborador.personName}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.fullName}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{colaborador.personCi}</div>
+                                                    <div className="font-medium text-gray-900">{getCid(beneficiario.documents)}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{colaborador.type}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.type}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{colaborador.incorporationDate}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.incorporationDate}</div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{colaborador.terminationDate}</div>
+                                                    <div className="font-medium text-gray-900">{beneficiario.terminationDate ? beneficiario.terminationDate : "Activo hasta la fecha"}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -150,7 +166,7 @@ export const ColaboradoresTable = ({colaboradores}: ColaboradoresViewProps) => {
                                                             <div
                                                                 role="button"
                                                                 className="flex hover:bg-gray-200 space-x-3 px-3 py-1 text-sm leading-6"
-                                                                onClick={() => handleClickActions(item.id, colaborador)}
+                                                                onClick={() => handleClickActions(item.id, beneficiario)}
                                                             >
                                                                 {item.Icon && <item.Icon className={`h-5 w-5 ${item.name === 'Eliminar' ? 'text-red-500' : 'text-d-gray-text'}`} />}
                                                                 <span className="text-gray-700 data-[focus]:bg-gray-50"> {item.name} </span>
@@ -172,7 +188,7 @@ export const ColaboradoresTable = ({colaboradores}: ColaboradoresViewProps) => {
             )}
             {openDeleteModal && (
                 <DeleteModal
-                    term={"Persona"}
+                    term={"Colaborador"}
                     onClose={() => setOpenDeleteModal(false)}
                     onDelete={handleDeleteUser}
                 />

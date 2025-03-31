@@ -1,17 +1,17 @@
 'use client'
 import { ButtonComponent } from "@/src/components/Button";
 import { AliadoValues } from "../../interfaces/AliadosSheet";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 // import { useFormikContext } from "formik";
 import { InputWithLabel } from "@/src/forms/components/InputWithLabel";
 import { SelectDate } from "@/src/forms/components/SelectDate";
-import SelectCompanyInput from "../SelectCompanyInput/SelectCompanyInput";
 import { useState } from "react";
 import { PhonesInput } from "@/src/forms/components/PhonesInput";
 import { EmailAddressesInput } from "@/src/forms/components/EmailAddressesInput";
 import { useOrgs } from "@/src/organizaciones/context/OrgContext";
 import { updateAllie } from "../../actions/update-allie";
 import { createAllie } from "../../actions/create-allie";
+import { SelectCompanyInput } from "../SelectCompanyInput/SelectCompanyInput";
 
 interface AliadosFormProps {
     onClose: () => void;
@@ -60,14 +60,14 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
         //setShowRejectButton(e.target.checked); // Muestra o esconde el botón de rechazar
     };
 
-    // const FormDebug = () => {
-    //     const { values } = useFormikContext();
-    //     return (
-    //         <pre className="mt-4 bg-gray-100 p-2">
-    //             {JSON.stringify(values, null, 2)}
-    //         </pre>
-    //     );
-    // };
+    const FormDebug = () => {
+        const { values } = useFormikContext();
+        return (
+            <pre className="mt-4 bg-gray-100 p-2">
+                {JSON.stringify(values, null, 2)}
+            </pre>
+        );
+    };
 
 
     return (
@@ -88,9 +88,11 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
 
                                         {
                                             !showCompanyForm &&
-                                            <SelectCompanyInput
+                                            <SelectCompanyInput<AliadoValues>
                                                 title="Seleccionar Organización"
                                                 companies={companies}
+                                                idField="companyId"
+                                                nameField="razon_social"
                                             />
                                         }
                                         <InputWithLabel
@@ -198,9 +200,9 @@ export const AliadosForm = ({ onClose, editValues }: AliadosFormProps) => {
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    {/* <div >
+                                    <div >
                                         <FormDebug />
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>

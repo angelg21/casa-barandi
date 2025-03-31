@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Person } from "../interfaces/BeneficiariosSheet";
+import { Person } from "../interfaces/BeneficiariosColaboradorSheet";
 
 interface PersonaContextType {
     persons: Person[];

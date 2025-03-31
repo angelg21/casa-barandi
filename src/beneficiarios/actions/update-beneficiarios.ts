@@ -1,8 +1,8 @@
 'use server'
 import { revalidatePath } from "next/cache";
-import { BeneficiarioValues } from "../interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues } from "../interfaces/BeneficiariosColaboradorSheet";
 
-export const updateBeneficiario = async (payload: BeneficiarioValues) => {
+export const updateBeneficiario = async (payload: BeneficiarioColaboradorValues) => {
     console.log(payload)
     const { personId, ...body } = payload;
 

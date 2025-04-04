@@ -24,7 +24,9 @@ export const SidebarMenuItems = ({ path, icon: Icon, title, onClick, subItems }:
     const pathName = usePathname();
 
     // Función para verificar si el path actual coincide con el path principal o cualquier subruta
-    const isActive = pathName === path || subItems?.some((subItem) => pathName === subItem.path);
+    const isActive =
+        pathName?.startsWith(path) ||
+        subItems?.some((subItem) => pathName?.startsWith(subItem.path));
 
     const iconClasses = `
         ${isActive ? 'text-cb-white' : 'text-gray-200 group-hover:text-white'} 

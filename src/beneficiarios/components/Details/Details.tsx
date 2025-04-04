@@ -4,20 +4,20 @@ import { ButtonWithIconLeft } from "@/src/components/ButtonWithIconLeft/ButtonWi
 //import { useRouter } from "next/navigation";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { BeneficiarioValues } from "../../interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues } from "../../interfaces/BeneficiariosColaboradorSheet";
 import { AlertProvider } from "@/src/utils/providers/AlertProvider";
 import { BeneficiariosView } from "../BeneficiariosView/BeneficiariosView";
 import { BeneficiariosModalForm } from "../BeneficiariosModalForm/BeneficiariosModalForm";
 
 interface DetailsProps {
-    beneficiarios: BeneficiarioValues[];
+    beneficiarios: BeneficiarioColaboradorValues[];
 }
 
 export const Details: React.FC<DetailsProps> = ({ beneficiarios = [] }) => {
 
     const [isBeneficiariosModalOpen, setIsBeneficiariosModalOpen] = useState(false);
     //const router = useRouter();
-    console.log("Beneficiarios: ",beneficiarios)
+    console.log("Beneficiarios: ", beneficiarios)
 
     const handleOpenBeneficiariosModal = () => {
         setIsBeneficiariosModalOpen(true);

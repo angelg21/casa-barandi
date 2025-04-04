@@ -34,5 +34,9 @@ export interface PersonaFormValues {
         dateIllness: string;
         severity: string;
     }[];
-    descriptionAllergies: string; 
+    descriptionAllergies: string;
+    organizationId: string,
+    role: string,
+    familyRepresentativeId: string,
+    relationship: string,
 }

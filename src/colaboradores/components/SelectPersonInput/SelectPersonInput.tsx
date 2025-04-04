@@ -4,8 +4,7 @@ import { useFormikContext } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Person } from "../../interfaces/ColaboradoresSheet";
-import { BeneficiarioValues } from "@/src/beneficiarios/interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues, Person } from "@/src/beneficiarios/interfaces/BeneficiariosColaboradorSheet";
 
 interface PersonSelectProps {
     title: string;
@@ -15,7 +14,7 @@ interface PersonSelectProps {
 
 export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
 
-    const { values, setFieldValue, handleChange } = useFormikContext<BeneficiarioValues>();
+    const { values, setFieldValue, handleChange } = useFormikContext<BeneficiarioColaboradorValues>();
     const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
     const [filteredPeople, setFilteredPeople] = useState<Person[]>(people);
     const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda

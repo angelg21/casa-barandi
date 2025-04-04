@@ -1,12 +1,12 @@
 
 import React from 'react';
 
-import { BeneficiarioValues } from '../../interfaces/BeneficiariosSheet';
+import { BeneficiarioColaboradorValues } from '../../interfaces/BeneficiariosColaboradorSheet';
 import { BeneficiariosForm } from '../BeneficiariosForm/BeneficiariosForm';
 
 export interface ModalProps {
     onClose: () => void;
-    editValues?: BeneficiarioValues;
+    editValues?: BeneficiarioColaboradorValues;
 
 }
 

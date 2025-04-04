@@ -1,8 +1,8 @@
 'use server'
 import { revalidatePath } from "next/cache";
-import { BeneficiarioValues } from "../interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues } from "../interfaces/BeneficiariosColaboradorSheet";
 
-export const createBeneficiario = async (payload: BeneficiarioValues) => {
+export const createBeneficiario = async (payload: BeneficiarioColaboradorValues) => {
 
     try {
         const response = await fetch(process.env.API_URL + `/beneficiarios`, {

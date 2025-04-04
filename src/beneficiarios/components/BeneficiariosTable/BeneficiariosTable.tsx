@@ -4,14 +4,14 @@ import { TableAction } from "@/src/components/interfaces/TableActions";
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useState } from "react";
 import DeleteModal from "@/src/components/DeleteModal/DeleteModal";
-import { BeneficiarioValues } from "../../interfaces/BeneficiariosSheet";
+import { BeneficiarioColaboradorValues } from "../../interfaces/BeneficiariosColaboradorSheet";
 import { BeneficiariosModalForm } from "../BeneficiariosModalForm/BeneficiariosModalForm";
 import { deleteBeneficiario } from "../../actions/delete-beneficiario";
 import { EyeIcon } from "@heroicons/react/20/solid";
 import { useRouter } from 'next/navigation';
 
 interface BeneficiariosViewProps {
-    beneficiarios: BeneficiarioValues[];
+    beneficiarios: BeneficiarioColaboradorValues[];
 }
 
 const Actions: TableAction[] = [
@@ -20,53 +20,53 @@ const Actions: TableAction[] = [
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
 
-export const BeneficiariosTable = ({beneficiarios}: BeneficiariosViewProps) => {
+export const BeneficiariosTable = ({ beneficiarios }: BeneficiariosViewProps) => {
 
-        const [openDeleteModal, setOpenDeleteModal] = useState(false);
-        const [openEditModal, setOpenEditModal] = useState(false);
-        const [editModalData, setEditModalData] = useState<BeneficiarioValues | undefined>(undefined);
-        const [idToDelete, setIdToDelete] = useState<string | undefined>("")
-        const router = useRouter();
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [editModalData, setEditModalData] = useState<BeneficiarioColaboradorValues | undefined>(undefined);
+    const [idToDelete, setIdToDelete] = useState<string | undefined>("")
+    const router = useRouter();
 
-        const handleClickActions = (action: string, person: BeneficiarioValues) => {
-            console.log(person)
-            if (action === '01')
-                router.push(`/dashboard/personas/${person.personId}/detalles`);
-            else if (action === '02') {
-                setOpenEditModal(true);
-                setEditModalData(person)
-            } else if (action === "03") {
-                setIdToDelete(person.personId)
-                setOpenDeleteModal(true);
-            }
-        };
-    
-        const handleDeleteUser = async () => {
-            console.log("ID to delete: ", idToDelete)
-            try {
-                const response = await deleteBeneficiario(idToDelete);;
-    
-                if (response.ok) {
-                    return true;
-                } else {
-                    console.error(response.message);
-                    return false;
-                }
-            } catch (error) {
-                console.error('Error al eliminar el beneficiario: ', error);
+    const handleClickActions = (action: string, person: BeneficiarioColaboradorValues) => {
+        console.log(person)
+        if (action === '01')
+            router.push(`/dashboard/personas/${person.personId}/detalles`);
+        else if (action === '02') {
+            setOpenEditModal(true);
+            setEditModalData(person)
+        } else if (action === "03") {
+            setIdToDelete(person.personId)
+            setOpenDeleteModal(true);
+        }
+    };
+
+    const handleDeleteUser = async () => {
+        console.log("ID to delete: ", idToDelete)
+        try {
+            const response = await deleteBeneficiario(idToDelete);;
+
+            if (response.ok) {
+                return true;
+            } else {
+                console.error(response.message);
                 return false;
             }
-        }; 
-
-        const getCid = (documents: { documentType: string; documentNumber: string; }[] | undefined) => {
-            let cid = 'No tiene Identificación'
-            if (documents !== undefined && documents.length > 0) {
-                documents.map((d) => {
-                    if (d.documentType.includes("dula")) cid = `${d.documentNumber}`
-                })
-            }
-            return cid
+        } catch (error) {
+            console.error('Error al eliminar el beneficiario: ', error);
+            return false;
         }
+    };
+
+    const getCid = (documents: { documentType: string; documentNumber: string; }[] | undefined) => {
+        let cid = 'No tiene Identificación'
+        if (documents !== undefined && documents.length > 0) {
+            documents.map((d) => {
+                if (d.documentType.includes("dula")) cid = `${d.documentNumber}`
+            })
+        }
+        return cid
+    }
 
     return (
         <div className="">

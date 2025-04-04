@@ -1,5 +1,5 @@
 'use client'
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import * as Yup from 'yup';
 import { InputWithLabel } from "../../../forms/components/InputWithLabel";
 import { PersonaFormValues } from "../../../forms/personas/interfaces/PersonasForm";
@@ -17,8 +17,8 @@ import { updatePerson } from "../../actions/update-person";
 import { useState } from "react";
 import { SelectPersonInput } from "@/src/colaboradores/components/SelectPersonInput/SelectPersonInput";
 import { Company } from "@/src/aliados/interfaces/AliadosSheet";
-import SelectCompanyInput from "@/src/aliados/components/SelectCompanyInput/SelectCompanyInput";
-import { Person } from "@/src/beneficiarios/interfaces/BeneficiariosSheet";
+import { Person } from "@/src/beneficiarios/interfaces/BeneficiariosColaboradorSheet";
+import { SelectCompanyInput } from "@/src/aliados/components/SelectCompanyInput/SelectCompanyInput";
 
 
 interface ModalProps {
@@ -49,7 +49,11 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
                 municipality: ''
             },
             historyIllness: [],
-            descriptionAllergies: ''
+            descriptionAllergies: '',
+            organizationId: '',
+            role: '',
+            familyRepresentativeId: '',
+            relationship: '',
         }));
 
     const validationSchema = Yup.object({
@@ -141,14 +145,14 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
         setShowOrganizationForm(e.target.checked); // Muestra o esconde el campo de observación
     };
 
-    // const FormDebug = () => {
-    //     const { values } = useFormikContext();
-    //     return (
-    //         <pre className="mt-4 bg-gray-100 p-2">
-    //             {JSON.stringify(values, null, 2)}
-    //         </pre>
-    //     );
-    // };
+    const FormDebug = () => {
+        const { values } = useFormikContext();
+        return (
+            <pre className="mt-4 bg-gray-100 p-2">
+                {JSON.stringify(values, null, 2)}
+            </pre>
+        );
+    };
 
     return (
         <Formik<PersonaFormValues>
@@ -317,8 +321,8 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
                                                 />
                                             </div>
                                             <InputWithLabel
-                                                id="parentesco"
-                                                name={"parentesco"}
+                                                id="relationship"
+                                                name={"relationship"}
                                                 type={"text"}
                                                 label={"Parentesco"}
                                                 labelTextStyle={"text-gray-900 text-sm"}
@@ -353,14 +357,15 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
                                         <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
                                             <div className=" col-span-1">
 
-                                                <SelectCompanyInput
-                                                    title="Seleccionar Organización"
-                                                    companies={companies}
-                                                />
+                                            <SelectCompanyInput<PersonaFormValues>
+                                                title="Seleccionar Organización"
+                                                companies={companies}
+                                                idField="organizationId"
+                                            />
                                             </div>
                                             <InputWithLabel
-                                                id="rol"
-                                                name={"rol"}
+                                                id="role"
+                                                name={"role"}
                                                 type={"text"}
                                                 label={"Rol"}
                                                 labelTextStyle={"text-gray-900 text-sm"}
@@ -393,9 +398,9 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    {/* <div >
+                                    <div >
                                         <FormDebug />
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>

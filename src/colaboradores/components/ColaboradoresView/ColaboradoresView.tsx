@@ -1,18 +1,19 @@
 'use client'
 
 import SearchBar from "@/src/components/SearchBar/SearchBar"
-import { ColaboradorValues } from "../../interfaces/ColaboradoresSheet";
+
 import { useEffect, useState } from "react";
 import Pagination from "@/src/components/Pagination/Pagination";
 import { ColaboradoresTable } from "../ColaboradoresTable/ColaboradoresTable";
+import { BeneficiarioColaboradorValues } from "@/src/beneficiarios/interfaces/BeneficiariosColaboradorSheet";
 
 interface ColaboradoresViewProps {
-    colaboradores: ColaboradorValues[];
+    colaboradores: BeneficiarioColaboradorValues[];
 }
 
 export const ColaboradoresView = ({ colaboradores }: ColaboradoresViewProps) => {
 
-    const [filteredColaboradores, setFilteredColaboradores] = useState<ColaboradorValues[]>(colaboradores);
+    const [filteredColaboradores, setFilteredColaboradores] = useState<BeneficiarioColaboradorValues[]>(colaboradores);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5); // Número de elementos por página
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -23,9 +24,8 @@ export const ColaboradoresView = ({ colaboradores }: ColaboradoresViewProps) => 
 
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
-            filtered = filtered.filter((colaborador) =>
-                colaborador.personName.toLowerCase().includes(lowercasedTerm) ||
-                colaborador.personCi.toLowerCase().includes(lowercasedTerm)
+            filtered = filtered.filter((c) =>
+                c.fullName!.toLowerCase().includes(lowercasedTerm)
             );
         }
 
@@ -58,3 +58,6 @@ export const ColaboradoresView = ({ colaboradores }: ColaboradoresViewProps) => 
         </div>
     )
 }
+
+
+

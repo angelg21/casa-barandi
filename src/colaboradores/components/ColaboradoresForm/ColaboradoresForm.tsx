@@ -1,71 +1,30 @@
 
 
 import React, { useState } from 'react'
-import { ColaboradorValues, Person } from '../../interfaces/ColaboradoresSheet';
 import { Form, Formik, useFormikContext } from 'formik';
 import { InputWithLabel } from '@/src/forms/components/InputWithLabel';
 import { SelectDate } from '@/src/forms/components/SelectDate';
 import { ButtonComponent } from '@/src/components/Button';
-import { SelectPersonInput } from '../SelectPersonInput/SelectPersonInput';
+import { SelectPersonInput } from '@/src/colaboradores/components/SelectPersonInput/SelectPersonInput';
 import { ExpandableInput } from '@/src/forms/components/ExpandableInput';
 import { HistoryIllnessInput } from '@/src/forms/components/HistoryIllnessInput';
 import { EmailAddressesInput } from '@/src/forms/components/EmailAddressesInput';
 import { PhonesInput } from '@/src/forms/components/PhonesInput';
 import { DocumentsInput } from '@/src/forms/components/DocumentsInput';
 import { CheckTypeGender } from '@/src/forms/components/CheckTypeGender';
+import { BeneficiarioColaboradorValues } from '@/src/beneficiarios/interfaces/BeneficiariosColaboradorSheet';
+import { usePersons } from '@/src/beneficiarios/context/PersonContext';
+import { updateColaborador } from '../../actions/update-colaboradores';
+import { createColaborador } from '../../actions/create-colaborador';
 
-const personas: Person[] = [
-    {
-        ci: "V-12345678",
-        name: "Juan Pérez"
-    },
-    {
-        ci: "V-87654321",
-        name: "María Rodríguez"
-    },
-    {
-        ci: "V-56789012",
-        name: "Carlos López"
-    },
-    {
-        ci: "V-24681357",
-        name: "Ana García"
-    },
-    {
-        ci: "V-13579246",
-        name: "Luis Martínez"
-    },
-    {
-        ci: "V-98765432",
-        name: "Sofía Ramírez"
-    },
-    {
-        ci: "V-76543210",
-        name: "Pedro Sánchez"
-    },
-    {
-        ci: "V-43210987",
-        name: "Laura Díaz"
-    },
-    {
-        ci: "V-86420975",
-        name: "Miguel Vargas"
-    },
-    {
-        ci: "V-28574196",
-        name: "Isabella Torres"
-    },
-    // Puedes agregar más objetos Person aquí
-];
-
-
-interface ColboradoresFormProps {
+interface ColaboradoresFormProps {
     onClose: () => void;
-    editValues?: ColaboradorValues;
+    editValues?: BeneficiarioColaboradorValues;
 }
 
-export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps) => {
+export const ColaboradoresForm = ({ onClose, editValues }: ColaboradoresFormProps) => {
 
+    const persons = usePersons();
     const [showPersonForm, setShowPersonForm] = useState(false);
 
     const initialValues = editValues ? JSON.parse(JSON.stringify({ ...editValues })) :
@@ -73,8 +32,22 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
             incorporationDate: '',
             terminationDate: '',
             type: '',
-            personCi: '',
-            personName: '',
+            personId: '',
+            fullName: '',
+            gender: '',
+            dateOfBirth: '',
+            bloodType: '',
+            educationLevel: '',
+            community: '',
+            documents: [],
+            electronicAddresses: [],
+            phones: [],
+            location: {
+                houseAddress: '', parish: '',
+                municipality: ''
+            },
+            historyIllness: [],
+            descriptionAllergies: ''
         }));
 
     const handleRejectToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,12 +55,31 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
         //setShowRejectButton(e.target.checked); // Muestra o esconde el botón de rechazar
     };
 
-    const handleSubmit = async (values: ColaboradorValues) => {
-        // const response = editValues ? await updatePerson(values) : await createPerson(values);
-        // console.log(response)
-        // if (response.ok) {
-        //     onClose();
-        // }
+    const handleSubmit = async (values: BeneficiarioColaboradorValues) => {
+        if (!showPersonForm) {
+            delete values.bloodType;
+            delete values.community;
+            delete values.dateOfBirth;
+            delete values.descriptionAllergies;
+            delete values.documents;
+            delete values.phones;
+            delete values.electronicAddresses;
+            delete values.dateOfBirth;
+            delete values.gender;
+            delete values.historyIllness;
+            delete values.educationLevel;
+            delete values.location;
+        }
+        else {
+            delete values.id;
+            delete values.personId
+        }
+
+        const response = editValues ? await updateColaborador(values) : await createColaborador(values);
+        console.log(response)
+        if (response.ok) {
+            onClose();
+        }
         console.log("Entro")
     }
 
@@ -101,7 +93,7 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
     };
 
     return (
-        <Formik<ColaboradorValues>
+        <Formik<BeneficiarioColaboradorValues>
             initialValues={initialValues}
             //validationSchema={validationSchema}
             // onSubmit={(values) => console.log(values)}
@@ -120,7 +112,7 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
                                             !showPersonForm &&
                                             <SelectPersonInput
                                                 title="Seleccionar Persona"
-                                                people={personas}
+                                                people={persons}
                                             />
                                         }
                                         <InputWithLabel
@@ -295,8 +287,8 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
                                                     />
                                                 </div>
                                                 {/* <div >
-                                                                                                                        <FormDebug />
-                                                                                                                    </div> */}
+                                                                                    <FormDebug />
+                                                                                </div> */}
                                             </div>
                                         </div>
                                     }
@@ -314,7 +306,7 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColboradoresFormProps
                                         />
                                         <ButtonComponent
                                             bgColor="bg-cb-green"
-                                            text="Agregar"
+                                            text={editValues ? "Editar" : "Agregar"}
                                             width="w-[100px]"
                                             fontSize="text-sm"
                                             type='submit'

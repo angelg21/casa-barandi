@@ -3,10 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '@/src/components/SearchBar/SearchBar';
 import Pagination from '@/src/components/Pagination/Pagination';
-
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { ButtonWithIconLeft } from '@/src/components/ButtonWithIconLeft/ButtonWithIconLeft';
-
 import { Programa } from '../../interfaces/Programa';
 import ProgramasTable from '../ProgramasTable/ProgramasTable';
 import ProgramaModal from '../ProgramaModal/ProgramaModal';
@@ -19,7 +17,7 @@ const FilteredProgramasTable: React.FC<FilteredProgramasTableProps> = ({ program
     const [filteredProgramas, setFilteredProgramas] = useState<Programa[]>(programas);
     const [isProgramaFormModalOpen, setIsProgramaFormModalOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); // Número de elementos por página
+    const [itemsPerPage] = useState(5);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() => {
@@ -33,15 +31,13 @@ const FilteredProgramasTable: React.FC<FilteredProgramasTableProps> = ({ program
         }
 
         setFilteredProgramas(filtered);
-        setCurrentPage(1); // Resetear la página cuando se aplica un filtro o búsqueda
+        setCurrentPage(1);
     }, [searchTerm, programas]);
 
-    // Calcular los programas de la página actual
     const indexOfLastProgram = currentPage * itemsPerPage;
     const indexOfFirstProgram = indexOfLastProgram - itemsPerPage;
     const currentPrograms = filteredProgramas.slice(indexOfFirstProgram, indexOfLastProgram);
 
-    // Cambiar la página
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
@@ -60,7 +56,7 @@ const FilteredProgramasTable: React.FC<FilteredProgramasTableProps> = ({ program
                 <SearchBar onSearchChange={setSearchTerm} />
                 <div onClick={handleOpenPersonModal}>
                     <ButtonWithIconLeft
-                        title="Crear Cita"
+                        title="Crear Programa"
                         textColor="text-white"
                         backgroundColor="bg-cb-green"
                         hover="hover:bg-cb-light-green"
@@ -70,7 +66,6 @@ const FilteredProgramasTable: React.FC<FilteredProgramasTableProps> = ({ program
                 </div>
             </div>
             <ProgramasTable programas={currentPrograms} />
-            {/* <PersonTable persons={currentPrograms} /> */}
             <Pagination
                 currentPage={currentPage}
                 totalPages={Math.ceil(filteredProgramas.length / itemsPerPage)}

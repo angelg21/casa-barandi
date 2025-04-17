@@ -63,6 +63,12 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
             subItems: []
         },
         {
+            path: '/dashboard/servicios',
+            title: 'Servicios',
+            icon: <MegaphoneIcon />,
+            subItems: []
+        },
+        {
             path: '/dashboard/beneficiarios',
             title: 'Beneficiarios',
             icon: <UserPlusIcon />,
@@ -172,8 +178,8 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                             </li>
 
                                             {/* Separador condicional */}
-                                            {(index === 0 || index === 1 || index === 3 || index === 6) && (
-                                            <hr className="my-4 bg-gray-600" />
+                                            {(index === 0 || index === 1 || index === 4 ) && (
+                                            <hr className="my-4 mx-3 bg-gray-600" />
                                             )}
                                         </React.Fragment>
                                         ))}
@@ -240,7 +246,7 @@ export const Sidebar = ({ sendStatusSidebar, statusSidebar }: Props) => {
                                     )}
 
                                     {/* Añade un separador después de ciertos elementos */}
-                                    {(index === 0 || index === 1 || index === 3) && (
+                                    {(index === 0 || index === 1 || index === 4) && (
                                     <hr className="my-6 mx-3 bg-gray-500" />
                                     )}
                                 </li>

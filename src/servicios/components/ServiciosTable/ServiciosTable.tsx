@@ -13,6 +13,7 @@ import { TableAction } from '@/src/components/interfaces/TableActions';
 import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Servicio } from '../../interfaces/Servicio';
 import ServicioModal from '../ServicioModal/ServicioModal';
+import { deleteServicio } from '../../actions/delete-servicio';
 
 interface ServicioTableProps {
     servicios: Servicio[];
@@ -24,7 +25,7 @@ const Actions: TableAction[] = [
     { id: '03', name: 'Eliminar', Icon: TrashIcon },
 ];
 
-export default function OrganizationTable({ servicios }: ServicioTableProps) {
+export default function ServiciosTable({ servicios }: ServicioTableProps) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [idToDelete, setIdToDelete] = useState<string | undefined>("")
     const [openEditModal, setOpenEditModal] = useState(false);
@@ -43,9 +44,9 @@ export default function OrganizationTable({ servicios }: ServicioTableProps) {
         }
     };
 
-    const handleDeleteOrganization = async () => {
+    const handleDeleteServicio = async () => {
         try {
-            const response = await deleteOrg(idToDelete);
+            const response = await deleteServicio(idToDelete);
 
             if (response.ok) {
                 return true;
@@ -54,7 +55,7 @@ export default function OrganizationTable({ servicios }: ServicioTableProps) {
                 return false;
             }
         } catch (error) {
-            console.error('Error al eliminar la organización: ', error);
+            console.error('Error al eliminar el servicio: ', error);
             return false;
         }
     };
@@ -160,7 +161,7 @@ export default function OrganizationTable({ servicios }: ServicioTableProps) {
                 <DeleteModal
                     term={"Organización"}
                     onClose={() => setOpenDeleteModal(false)}
-                    onDelete={handleDeleteOrganization}
+                    onDelete={handleDeleteServicio}
                 />
             )}
         </div>

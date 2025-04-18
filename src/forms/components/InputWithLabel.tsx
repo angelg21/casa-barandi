@@ -1,4 +1,4 @@
-import { ErrorMessage, useField } from "formik"
+import { useField } from "formik"
 
 interface SimpleInputProps {
     id: string;
@@ -10,11 +10,9 @@ interface SimpleInputProps {
     inputWidth: string;
     focusBorderColor?: string;
     globalStyle?: string;
-    value?: string;  // Agregar el prop de value
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const InputWithLabel = ({id, name, type, placeholder, label, labelTextStyle, inputWidth, focusBorderColor, globalStyle, value, onChange}: SimpleInputProps) => {
+export const InputWithLabel = ({id, name, type, label, labelTextStyle, inputWidth, focusBorderColor, globalStyle}: SimpleInputProps) => {
     const [ field ] = useField(name)
 
     return (

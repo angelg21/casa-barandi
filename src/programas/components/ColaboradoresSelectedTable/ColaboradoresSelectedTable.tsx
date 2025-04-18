@@ -1,15 +1,11 @@
-
-import { useFormikContext } from "formik";
-import { Programa } from "../../interfaces/Programa";
-
 interface ColaboradoresSelectedTableProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    colaboradores: any[];
     onDelete: (index: number) => void;
 }
 
 
-export const ColaboradoresSelectedTable = ({ onDelete }: ColaboradoresSelectedTableProps) => {
-
-    const { values } = useFormikContext<Programa>();
+export const ColaboradoresSelectedTable = ({ colaboradores, onDelete }: ColaboradoresSelectedTableProps) => {
 
     return (
         <div className="max-lg:flex max-lg:justify-center mt-6 md:mt-0 ">
@@ -28,19 +24,13 @@ export const ColaboradoresSelectedTable = ({ onDelete }: ColaboradoresSelectedTa
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                 >
-                                    TIPO
+                                    ROL
                                 </th>
                                 <th
                                     scope="col"
                                     className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                 >
-                                    CÉDULA
-                                </th>
-                                <th
-                                    scope="col"
-                                    className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
-                                >
-                                    FECHA DE INCORPORACIÓN
+                                    DOCUMENTOS
                                 </th>
                                 <th
                                     scope="col"
@@ -50,21 +40,21 @@ export const ColaboradoresSelectedTable = ({ onDelete }: ColaboradoresSelectedTa
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
-                            {values.colaboradores.map((colaborador, index) => (
+                            {colaboradores.map((colaborador, index) => (
                                 <tr key={index}>
                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-                                        <div className="font-medium text-gray-900">{colaborador.personName}</div>
+                                        <div className="font-medium text-gray-900">{colaborador.name}</div>
                                     </td>
                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-                                        <div className="font-medium text-gray-900">{colaborador.type}</div>
+                                        {colaborador.role}
                                     </td>
                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-                                        <div className="font-medium text-gray-900">{colaborador.personCi}</div>
+                                        {colaborador.documents?.map((doc: { documentType: string; documentNumber: string }, i: number) => (
+                                            <div key={i} className="text-xs text-gray-500">
+                                                {doc.documentType}: {doc.documentNumber}
+                                            </div>
+                                        ))}
                                     </td>
-                                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
-                                        <div className="font-medium text-gray-900">{colaborador.incorporationDate}</div>
-                                    </td>                               
-
                                     <td className="whitespace-nowrap  pl-8 pr-2 py-4 text-sm text-gray-500">
                                         <div className="flex flex-row gap-6 lg:gap-4">
                                             <button

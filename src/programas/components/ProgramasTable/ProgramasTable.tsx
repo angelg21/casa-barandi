@@ -13,6 +13,8 @@ import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { TableAction } from '@/src/components/interfaces/TableActions';
 import { PencilSquareIcon, TrashIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { Programa } from '../../interfaces/Programa';
+import { deleteProgram } from '../../actions/delete-program';
+import ProgramaModal from '../ProgramaModal/ProgramaModal';
 
 interface ProgramasTableProps {
     programas: Programa[];
@@ -43,11 +45,10 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
         }
     };
 
-    const handleDeleteUser = async () => {
+    const handleDeleteProgram = async () => {
         try {
-            // const response = await deletePerson(idToDelete);
-            const response = addHookAliases;
-
+            const response = await deleteProgram (idToDelete); 
+            
             if (response.ok) {
                 return true;
             } else {
@@ -55,7 +56,7 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
                 return false;
             }
         } catch (error) {
-            console.error('Error al eliminar el usuario: ', error);
+            console.error('Error al eliminar el programa: ', error);
             return false;
         }
     };
@@ -78,7 +79,7 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        FECHA Y HORA DE INICIO
+                                        FECHA / HORA DE INICIO
                                     </th>
                                     <th
                                         scope="col"
@@ -113,8 +114,7 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
-                                                    <div className="font-medium text-gray-900">{programa.dateStart}</div>
-                                                    <div className="font-medium text-gray-900">{programa.timeStart}</div>
+                                                    <div className="font-medium text-gray-900">{`${programa.dateStart} / ${programa.timeStart}`}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -164,14 +164,13 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
                 </div>
             </div>
             {openEditModal && (
-                // <PersonModal onClose={() => setOpenEditModal(false)} editData={editModalData} />
-                <div></div>
+                <ProgramaModal onClose={() => setOpenEditModal(false)} editData={editModalData} />
             )}
             {openDeleteModal && (
                 <DeleteModal
-                    term={"Persona"}
+                    term={"Programa"}
                     onClose={() => setOpenDeleteModal(false)}
-                    onDelete={handleDeleteUser}
+                    onDelete={handleDeleteProgram}
                 />
             )}
         </div>

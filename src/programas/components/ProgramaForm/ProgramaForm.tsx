@@ -1,145 +1,98 @@
 'use client'
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import * as Yup from 'yup';
 import { InputWithLabel } from "../../../forms/components/InputWithLabel";
-import { PersonaFormValues } from "../../../forms/personas/interfaces/PersonasForm";
-import { SelectDate } from "../../../forms/components/SelectDate";
 import { ButtonComponent } from "@/src/components/Button";
-import { useState } from "react";
-import { AliadoValues } from "@/src/aliados/interfaces/AliadosSheet";
 import { Programa } from "../../interfaces/Programa";
-import { ColaboradorValues } from "@/src/colaboradores/interfaces/ColaboradoresSheet";
 import { SelectAliadosInput } from "../SelectAliadosInput/SelectAliadosInput";
 import { SelectColaboradoresInput } from "../SelectColaboradoresInput/SelectColaboradoresInput";
+import { TimePicker } from "@/src/forms/components/TimePicker";
+import { CustomDatePicker } from "../DateSelector/DateSelector";
+import { SelectServiceInput } from "../SelectServicioInput/SelectServicioInput";
+import { createPrograma } from "../../actions/create-programa";
+import { updatePrograma } from "../../actions/update-programa";
 
 
 interface ModalProps {
     onClose: () => void;
     editValues?: Programa;
-    aliados?: AliadoValues[];
-    colaboradores?: ColaboradorValues[];
 }
 
-export default function ProgramaForm({ onClose, editValues, aliados, colaboradores }: ModalProps) {
+export default function ProgramaForm({ onClose, editValues }: ModalProps) {
 
-    const [showRepresentativeForm, setShowRepresentativeForm] = useState(false);
-    const [showOrganizationForm, setShowOrganizationForm] = useState(false);
-
-    const initialValues = editValues ? JSON.parse(JSON.stringify({ ...editValues })) :
-        JSON.parse(JSON.stringify({
+    const getInitialValues = (editValues?: Programa): Programa => {
+        const baseValues = {
             description: '',
             dateStart: '',
             timeStart: '',
             timeEnd: '',
             peopleLimit: 0,
             community: '',
+            address: '',
+            serviceId: '',
+            observation: '',
             aliados: [],
             colaboradores: [],
-        }));
+            state: ''
+        };
+    
+        if (!editValues) return baseValues;
+    
+        return {
+            ...editValues,
+            aliados: editValues.aliados.map(({ id, name, role, rif }) => ({ id, name, role, rif })),
+            colaboradores: editValues.colaboradores.map(({ id, name, role, documents }) => ({ id, name, role, documents })),
+        };
+    };
 
-    const validationSchema = Yup.object({
-        fullName: Yup.string()
-            .max(100, 'El nombre no puede superar los 100 caracteres')
-            .required('El nombre es obligatorio'),
-
-        // age: Yup.number()
-        //     .min(18, 'Debe tener al menos 18 años')
-        //     .max(120, 'La edad no puede ser mayor a 120 años')
-        //     .nullable()
-        //     .required('La edad es obligatoria'),
-
-        // gender: Yup.string()
-        //     .oneOf(['male', 'female', 'other'], 'Género inválido')
-        //     .nullable()
-        //     .required('El género es obligatorio'),
-
-        // email: Yup.string()
-        //     .email('Debe ser un correo electrónico válido')
-        //     .required('El correo electrónico es obligatorio'),
-
-        // phoneNumber: Yup.string()
-        //     .max(15, 'El número de teléfono no puede superar los 15 caracteres')
-        //     .required('El número de teléfono es obligatorio'),
-
-        // address: Yup.string()
-        //     .max(100, 'La dirección no puede superar los 100 caracteres')
-        //     .nullable(),
-
-        // experience: Yup.string()
-        //     .max(300, 'La experiencia no puede superar los 300 caracteres')
-        //     .nullable(),
-
-        // skills: Yup.array()
-        //     .of(Yup.string().max(50, 'Cada habilidad no puede superar los 50 caracteres'))
-        //     .nullable(),
-
-        // areasOfInterest: Yup.array()
-        //     .of(Yup.string().max(50, 'Cada área de interés no puede superar los 50 caracteres'))
-        //     .required('Debe seleccionar al menos un área de interés'),
-
-        // availability: Yup.object({
-        //     days: Yup.array()
-        //         .of(Yup.string().oneOf(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], 'Día inválido'))
-        //         .min(1, 'Debe seleccionar al menos un día de disponibilidad')
-        //         .required('La disponibilidad de días es obligatoria'),
-        //     hours: Yup.string()
-        //         .oneOf(['Morning', 'Afternoon', 'Full Day'], 'Horario inválido')
-        //         .required('El horario es obligatorio'),
-        // }).required(),
-
-        // emergencyContact: Yup.object({
-        //     name: Yup.string()
-        //         .max(100, 'El nombre no puede superar los 100 caracteres')
-        //         .required('El nombre de contacto de emergencia es obligatorio'),
-        //     phoneNumber: Yup.string()
-        //         .max(15, 'El número de teléfono no puede superar los 15 caracteres')
-        //         .required('El número de teléfono de contacto de emergencia es obligatorio'),
-        //     relationship: Yup.string()
-        //         .max(50, 'La relación no puede superar los 50 caracteres')
-        //         .nullable()
-        //         .required('La relación es obligatoria'),
-        // }).required(),
-
-        // additionalComments: Yup.string()
-        //     .max(500, 'Los comentarios adicionales no pueden superar los 500 caracteres')
-        //     .nullable(),
-
-        // acceptsTerms: Yup.boolean()
-        //     .oneOf([true], 'Debe aceptar los términos y condiciones')
-        //     .required('Debe aceptar los términos y condiciones'),
-    });
+        const validationSchema = Yup.object({
+            description: Yup.string().required('La descripción es obligatoria'),
+            dateStart: Yup.string().required('La fecha es obligatoria'),
+            timeStart: Yup.string().required('La hora de inicio es obligatoria'),
+            timeEnd: Yup.string().required('La hora de cierre es obligatoria'),
+            peopleLimit: Yup.number()
+                .min(1, 'Mínimo 1 persona')
+                .required('El límite de personas es obligatorio'),
+            community: Yup.string().required('La comunidad es obligatoria'),
+            aliados: Yup.array().of(
+                Yup.object().shape({
+                    id: Yup.string().required('El ID del aliado es obligatorio'),
+                    name: Yup.string().required('El nombre del aliado es obligatorio'),
+                    role: Yup.string().required('El rol del aliado es obligatorio'),
+                })
+            ),
+            colaboradores: Yup.array().of(
+                Yup.object().shape({
+                    id: Yup.string().required('El ID del colaborador es obligatorio'),
+                    name: Yup.string().required('El nombre del colaborador es obligatorio'),
+                    role: Yup.string().required('El rol del colaborador es obligatorio'),
+                })
+            ),
+        });
 
     const handleSubmit = async (values: Programa) => {
-        // const response = editValues ? await updatePerson(values) : await createPerson(values);
-        // console.log(response)
-        // if (response.ok) {
-        //     onClose();
-        // }
-        // console.log("Entro")
+        const response = editValues ? await updatePrograma(values) : await createPrograma(values);
+        console.log(response)
+        if (response.ok) {
+            onClose();
+        }
+        console.log("Entro")
     }
 
-    const handleRejectTogglePerson = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setShowRepresentativeForm(e.target.checked); // Muestra o esconde el campo de observación
-    };
 
-    const handleRejectToggleOrganization = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setShowOrganizationForm(e.target.checked); // Muestra o esconde el campo de observación
+    const FormDebug = () => {
+        const { values } = useFormikContext();
+        return (
+            <pre className="mt-4 bg-gray-100 p-2">
+                {JSON.stringify(values, null, 2)}
+            </pre>
+        );
     };
-
-    // const FormDebug = () => {
-    //     const { values } = useFormikContext();
-    //     return (
-    //         <pre className="mt-4 bg-gray-100 p-2">
-    //             {JSON.stringify(values, null, 2)}
-    //         </pre>
-    //     );
-    // };
 
     return (
-        <Formik<PersonaFormValues>
-            initialValues={initialValues}
+        <Formik<Programa>
+            initialValues={getInitialValues(editValues)}
             validationSchema={validationSchema} 
-            // onSubmit={(values) => console.log(values)}
             onSubmit={handleSubmit}
         >
             {() => {
@@ -160,33 +113,34 @@ export default function ProgramaForm({ onClose, editValues, aliados, colaborador
                                             focusBorderColor={"focus:ring-[#08A49C]"}
                                             globalStyle={"col-span-1 md:col-span-1"}
                                         />
-                                        <SelectDate
-                                            name={"dateOfBirth"}
-                                            title="Fecha de Inicio"
-                                            globalStyle={"col-span-1"}
+                                        <SelectServiceInput
+                                                globalStyle="col-span-1"
                                         />
-                                        <InputWithLabel
-                                            id="timeStart"
-                                            name={"timeStart"}
-                                            type={"text"}
-                                            label={"Hora de Inicio"}
-                                            labelTextStyle={"text-gray-900 text-sm"}
-                                            inputWidth={"w-full "}
-                                            focusBorderColor={"focus:ring-[#08A49C]"}
-                                            globalStyle={"col-span-1 md:col-span-1"}
+                                        <CustomDatePicker<Programa>
+                                            name="dateStart"
+                                            title="Fecha de Fundación"
+                                            globalStyle="col-span-1"
                                         />
                                     </div>
 
                                     <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
-                                        <InputWithLabel
+                                        <TimePicker
+                                            id="timeStart"
+                                            name="timeStart"
+                                            label="Hora de Inicio"
+                                            labelTextStyle="text-gray-900 text-sm"
+                                            inputWidth="w-full"
+                                            focusBorderColor="focus:ring-[#08A49C]"
+                                            globalStyle="col-span-1 md:col-span-1"
+                                        />
+                                        <TimePicker
                                             id="timeEnd"
-                                            name={"timeEnd"}
-                                            type={"text"}
-                                            label={"Hora de Cierre"}
-                                            labelTextStyle={"text-gray-900 text-sm"}
-                                            inputWidth={"w-full "}
-                                            focusBorderColor={"focus:ring-[#08A49C]"}
-                                            globalStyle={"col-span-1 md:col-span-1"}
+                                            name="timeEnd"
+                                            label="Hora de Cierre"
+                                            labelTextStyle="text-gray-900 text-sm"
+                                            inputWidth="w-full"
+                                            focusBorderColor="focus:ring-[#08A49C]"
+                                            globalStyle="col-span-1 md:col-span-1"
                                         />
                                         <InputWithLabel
                                             id="peopleLimit"
@@ -208,8 +162,27 @@ export default function ProgramaForm({ onClose, editValues, aliados, colaborador
                                             focusBorderColor={"focus:ring-[#08A49C]"}
                                             globalStyle={"col-span-1 md:col-span-1"}
                                         />
+                                        <InputWithLabel
+                                            id="address"
+                                            name={"address"}
+                                            type={"text"}
+                                            label={"Dirección"}
+                                            labelTextStyle={"text-gray-900 text-sm"}
+                                            inputWidth={"w-full "}
+                                            focusBorderColor={"focus:ring-[#08A49C]"}
+                                            globalStyle={"col-span-1 md:col-span-2"}
+                                        />
+                                        <InputWithLabel
+                                            id="observation"
+                                            name={"observation"}
+                                            type={"text"}
+                                            label={"Observación"}
+                                            labelTextStyle={"text-gray-900 text-sm"}
+                                            inputWidth={"w-full "}
+                                            focusBorderColor={"focus:ring-[#08A49C]"}
+                                            globalStyle={"col-span-1 md:col-span-3"}
+                                        />
                                     </div>
-
                                     <div className="grid grid-cols-1 gap-y-8 md:grid-cols-3 xl:gap-x-14 md:gap-y-7 md:gap-x-7 xl:gap-y-8">
                                         <SelectAliadosInput 
                                             globalStyle={"col-span-1 md:col-span-3"}
@@ -244,9 +217,9 @@ export default function ProgramaForm({ onClose, editValues, aliados, colaborador
                                             hoverColor="#33B7B0"
                                         />
                                     </div>
-                                    {/* <div >
+                                    {<div >
                                         <FormDebug />
-                                    </div> */}
+                                    </div>}
                                 </div>
                             </div>
                         </div>

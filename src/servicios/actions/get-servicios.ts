@@ -3,7 +3,7 @@
 export const getAllServicios = async () => {
     try {
 
-        const response = await fetch(process.env.API_URL + '/service', {
+        const response = await fetch(process.env.API_URL + '/workshop/servicios', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

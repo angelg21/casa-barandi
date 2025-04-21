@@ -6,7 +6,7 @@ import { Servicio } from "../interfaces/Servicio";
 export const createServicio = async (payload: Servicio) => {
 
     try {
-        const response = await fetch(process.env.API_URL + `/service`, {
+        const response = await fetch(process.env.API_URL + `/workshop/servicios`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

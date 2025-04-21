@@ -8,7 +8,7 @@ export const updateServicio = async (payload: Servicio) => {
     const { id, ...body } = payload;
 
     try {
-        const response = await fetch(process.env.API_URL + `/service/${id}`, {
+        const response = await fetch(process.env.API_URL + `/workshop/servicios/${id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

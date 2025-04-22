@@ -7,6 +7,8 @@ import { Servicio } from "../../interfaces/Servicio";
 import { PresciptionInput } from "../PrescriptionInput/PrescriptionInput";
 import { ResultInput } from "../ResultInput/ResultInput";
 import { PrecautionInput } from "../PrecautionInput/PrecautionInput";
+import { updateServicio } from "../../actions/update-servicio";
+import { createServicio } from "../../actions/create-servicio";
 
 
 interface ModalProps {
@@ -35,7 +37,7 @@ export default function ServicioForm({ onClose, editValues }: ModalProps) {
     });
 
     const handleSubmit = async (values: Servicio) => {
-        const response = editValues ? await updateOrg(values) : await createOrg(values);
+        const response = editValues ? await updateServicio(values) : await createServicio(values);
         if (response.ok) {
             onClose();
         }

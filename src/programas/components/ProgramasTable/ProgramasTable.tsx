@@ -11,7 +11,7 @@ import {
 } from '@headlessui/react';
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { TableAction } from '@/src/components/interfaces/TableActions';
-import { PencilSquareIcon, TrashIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, TrashIcon, CalendarIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 import { Programa } from '../../interfaces/Programa';
 import { deleteProgram } from '../../actions/delete-program';
 import ProgramaModal from '../ProgramaModal/ProgramaModal';
@@ -22,8 +22,9 @@ interface ProgramasTableProps {
 
 const Actions: TableAction[] = [
     { id: '01', name: 'Citas', Icon: CalendarIcon },
-    { id: '02', name: 'Editar', Icon: PencilSquareIcon },
-    { id: '03', name: 'Eliminar', Icon: TrashIcon },
+    { id: '02', name: 'Admisiones', Icon: ClipboardDocumentListIcon },
+    { id: '03', name: 'Editar', Icon: PencilSquareIcon },
+    { id: '04', name: 'Eliminar', Icon: TrashIcon },
 ];
 
 export default function ProgramasTable({ programas }: ProgramasTableProps) {
@@ -37,9 +38,12 @@ export default function ProgramasTable({ programas }: ProgramasTableProps) {
         if (action === '01')
             router.push(`/dashboard/programas/${program.id}/citas`);
         else if (action === '02') {
+            router.push(`/dashboard/programas/${program.id}/admisiones`);
+        }
+        else if (action === '03') {
             setOpenEditModal(true);
             setEditModalData(program)
-        } else if (action === "03") {
+        } else if (action === "04") {
             setIdToDelete(program.id)
             setOpenDeleteModal(true);
         }

@@ -15,7 +15,6 @@ export default async function Programas() {
     const { data: servicesData = [] } = await getAllServicesNames();
     const { data: programsData = [] } = await getAllPrograms();
     
-    
     return (
         <AliadosProvider initialData={aliadosData}>
             <ColaboradoresProvider initialData={colaboradoresData}>

@@ -90,12 +90,6 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                         scope="col"
                                         className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
                                     >
-                                        DIRECCIÓN
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-3 py-3.5 text-left text-sm font-semibold text-white bg-cb-green"
-                                    >
                                         TELÉFONOS
                                     </th>
                                     <th
@@ -108,7 +102,7 @@ export default function PersonTable({ persons }: PersonTableProps) {
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
                                 {persons.map((person) => (
-                                    <tr key={person.fullName}>
+                                    <tr key={person.id}>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                                             <div className="flex items-center">
                                                 <div className="">
@@ -117,7 +111,9 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                             </div>
                                         </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                            {person.documents.map((document) => (
+                                            { person.documents.length === 0 ? (
+                                                <div className="mt-1 text-gray-500">Sin documentos</div>
+                                            ) : person.documents.map((document) => (
                                                 <div key={document.documentNumber}>
                                                     <div className="mt-1 text-gray-500">{document.documentType}</div>
                                                     <div className="mt-1 text-gray-500">{document.documentNumber}</div>
@@ -131,25 +127,10 @@ export default function PersonTable({ persons }: PersonTableProps) {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="py-5 pl-4 pr-3 text-sm min-w-40 max-w-44">
-                                            <div className="flex items-center">
-                                                <div className="">
-                                                    <div >
-                                                        <div className="font-semibold text-gray-900">Municipio:
-                                                            <span className="font-medium text-gray-900">  {person.location.municipality}</span>
-                                                        </div>
-                                                        <div className="font-semibold text-gray-900">Parroquia:
-                                                            <span className="font-medium text-gray-900">  {person.location.parish}</span>
-                                                        </div>
-                                                        <div className="font-semibold text-gray-900">Dirección:
-                                                            <span className="font-medium text-gray-900">  {person.location.houseAddress}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
                                         <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
-                                            {person.phones.map((p) => (
+                                            {person.phones.length === 0 ? (
+                                                <div className="mt-1 text-gray-500">Sin teléfonos</div>
+                                            ) : person.phones.map((p) => (
                                                 <div key={p.phoneNumber}>
                                                     <div className="mt-1 text-gray-500">{p.phoneType}</div>
                                                     <div className="mt-1 text-gray-500">{p.phoneNumber}</div>

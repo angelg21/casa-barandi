@@ -33,6 +33,22 @@ export interface Persona {
     role: string,
     familyRepresentativeId: string,
     relationship: string,
+    representados?: {
+        fullName: string;
+        relationship: string;
+    }[];
+    representative?: {
+        fullName: string;
+        documents: {
+            documentType: string;
+            documentNumber: string;
+        }[];
+        phones: {
+            phoneType: string;
+            phoneNumber: string;
+        }[];
+        relationship: string;
+    };
 }
 
 export interface Person {

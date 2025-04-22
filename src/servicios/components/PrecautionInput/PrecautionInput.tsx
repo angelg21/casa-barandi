@@ -13,7 +13,7 @@ interface PrecautionInputProps {
 export const PrecautionInput = ({ globalStyle }: PrecautionInputProps) => {
     const { values, setFieldValue } = useFormikContext<Servicio>();
     const [name, setName] = useState('');
-    const [type, setType] = useState<string>('VALUES');
+    const [type, setType] = useState<string>('VALUE');
     const [metadata, setMetadata] = useState<PrecautionMetadataValue | PrecautionMetadataMinMax | PrecautionMetadataEnum>({ unidad: '' });
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
@@ -23,7 +23,7 @@ export const PrecautionInput = ({ globalStyle }: PrecautionInputProps) => {
         const newPrecaution: Precaution = {
             name: name,
             type: type,
-            precautiontMetadata: metadata,
+            precautionMetadata: metadata,
         };
 
         if (editingIndex !== null) {
@@ -52,7 +52,7 @@ export const PrecautionInput = ({ globalStyle }: PrecautionInputProps) => {
         const precaution = values.precautions[index];
         setName(precaution.name);
         setType(precaution.type);
-        setMetadata(precaution.precautiontMetadata);
+        setMetadata(precaution.precautionMetadata);
         setEditingIndex(index);
     };
 
@@ -61,7 +61,7 @@ export const PrecautionInput = ({ globalStyle }: PrecautionInputProps) => {
         setType(newType);
 
         switch (newType) {
-            case 'VALUES':
+            case 'VALUE':
                 setMetadata({ unidad: '' });
                 break;
             case 'MIN-MAX':
@@ -102,12 +102,12 @@ export const PrecautionInput = ({ globalStyle }: PrecautionInputProps) => {
                             onChange={handleTypeChange}
                             className={`text-input w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400 h-9 placeholder:text-gray-400 focus:ring-2 focus:ring-[#08a49c] sm:text-sm sm:leading-6 font-normal disabled:opacity-70 disabled:cursor-not-allowed`}
                         >
-                            <option value="VALUES">VALOR</option>
+                            <option value="VALUE">VALOR</option>
                             <option value="CHECK">CHECK</option>
                             <option value="MIN-MAX">MÍNIMO Y MÁXIMO</option>
                             <option value="ENUM">OPCIONES</option>
                         </select>
-                        {type === 'VALUES' || type === 'MIN-MAX' ? (
+                        {type === 'VALUE' || type === 'MIN-MAX' ? (
                             <input
                                 type="text"
                                 value={(metadata as PrecautionMetadataValue).unidad || ''}

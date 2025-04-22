@@ -11,12 +11,12 @@ export const ServicioViewComponent: React.FC<ServicioViewComponentProps> = ({
     data,
 }) => {
     const getMetadataDisplay = (precaution: Precaution): string => {
-        if (precaution.type === 'VALUES' && (precaution.precautiontMetadata as PrecautionMetadataValue)?.unidad) {
-            return `Unidad: ${(precaution.precautiontMetadata as PrecautionMetadataValue).unidad}`;
-        } else if (precaution.type === 'MIN-MAX' && (precaution.precautiontMetadata as PrecautionMetadataMinMax)?.unidad) {
-            return `Unidad (Min/Max): ${(precaution.precautiontMetadata as PrecautionMetadataMinMax).unidad}`;
-        } else if (precaution.type === 'ENUM' && (precaution.precautiontMetadata as PrecautionMetadataEnum)?.opciones) {
-            return `Opciones: ${(precaution.precautiontMetadata as PrecautionMetadataEnum).opciones.join(', ')}`;
+        if (precaution.type === 'VALUE' && (precaution.precautionMetadata as PrecautionMetadataValue)?.unidad) {
+            return `Unidad: ${(precaution.precautionMetadata as PrecautionMetadataValue).unidad}`;
+        } else if (precaution.type === 'MIN-MAX' && (precaution.precautionMetadata as PrecautionMetadataMinMax)?.unidad) {
+            return `Unidad (Min/Max): ${(precaution.precautionMetadata as PrecautionMetadataMinMax).unidad}`;
+        } else if (precaution.type === 'ENUM' && (precaution.precautionMetadata as PrecautionMetadataEnum)?.opciones) {
+            return `Opciones: ${(precaution.precautionMetadata as PrecautionMetadataEnum).opciones.join(', ')}`;
         }
         return 'N/A';
     };

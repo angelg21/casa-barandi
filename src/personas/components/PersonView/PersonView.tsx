@@ -118,39 +118,103 @@ export const PersonViewComponent: React.FC<PersonViewComponentProps> = ({
             </div>
           </div>
     
-          {/* Sección: Direcciones Electrónicas */}
-          <div className="my-10 mx-10">
-            <div className="flex px-5 py-3 bg-cb-green rounded-tl-lg rounded-tr-lg justify-between">
-              <h3 className="text-base font-semibold leading-7 text-white">
-                Direcciones Electrónicas
-              </h3>
-            </div>
-            <div className="px-5 border-t rounded-bl-lg rounded-br-lg bg-white border-gray-100">
-              {data.electronicAddresses?.length > 0 ? (
+          {/* Sección: Representados */}
+          {data.representados && data.representados?.length > 0 && (
+            <div className="my-10 mx-10">
+              <div className="flex px-5 py-3 bg-cb-green rounded-tl-lg rounded-tr-lg justify-between">
+                <h3 className="text-base font-semibold leading-7 text-white">
+                  Representados
+                </h3>
+              </div>
+              <div className="px-5 border-t rounded-bl-lg rounded-br-lg bg-white border-gray-100">
                 <dl className="divide-y divide-gray-100">
-                  {data.electronicAddresses.map((ea, index) => (
+                  {data.representados.map((representado, index) => (
                     <div key={index}>
-                      {/* Tipo de Dirección */}
+                      {/* Nombre del Representado */}
                       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">
-                          {ea.addressType}
+                          Nombre del Representado
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          {ea.address}
+                          {representado.fullName}
+                        </dd>
+                      </div>
+    
+                      {/* Relación */}
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-medium leading-6 text-gray-900">
+                          Relación
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          {representado.relationship}
                         </dd>
                       </div>
                     </div>
                   ))}
                 </dl>
-              ) : (
-                <div className="px-4 py-6">
-                  <p className="text-sm leading-6 text-gray-700">
-                    No hay direcciones electrónicas registradas.
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
+    
+          {/* Sección: Representante */}
+          {data.representative && (
+            <div className="my-10 mx-10">
+              <div className="flex px-5 py-3 bg-cb-green rounded-tl-lg rounded-tr-lg justify-between">
+                <h3 className="text-base font-semibold leading-7 text-white">
+                  Representante
+                </h3>
+              </div>
+              <div className="px-5 border-t rounded-bl-lg rounded-br-lg bg-white border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                  {/* Nombre del Representante */}
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Nombre
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {data.representative.fullName}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Vínculo
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {data.representative.relationship}
+                    </dd>
+                  </div>
+    
+                  {/* Documentos del Representante */}
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Documentos del Representante
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {data.representative.documents?.map((doc, index) => (
+                        <div key={index}>
+                          <p>{doc.documentType}: {doc.documentNumber}</p>
+                        </div>
+                      ))}
+                    </dd>
+                  </div>
+    
+                  {/* Teléfonos del Representante */}
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Teléfonos del Representante
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {data.representative.phones?.map((phone, index) => (
+                        <div key={index}>
+                          <p>{phone.phoneType}: {phone.phoneNumber}</p>
+                        </div>
+                      ))}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          )}
     
           {/* Sección: Teléfonos */}
           <div className="my-10 mx-10">

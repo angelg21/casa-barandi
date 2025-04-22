@@ -112,7 +112,7 @@ export const BeneficiariosForm = ({ onClose, editValues }: BeneficiariosFormProp
                                             <SelectPersonInput
                                                 title="Seleccionar Persona"
                                                 people={persons}
-                                                form='Beneficiario'
+                                                field='personId'
                                             />
                                         }
                                         <InputWithLabel

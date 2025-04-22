@@ -113,6 +113,7 @@ export const ColaboradoresForm = ({ onClose, editValues }: ColaboradoresFormProp
                                             <SelectPersonInput
                                                 title="Seleccionar Persona"
                                                 people={persons}
+                                                field='personId'
                                             />
                                         }
                                         <InputWithLabel

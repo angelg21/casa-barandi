@@ -23,7 +23,7 @@ export interface Precaution {
     id?: string;
     name: string;
     type: string;
-    precautiontMetadata: PrecautionMetadataValue | PrecautionMetadataMinMax | PrecautionMetadataEnum;
+    precautionMetadata: PrecautionMetadataValue | PrecautionMetadataMinMax | PrecautionMetadataEnum;
 }
 
 export interface PrecautionMetadataValue {

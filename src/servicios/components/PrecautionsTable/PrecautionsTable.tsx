@@ -10,7 +10,7 @@ export const PrecautionsTable = ({ precautions, onDelete, onEdit }: PrecautionsT
 
     const getTypeDisplayName = (type: string) => {
         switch (type) {
-            case 'VALUES':
+            case 'VALUE':
                 return 'VALOR';
             case 'CHECK':
                 return 'CHECK';
@@ -66,10 +66,10 @@ export const PrecautionsTable = ({ precautions, onDelete, onEdit }: PrecautionsT
                                     </td>
                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                                         <div className="font-medium text-gray-900">
-                                            {precaution.type === 'VALUES' || precaution.type === 'MIN-MAX' ? (
-                                                (precaution.precautiontMetadata as PrecautionMetadataValue).unidad
+                                            {precaution.type === 'VALUE' || precaution.type === 'MIN-MAX' ? (
+                                                (precaution.precautionMetadata as PrecautionMetadataValue).unidad
                                             ) : precaution.type === 'ENUM' ? (
-                                                (precaution.precautiontMetadata as PrecautionMetadataEnum).opciones?.join(', ')
+                                                (precaution.precautionMetadata as PrecautionMetadataEnum).opciones?.join(', ')
                                             ) : ''}
                                         </div>
                                     </td>

@@ -12,14 +12,7 @@ interface SelectDateProps {
     globalStyle?: string;
 }
 
-const monthNames = [
-    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-];
-
 export const SelectDate = ({ name, title, globalStyle }: SelectDateProps) => {
-
-
     // Obtener el contexto de Formik
     const { values, setFieldValue } = useFormikContext<PersonaFormValues>();
     const dateString = values[name as keyof PersonaFormValues];
@@ -31,93 +24,55 @@ export const SelectDate = ({ name, title, globalStyle }: SelectDateProps) => {
     const currentYear = new Date().getFullYear();
 
     const days = [null, ...Array.from({ length: 31 }, (_, i) => 31 - i)]; // Days 1 al 31
-    const months = [null, ...Array.from({ length: 12 }, (_, i) => 12 - i)]; // Mnths del 1 al 31
+    const months = [null, ...Array.from({ length: 12 }, (_, i) => 12 - i)]; // Months del 1 al 31
 
-    // Expresión regular para detectar el formato "Día de Mes de Año"
-    const fullDateRegex = /(\d{1,2}) de (\w+) de (\d{4})/;
-    // Expresión regular para detectar el formato "Mes de Año"
-    const monthYearRegex = /(\w+) de (\d{4})/;
-    // Expresión regular para detectar solo el año
-    const yearRegex = /(\d{4})/;
-
-    // Lógica para formatear la fecha
+    // Lógica para formatear la fecha en el formato dd/MM/yyyy (como string)
     function formatDate(selectedDay: number | null, selectedMonth: number | null, selectedYear: number | null) {
-
-        // Si se selecciona el día, el mes y el año
         if (selectedDay !== null && selectedMonth !== null && selectedYear !== null) {
-            return `${selectedDay} de ${monthNames[selectedMonth - 1]} de ${selectedYear}`;
+            // Formato dd/MM/yyyy
+            return `${String(selectedDay).padStart(2, '0')}/${String(selectedMonth).padStart(2, '0')}/${selectedYear}`;
         }
-        // Si se selecciona solo el mes y el año
-        else if (selectedMonth !== null && selectedYear !== null) {
-            return `${monthNames[selectedMonth - 1]} de ${selectedYear}`;
-        }
-        // Si se selecciona solo el año
-        else if (selectedYear !== null) {
-            return `Año ${selectedYear}`;
-        }
-        // Si no se selecciona nada
-        else {
-            return '';
-        }
+        return ''; // Si no está completamente seleccionada, no retornar nada
     }
-
 
     const formattedDate = formatDate(selectedDay, selectedMonth, selectedYear);
 
-
     useEffect(() => {
-        if (formattedDate && name)
-            setFieldValue(name, formattedDate);
+        if (formattedDate && name) {
+            setFieldValue(name, formattedDate); // Guardamos el valor en formato dd/MM/yyyy
+        }
     }, [formattedDate, setFieldValue, name]);
-
 
     const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         // Verifica si el valor es un número positivo y no mayor que el año actual
         const yearValue = Number(value);
         if (!isNaN(yearValue) && yearValue > 0 && yearValue <= currentYear) {
-            if (setSelectedYear) {
-                setSelectedYear(yearValue);
-            }
+            setSelectedYear(yearValue);
         } else {
-            if (setSelectedYear) {
-                setSelectedYear(null); // Resetea el año si el valor no es válido
-            }
+            setSelectedYear(null); // Resetea el año si el valor no es válido
         }
     };
 
     useEffect(() => {
         if (name && typeof dateString === 'string') {
+            const fullDateRegex = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
             if (fullDateRegex.test(dateString)) {
                 const match = dateString.match(fullDateRegex);
                 if (match) {
-                    setSelectedDay(parseInt(match[1], 10))
-                    setSelectedMonth(monthNames.indexOf(match[2]) + 1) // Obtener el índice del mes
-                    setSelectedYear(parseInt(match[3], 10))
-                }
-            } else if (monthYearRegex.test(dateString)) {
-                const match = dateString.match(monthYearRegex);
-                if (match) {
-                    setSelectedMonth(monthNames.indexOf(match[1]) + 1); // Obtener el índice del mes
-                    setSelectedYear(parseInt(match[2], 10));
-                }
-            } else if (yearRegex.test(dateString)) {
-                const match = dateString.match(yearRegex);
-                if (match) {
-                    setSelectedYear(parseInt(match[1], 10));
+                    setSelectedDay(parseInt(match[1], 10));
+                    setSelectedMonth(parseInt(match[2], 10)); // El mes ya está en formato numérico
+                    setSelectedYear(parseInt(match[3], 10));
                 }
             }
         }
-    }, []);
-
+    }, [dateString, name]);
 
     return (
         <div className={`flex flex-col ${globalStyle}`}>
-
             <span className='text-sm font-medium text-gray-900 leading-6 mb-2'>{title}</span>
 
             <div className='flex justify-between w-full max-w-[289px] space-x-4'>
-
                 <div className='relative w-full'>
                     <Listbox value={selectedDay} onChange={setSelectedDay}>
                         <ListboxButton className="relative w-full max-w-[75px] h-[36px] cursor-default rounded-tl-md rounded-bl-md bg-white text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400 focus:outline-none focus:ring-2 focus:ring-cb-green sm:text-sm sm:leading-6">

@@ -251,6 +251,7 @@ export default function PersonasForm({ onClose, editValues, personas, companies 
                                                 <SelectPersonInput
                                                     title="Seleccionar Persona"
                                                     people={personas}
+                                                    field="familyRepresentativeId"
                                                 />
                                             </div>
                                             <InputWithLabel

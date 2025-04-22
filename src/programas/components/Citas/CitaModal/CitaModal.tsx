@@ -5,119 +5,141 @@ import React from 'react';
 import { Cita, PersonCita } from '../../../interfaces/Programa';
 import CitaForm from '../CitaForm/CitaForm';
 
-
-const data: PersonCita[] = [
+const mockData = [
     {
-        id: "1",
-        name: "Juan Pérez",
-        ci: "V-12345678"
+      representative: {
+        id: "d1539ac4-1044-4356-be46-c8417294c6ef",
+        fullName: "Ana María Rodríguez",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V12345678" },
+          { documentType: "Pasaporte", documentNumber: "P9876543" }
+        ]
+      },
+      representados: []
     },
     {
-        id: "2",
-        name: "María Rodríguez",
-        ci: "V-87654321"
+      representative: {
+        id: "f205920d-66e6-4735-806e-a76eca05f743",
+        fullName: "Carlos Alberto Pérez",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V87654321" },
+          { documentType: "Gubernamental", documentNumber: "G12456" }
+        ]
+      },
+      representados: [
+        {
+          id: "12345678-1234-1234-1234-1234567890ab",
+          fullName: "Juan Pérez",
+          relationship: "Hijo"
+        }
+      ]
     },
     {
-        id: "3",
-        name: "Carlos López",
-        ci: "V-56789012"
+      representative: {
+        id: "ce08ab90-368d-40c0-80a0-9923b83126e6",
+        fullName: "Julia Contreras",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V33445566" },
+          { documentType: "Pasaporte", documentNumber: "P1258963" }
+        ]
+      },
+      representados: [
+        {
+          id: "23456789-2345-2345-2345-234567890abc",
+          fullName: "Luis Contreras",
+          relationship: "Hermano"
+        }
+      ]
     },
     {
-        id: "4",
-        name: "Ana García",
-        ci: "V-24681357"
+      representative: {
+        id: "fc9f7b1d-bbf4-4606-a38d-f7b8603d4e72",
+        fullName: "Josefina Castro",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V12345679" },
+          { documentType: "Pasaporte", documentNumber: "P9999999" }
+        ]
+      },
+      representados: []
     },
     {
-        id: "5",
-        name: "Luis Martínez",
-        ci: "V-13579246"
+      representative: {
+        id: "cc175021-f397-401a-a89f-da457f91b140",
+        fullName: "Sandra López",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V41414141" },
+          { documentType: "Gubernamental", documentNumber: "G474747" }
+        ]
+      },
+      representados: [
+        {
+          id: "a5f8f9d1-2c8f-4a9e-bcc5-64725d8d515f",
+          fullName: "Elena López",
+          relationship: "Madre"
+        },
+        {
+          id: "93eb4fb7-5d83-4be6-8978-05f3157468b2",
+          fullName: "Carlos López",
+          relationship: "Hermano"
+        }
+      ]
     },
     {
-        id: "6",
-        name: "Sofía Ramírez",
-        ci: "V-98765432"
+      representative: {
+        id: "770f776c-a462-409d-9d5c-b2d43bb4e8a8",
+        fullName: "Marco Aurelio",
+        documents: [
+          { documentType: "Cedula", documentNumber: "V14698031" }
+        ]
+      },
+      representados: []
     },
     {
-        id: "7",
-        name: "Pedro Sánchez",
-        ci: "V-76543210"
+      representative: {
+        id: "5130eb5f-e2bd-4f10-852e-407048f6e4da",
+        fullName: "Miguel Vargas",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V54321678" },
+          { documentType: "Gubernamental", documentNumber: "G654321" }
+        ]
+      },
+      representados: [
+        {
+          id: "abcdef12-34ab-5678-cd90-efgh12345678",
+          fullName: "Laura Vargas",
+          relationship: "Hermana"
+        }
+      ]
     },
     {
-        id: "8",
-        name: "Laura Díaz",
-        ci: "V-43210987"
+      representative: {
+        id: "3922069c-7c38-4699-9eeb-8ad26db4a706",
+        fullName: "Fernando Morales",
+        documents: [
+          { documentType: "Pasaporte", documentNumber: "P1212121" },
+          { documentType: "Cédula", documentNumber: "V11223344" }
+        ]
+      },
+      representados: []
     },
     {
-        id: "9",
-        name: "Miguel Vargas",
-        ci: "V-86420975"
-    },
-    {
-        id: "10",
-        name: "Isabella Torres",
-        ci: "V-28574196"
-    },
-    {
-        id: "11",
-        name: "Ricardo Gómez",
-        ci: "V-11223344"
-    },
-    {
-        id: "12",
-        name: "Elena Fernández",
-        ci: "V-55667788"
-    },
-    {
-        id: "13",
-        name: "Javier Ruiz",
-        ci: "V-99001122"
-    },
-    {
-        id: "14",
-        name: "Carmen Díaz",
-        ci: "V-33445566"
-    },
-    {
-        id: "15",
-        name: "Roberto Castro",
-        ci: "V-77889900"
-    },
-    {
-        id: "16",
-        name: "Daniela Herrera",
-        ci: "V-12344321"
-    },
-    {
-        id: "17",
-        name: "Valentina Sánchez",
-        ci: "V-98766789"
-    },
-    {
-        id: "18",
-        name: "Alejandro Silva",
-        ci: "V-54322345"
-    },
-    {
-        id: "19",
-        name: "Gabriela Rodríguez",
-        ci: "V-67899876"
-    },
-    {
-        id: "20",
-        name: "Martín Gómez",
-        ci: "V-45677654"
-    },
-    {
-        id: "21",
-        name: "Fernanda Martínez",
-        ci: "V-89011098"
-    },
-    {
-        id: "22",
-        name: "Diego Ruiz"
+      representative: {
+        id: "25107c9b-1092-4a2e-a074-46e749485bfa",
+        fullName: "Laura Reyes",
+        documents: [
+          { documentType: "Cédula", documentNumber: "V7654321" },
+          { documentType: "Pasaporte", documentNumber: "P1111111" }
+        ]
+      },
+      representados: [
+        {
+          id: "bf57b0a4-feca-4f30-8e38-bda2dcb500a3",
+          fullName: "Sara Reyes",
+          relationship: "Madre"
+        }
+      ]
     }
-];
-
+  ];
 
 
 export interface ModalProps {
@@ -142,7 +164,7 @@ const CitaModal: React.FC<ModalProps> = ({ onClose, editData }) => {
                 <CitaForm
                     onClose={onClose}
                     editValues={editData} 
-                    people={data}
+                    people={mockData}
                 />
 
             </div>

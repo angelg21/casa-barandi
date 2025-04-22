@@ -9,10 +9,11 @@ import { BeneficiarioColaboradorValues, Person } from "@/src/beneficiarios/inter
 interface PersonSelectProps {
     title: string;
     people: Person[];
+    field: string;
 }
 
 
-export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
+export const SelectPersonInput = ({ title, people, field }: PersonSelectProps) => {
 
     const { values, setFieldValue, handleChange } = useFormikContext<BeneficiarioColaboradorValues>();
     const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
@@ -57,9 +58,9 @@ export const SelectPersonInput = ({ title, people }: PersonSelectProps) => {
                         onChange={(value: Person | null) => {
                             setSearchTerm(''); // Limpia el término de búsqueda al seleccionar una opción
                             setSelectedPerson(value);
-                            setFieldValue('personId', value ? value.id : '');
+                            setFieldValue(field, value ? value.id : '');
                             setFieldValue('fullName', value ? value.name : '');
-                            handleChange('personId');
+                            handleChange(field);
                             if (inputRef.current) {
                                 inputRef.current.blur(); // Quita el foco del input
                             }
